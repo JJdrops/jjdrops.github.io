@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>docker学习 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Docker简介什么是容器？
+一种虚拟化的方案
+操作系统级别的虚拟化
+只能运行相同或相似内核的操作系统
+依赖于Linux内核特性:Namespace和Cgroup(Control Group)
+什么是Docker?
+将应用程序自动部署到容器的开源引擎
+Go语言开源引擎  Github地址： [](https://github.com/docker/docker)
+基于Apache 2.0开源授权协">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker学习">
+<meta property="og:url" content="http://yoursite.com/2016/11/10/docker学习/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Docker简介什么是容器？
+一种虚拟化的方案
+操作系统级别的虚拟化
+只能运行相同或相似内核的操作系统
+依赖于Linux内核特性:Namespace和Cgroup(Control Group)
+什么是Docker?
+将应用程序自动部署到容器的开源引擎
+Go语言开源引擎  Github地址： [](https://github.com/docker/docker)
+基于Apache 2.0开源授权协">
+<meta property="og:image" content="http://yotuku.cn/link?url=EyDp5bTlM&tk_plan=free&tk_storage=tietuku&tk_vuid=2176a6e5-d922-47e9-80d7-c5a752db4ad7&tk_time=2016111015">
+<meta property="og:image" content="http://yotuku.cn/link?url=E1d-1fTlz&tk_plan=free&tk_storage=tietuku&tk_vuid=2176a6e5-d922-47e9-80d7-c5a752db4ad7&tk_time=2016111015">
+<meta property="og:image" content="http://yotuku.cn/link?url=B1HpSFr-l&tk_plan=free&tk_storage=tietuku&tk_vuid=2176a6e5-d922-47e9-80d7-c5a752db4ad7&tk_time=2016111314">
+<meta property="og:updated_time" content="2016-12-04T15:07:47.212Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker学习">
+<meta name="twitter:description" content="Docker简介什么是容器？
+一种虚拟化的方案
+操作系统级别的虚拟化
+只能运行相同或相似内核的操作系统
+依赖于Linux内核特性:Namespace和Cgroup(Control Group)
+什么是Docker?
+将应用程序自动部署到容器的开源引擎
+Go语言开源引擎  Github地址： [](https://github.com/docker/docker)
+基于Apache 2.0开源授权协">
+<meta name="twitter:image" content="http://yotuku.cn/link?url=EyDp5bTlM&tk_plan=free&tk_storage=tietuku&tk_vuid=2176a6e5-d922-47e9-80d7-c5a752db4ad7&tk_time=2016111015">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-docker学习" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/10/docker学习/" class="article-date">
+  <time datetime="2016-11-10T06:49:34.000Z" itemprop="datePublished">2016-11-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      docker学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h3><p>什么是容器？</p>
+<pre><code>一种虚拟化的方案
+操作系统级别的虚拟化
+只能运行相同或相似内核的操作系统
+依赖于Linux内核特性:Namespace和Cgroup(Control Group)
+</code></pre><p><img src="http://yotuku.cn/link?url=EyDp5bTlM&amp;tk_plan=free&amp;tk_storage=tietuku&amp;tk_vuid=2176a6e5-d922-47e9-80d7-c5a752db4ad7&amp;tk_time=2016111015" alt=""><br>什么是Docker?</p>
+<pre><code>将应用程序自动部署到容器的开源引擎
+Go语言开源引擎  Github地址： [](https://github.com/docker/docker)
+基于Apache 2.0开源授权协议发行
+</code></pre><a id="more"></a>
+<p>Docker的特点？</p>
+<pre><code>提供简单轻量的建模方式
+职责的逻辑分离
+快速搞笑的开发生命周期
+鼓励使用面向服务的架构
+</code></pre><p>Docker的使用场景</p>
+<pre><code>1 使用Docker容器开发，测试，部署服务
+2 创建隔离的运行环境
+3 搭建测试环境
+4 构建多用户的平台即服务基础设施
+5 提供软件即服务应用程序
+6 高性能，多规模的宿主机部署
+</code></pre><p>Docker的基本组成</p>
+<pre><code>Docker Client客户端；Daemon守护进程；Image镜像；Container容器;Registry仓库
+</code></pre><h4 id="Docker客户端-守护进程"><a href="#Docker客户端-守护进程" class="headerlink" title="Docker客户端/守护进程"></a>Docker客户端/守护进程</h4><pre><code> C/S架构
+本地/远程
+</code></pre><p><img src="http://yotuku.cn/link?url=E1d-1fTlz&amp;tk_plan=free&amp;tk_storage=tietuku&amp;tk_vuid=2176a6e5-d922-47e9-80d7-c5a752db4ad7&amp;tk_time=2016111015" alt=""></p>
+<h4 id="Docker-Image镜像"><a href="#Docker-Image镜像" class="headerlink" title="Docker Image镜像"></a>Docker Image镜像</h4><pre><code>容器的基石（容器基于镜像启动和运行，镜像就好比容器的的源代码，保存了启动容器的各种条件）
+层叠的只读文件系统 bootfs(引导文件系统）当容器启动后将被移到内存中，而引导文件系统将会被卸载;
+联合加载（union mount)
+</code></pre><h3 id="容器的基本操作"><a href="#容器的基本操作" class="headerlink" title="容器的基本操作"></a>容器的基本操作</h3><p>交互式容器在命令结束后，就停止</p>
+<p>启动容器：</p>
+<pre><code>$docker run IMAGE [COMMAND][ARG...]
+run  在新容器中执行命令
+执行单次命令的容器:
+ubuntu@ubuntu:~$ docker run ubuntu echo &apos;Hello world&apos;
+Hello world
+
+启动交互式容器：
+$docker run -i -t IMAGE /bin/bash
+    -i --interactive=ture|fasle 默认是false  交互
+    -t --tty=true|false 默认是false
+ubuntu@ubuntu:~$ docker run -i -t ubuntu /bin/bash
+root@44d36a84c016:/# ps -ef
+UID         PID   PPID  C STIME TTY          TIME CMD
+root          1      0  0 03:48 ?        00:00:00 /bin/bash
+root         12      1  0 03:49 ?        00:00:00 ps -ef
+root@44d36a84c016:/# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+root@44d36a84c016:/# exit
+exit
+</code></pre><p>查看容器</p>
+<pre><code>$docker ps [-a][-l]
+    -a 列出所有的容器
+    -l 列出最新创建的容器
+
+CONTAINEG ID docker的守护进程，当启动时为容器分配的唯一ID
+NAMES    docker守护进程启动时为容器自动分配的名字
+
+ubuntu@ubuntu:~$ docker ps -l
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
+44d36a84c016        ubuntu:latest       &quot;/bin/bash&quot;         7 minutes ago       Exited (0) 6 minutes ago                       gloomy_bohr  
+</code></pre><p>如何查看刚刚创建的容器</p>
+<pre><code>$docker inspect 参数：容器的名字（ID或友好的名字)
+ubuntu@ubuntu:~$ docker inspect 44d36a84c016
+[{
+&quot;AppArmorProfile&quot;: &quot;&quot;,
+&quot;Args&quot;: [],
+&quot;Config&quot;: {
+    &quot;AttachStderr&quot;: true,
+    &quot;AttachStdin&quot;: true,
+    &quot;AttachStdout&quot;: true,
+    &quot;Cmd&quot;: [
+        &quot;/bin/bash&quot;
+    ],
+    &quot;CpuShares&quot;: 0,
+      ........
+</code></pre><p>自定义容器名</p>
+<pre><code>$docker run --name=自定义名 -i -t IMAGE /bin/bash
+
+ubuntu@ubuntu:~$ docker run --name=container01 -i -t ubuntu /bin/bash
+root@89fdd67fcc7c:/# exit
+exit
+ubuntu@ubuntu:~$ docker inspect container01 
+</code></pre><p>重新启动停止的容器</p>
+<pre><code>$docker start [-i] 容器名
+
+ubuntu@ubuntu:~$ docker start -i container01 
+root@89fdd67fcc7c:/# exit
+exit
+</code></pre><p>删除停止的容器（只能删除停止的容器)</p>
+<pre><code>$docker rm 容器名
+
+ubuntu@ubuntu:~$ docker rm a14eae563c17
+a14eae563c17
+</code></pre><h3 id="守护式容器"><a href="#守护式容器" class="headerlink" title="守护式容器"></a>守护式容器</h3><p>守护式容器，长期运行，没有交互式的会话，适合运行应用程序和服务</p>
+<p>以守护形式运行容器</p>
+<pre><code>$docker run -i -t IMAGE /bin/bash
+Ctrl+P + Ctrl+Q  将一个交互式的容器转到后台
+
+ubuntu@ubuntu:~$ docker run -i -t ubuntu /bin/bash
+root@7a5baebf940a:/# 
+root@7a5baebf940a:/# ubuntu@ubuntu:~$ 
+ubuntu@ubuntu:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+7a5baebf940a        ubuntu:latest       &quot;/bin/bash&quot;         3 minutes ago       Up 3 minutes                            dreamy_hopper   
+</code></pre><p>附加到运行中的容器</p>
+<pre><code>$docker attach 容器名
+
+ubuntu@ubuntu:~$ docker attach 7a
+
+root@7a5baebf940a:/# ubuntu@ubuntu:~$ 
+ubuntu@ubuntu:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+7a5baebf940a        ubuntu:latest       &quot;/bin/bash&quot;         7 minutes ago       Up 7 minutes                            dreamy_hopper       
+ubuntu@ubuntu:~$ docker attach 7a
+
+root@7a5baebf940a:/# exit
+exit
+ubuntu@ubuntu:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES  
+</code></pre><p>启动守护式容器</p>
+<pre><code>$docker run 镜像名 [COMMAND] [ARG...]
+    -d 告诉run命令在启动容器时使用后台的方式来执行命令
+
+ubuntu@ubuntu:~$ docker run --name dc3 -d ubuntu /bin/sh -c &quot;while true;do echo hello world;sleep 1;done&quot;
+29de71a93dfaf67cb27b6fa5d953ecd6ca924e6b1923a31d6f41995af268af24
+ubuntu@ubuntu:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS               NAMES
+29de71a93dfa        ubuntu:latest       &quot;/bin/sh -c &apos;while t   4 seconds ago       Up 3 seconds                            dc3        
+</code></pre><p>查看容器日志</p>
+<pre><code>$docker logs [-f][-t][--tail] 容器名
+    -f --follows=true|false 默认为false 会一直跟踪日志变化，并返回结果
+    -t --timestamps=true|false 默认为false
+    --tail=&quot;all&quot;  返回结尾处多少数量的日志
+
+ubuntu@ubuntu:~$ docker logs -t -f --tail 10 dc3
+2016-11-13T04:52:46.493926964Z hello world
+2016-11-13T04:52:47.495737431Z hello world
+2016-11-13T04:52:48.497870319Z hello world
+2016-11-13T04:52:49.499945897Z hello world
+2016-11-13T04:52:50.501718368Z hello world
+2016-11-13T04:52:51.503647625Z hello world .....
+</code></pre><p>查看容器内进程</p>
+<pre><code>$docker top 容器名
+
+Cubuntu@ubuntu:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS               NAMES
+29de71a93dfa        ubuntu:latest       &quot;/bin/sh -c &apos;while t   4 minutes ago       Up 4 minutes                            dc3                 
+ubuntu@ubuntu:~$ docker top dc3
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                69209               66638               0                   20:51               ?                   00:00:00            /bin/sh -c while true;do echo hello world;sleep 1;done
+root                69613               69209               0                   20:56               ?                   00:00:00            sleep 1
+</code></pre><p>为运行中的容器启动新进程（对运行中的容器维护监控或执行一些管理任务）</p>
+<pre><code>$docker exec [-d][-i][-t] 容器名 [COMMAND][ARG..]
+
+ubuntu@ubuntu:~$ docker exec -i -t dc3 /bin/bash
+root@29de71a93dfa:/# ubuntu@ubuntu:~$ 
+ubuntu@ubuntu:~$ docker top dc3
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                69209               66638               0                   20:51               ?                   00:00:00            /bin/sh -c while true;do echo hello world;sleep 1;done
+root                69914               66638               0                   21:01               pts/1               00:00:00            /bin/bash
+root                69963               69209               0                   21:01               ?                   00:00:00            sleep 1
+</code></pre><p>如何停止运行中的容器：</p>
+<pre><code>$docker stop 容器名 发送一个信号给容器，并等待容器的停止
+$docker kill 容器名  会立刻停止容器
+
+ubuntu@ubuntu:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS               NAMES
+29de71a93dfa        ubuntu:latest       &quot;/bin/sh -c &apos;while t   14 minutes ago      Up 14 minutes                           dc3                 
+ubuntu@ubuntu:~$ docker stop dc3
+dc3
+</code></pre><h3 id="使用Docker帮助文件"><a href="#使用Docker帮助文件" class="headerlink" title="使用Docker帮助文件"></a>使用Docker帮助文件</h3><pre><code>man docker-run
+man docker-logs
+man docker-top
+man docker-exec
+...
+</code></pre><h3 id="在容器中部署静态网站"><a href="#在容器中部署静态网站" class="headerlink" title="在容器中部署静态网站"></a>在容器中部署静态网站</h3><p>设置容器的端口映射</p>
+<p>设置容器的端口映射</p>
+<pre><code>run [-P][-p]
+    -P,--publish-all=ture|false默认为false
+将为容器暴露的所有端口进行映射
+docker run -P -i -t ubuntu /bin/bash 
+    -p,--publish=[]  
+containerPort 只指定容器的端口，宿主机端口随机映射
+  docker run -p 80 -i -t ubuntu /bin/bash
+hostPort:containerPort 同时指定宿主机端口和容器端口
+  docker run -p 8080:80 -i -t ubuntu /bin/bash
+ip::containerPort  指定ip和容器的端口
+  docker run -p 0.0.0.0:80 -i -t ubuntu /bin/bash
+ip:hostPort:containerPort 同时指定ip,宿主机和容器的端口
+  docker run -p 0.0.0.0:8080:80 -i -t ubuntu /bin/bash
+</code></pre><p>Nginx部署流程</p>
+<ul>
+<li>创建映射80端口的交互式容器</li>
+<li>安装Nginx</li>
+<li>安装文本编辑器vim</li>
+<li>创建静态页面</li>
+<li>修改Nginx配置文件</li>
+<li>运行Nginx</li>
+<li>验证网站访问</li>
+</ul>
+<p>-</p>
+<pre><code>ubuntu@ubuntu:~$ docker run -p 80 --name web -i -t ubuntu /bin/bash
+root@3fdfe785153a:/# apt-get update 
+root@3fdfe785153a:/# apt-get install -y nginx
+root@3fdfe785153a:/# apt-get install -y
+root@3fdfe785153a:/# mkdir -p /var/www/html
+root@3fdfe785153a:/# cd /var/www/html 
+root@3fdfe785153a:/var/www/html# vim index.html
+
+&lt;html&gt;
+&lt;head&gt;
+        &lt;title&gt;Nginx in Docker&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+        &lt;h1&gt;Hello,I&apos;m website in Docker!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+root@3fdfe785153a:/var/www/html# whereis nginx
+nginx: /usr/sbin/nginx /etc/nginx /usr/share/nginx
+root@3fdfe785153a:/var/www/html# ls
+index.html  index.nginx-debian.html
+root@3fdfe785153a:/var/www/html# ls /etc/nginx 
+conf.d        fastcgi_params  koi-win     nginx.conf    scgi_params      sites-enabled  uwsgi_params
+fastcgi.conf  koi-utf         mime.types  proxy_params  sites-available  snippets       win-utf
+root@3fdfe785153a:/var/www/html# ls /etc/nginx/sites-enabled 
+default
+root@3fdfe785153a:/var/www/html# vim /etc/nginx/sites-enabled/default 
+root@3fdfe785153a:/var/www/html# cd /
+root@3fdfe785153a:/# nginx
+root@3fdfe785153a:/# ps -ef
+UID         PID   PPID  C STIME TTY          TIME CMD
+root          1      0  0 05:36 ?        00:00:00 /bin/bash
+root        816      1  0 06:12 ?        00:00:00 nginx: master process nginx
+www-data    817    816  0 06:12 ?        00:00:00 nginx: worker process
+www-data    818    816  0 06:12 ?        00:00:00 nginx: worker process
+www-data    819    816  0 06:12 ?        00:00:00 nginx: worker process
+www-data    820    816  0 06:12 ?        00:00:00 nginx: worker process
+root        821      1  0 06:12 ?        00:00:00 ps -ef
+root@3fdfe785153a:/# ubuntu@ubuntu:~$ 
+ubuntu@ubuntu:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                   NAMES
+3fdfe785153a        ubuntu:latest       &quot;/bin/bash&quot;         37 minutes ago      Up 37 minutes       0.0.0.0:32768-&gt;80/tcp   web                 
+ubuntu@ubuntu:~$ docker port web
+80/tcp -&gt; 0.0.0.0:32768
+ubuntu@ubuntu:~$ docker top web
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                70403               66638               0                   21:36               pts/1               00:00:00            /bin/bash
+root                71341               70403               0                   22:12               ?                   00:00:00            nginx: master process nginx
+www-data            71342               71341               0                   22:12               ?                   00:00:00            nginx: worker process
+www-data            71343               71341               0                   22:12               ?                   00:00:00            nginx: worker process
+www-data            71344               71341               0                   22:12               ?                   00:00:00            nginx: worker process
+www-data            71345               71341               0                   22:12               ?                   00:00:00            nginx: worker process
+ubuntu@ubuntu:~$ curl http://127.0.0.1:32768
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Nginx in Docker&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello,I&apos;m website in Docker!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p><img src="http://yotuku.cn/link?url=B1HpSFr-l&amp;tk_plan=free&amp;tk_storage=tietuku&amp;tk_vuid=2176a6e5-d922-47e9-80d7-c5a752db4ad7&amp;tk_time=2016111314" alt=""></p>
+<pre><code>上面使用的是宿主主机地址，现在使用容器的地址
+ubuntu@ubuntu:~$ docker inspect web
+
+&quot;Gateway&quot;: &quot;172.17.42.1&quot;
+
+ubuntu@ubuntu:~$ curl http://172.17.0.10
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Nginx in Docker&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello,I&apos;m website in Docker!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+stop后重新启动访问
+
+ubuntu@ubuntu:~$ docker stop web
+web
+ubuntu@ubuntu:~$ docker start -i web
+root@3fdfe785153a:/# ps -ef
+UID         PID   PPID  C STIME TTY          TIME CMD
+root          1      0  0 06:25 ?        00:00:00 /bin/bash
+root         11      1  0 06:27 ?        00:00:00 ps -ef
+root@3fdfe785153a:/# ubuntu@ubuntu:~$ 
+ubuntu@ubuntu:~$ docker exec web nginx
+ubuntu@ubuntu:~$ docker top web
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                71751               66638               0                   22:25               pts/1               00:00:00            /bin/bash
+root                71809               71751               0                   22:28               ?                   00:00:00            nginx: master process nginx
+www-data            71810               71809               0                   22:28               ?                   00:00:00            nginx: worker process
+www-data            71811               71809               0                   22:28               ?                   00:00:00            nginx: worker process
+www-data            71812               71809               0                   22:28               ?                   00:00:00            nginx: worker process
+www-data            71813               71809               0                   22:28               ?                   00:00:00            nginx: worker process
+</code></pre><p>当停止一个容器并且重新访问时，原来容器的ip地址和端口都将会发生变化</p>
+<pre><code>ubuntu@ubuntu:~$ curl http://172.17.0.10
+curl: (7) Failed to connect to 172.17.0.10 port 80: No route to host
+ubuntu@ubuntu:~$ docker inspect web
+.....
+  &quot;MountLabel&quot;: &quot;&quot;,
+    &quot;Name&quot;: &quot;/web&quot;,
+    &quot;NetworkSettings&quot;: {
+        &quot;Bridge&quot;: &quot;docker0&quot;,
+        &quot;Gateway&quot;: &quot;172.17.42.1&quot;,
+        &quot;GlobalIPv6Address&quot;: &quot;&quot;,
+        &quot;GlobalIPv6PrefixLen&quot;: 0,
+        &quot;IPAddress&quot;: &quot;172.17.0.11&quot;,
+        &quot;IPPrefixLen&quot;: 16,
+        &quot;IPv6Gateway&quot;: &quot;&quot;,
+        &quot;LinkLocalIPv6Address&quot;: &quot;fe80::42:acff:fe11:b&quot;,
+        &quot;LinkLocalIPv6PrefixLen&quot;: 64,
+        &quot;MacAddress&quot;: &quot;02:42:ac:11:00:0b&quot;,
+        &quot;PortMapping&quot;: null,
+        &quot;Ports&quot;: {
+            &quot;80/tcp&quot;: [
+                {
+                    &quot;HostIp&quot;: &quot;0.0.0.0&quot;,
+                    &quot;HostPort&quot;: &quot;32769&quot;
+                }
+....
+ubuntu@ubuntu:~$ curl http://172.17.0.11
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Nginx in Docker&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello,I&apos;m website in Docker!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="查看和删除镜像"><a href="#查看和删除镜像" class="headerlink" title="查看和删除镜像"></a>查看和删除镜像</h3><p>镜像的存储地址</p>
+<ul>
+<li>/var/lib/docker</li>
+</ul>
+<p>-</p>
+<pre><code>ubuntu@ubuntu:~$ docker info
+Containers: 11
+Images: 94
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 116
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Kernel Version: 4.2.0-16-generic
+Operating System: Ubuntu 15.10
+CPUs: 4
+Total Memory: 1.533 GiB
+Name: ubuntu
+ID: AL2G:N2BW:2DGD:DBKV:GV77:ESDE:5BIG:BOYM:25H2:MHLX:KJK3:VNBF
+WARNING: No swap limit support
+ubuntu@ubuntu:~$ ls -l /var/lib/docker/aufs
+ls: cannot access /var/lib/docker/aufs: Permission denied
+ubuntu@ubuntu:~$ sudo ls -l /var/lib/docker/aufs
+[sudo] password for ubuntu: 
+total 48
+drwxr-xr-x 118 root root 16384 Nov 12 21:36 diff
+drwxr-xr-x   2 root root 16384 Nov 12 21:36 layers
+drwxr-xr-x 118 root root 16384 Nov 12 21:36 mnt
+</code></pre><h4 id="列出镜像"><a href="#列出镜像" class="headerlink" title="列出镜像"></a>列出镜像</h4><pre><code>$docker images [OPTSIUNS][REPOSITORY]
+   -a,--all=false
+   -f,--filter=[]  显示时的过滤条件
+   --no-trunc=false  指定不使用截断的方式
+   -q,--quiet=false
+</code></pre><h4 id="查看镜像"><a href="#查看镜像" class="headerlink" title="查看镜像"></a>查看镜像</h4><pre><code>$docker inspect [OPTIONS]CONTAINER|IMAGE[CONTAINER|IMAGE...]
+   -f,--format=&quot;&quot;
+
+ubuntu@ubuntu:~$ docker inspect ubuntu:latest 
+</code></pre><h4 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h4><pre><code>$docker rmi [OPTIONS]IMAGE[IMAGE...]
+   -f,--force=false 
+   --no-prune=false Do not delete untagged parents
+
+ubuntu:~$ docker rmi wordpress:4.6.1 
+</code></pre><h3 id="获取和推送镜像"><a href="#获取和推送镜像" class="headerlink" title="获取和推送镜像"></a>获取和推送镜像</h3><h4 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h4><ul>
+<li>Docker Hub</li>
+</ul>
+<p><a href="https://registry.hub.docker.com" target="_blank" rel="external"></a></p>
+<ul>
+<li><p>$docker search [OPTIONS]TERM</p>
+<pre><code>--automated=false Only show automated builds 自动化选项
+--no-trunc=false Don&apos;t truncate output 
+-s,--stars=0  Only displays with at least x start 星级
+最多返回25个结果
+ubuntu@ubuntu:~$ docker search -s 3 ubuntu
+NAME                              DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+ubuntu                            Ubuntu is a Debian-based Linux operating s...   5033      [OK]       
+ubuntu-upstart                    Upstart is an event-based replacement for ...   68        [OK]       
+rastasheep/ubuntu-sshd            Dockerized SSH service, built on top of of...   49                   [OK]
+consol/ubuntu-xfce-vnc            Ubuntu container with &quot;headless&quot; VNC sessi...   29                   [OK]
+ubuntu-debootstrap                debootstrap --variant=minbase --components...   27        [OK]       
+torusware/speedus-ubuntu          Always updated official Ubuntu docker imag...   27                   [OK]
+ioft/armhf-ubuntu                 [ABR] Ubuntu Docker images for the ARMv7(a...   19                   [OK]
+nuagebec/ubuntu                   Simple always updated Ubuntu docker images...   10                   [OK]
+nickistre/ubuntu-lamp             LAMP server on Ubuntu                           10                   [OK]
+nickistre/ubuntu-lamp-wordpress   LAMP on Ubuntu with wp-cli installed            7                    [OK]
+nimmis/ubuntu                     This is a docker images different LTS vers...   5                    [OK]
+</code></pre><h4 id="拉取镜像（需要下载到本地"><a href="#拉取镜像（需要下载到本地" class="headerlink" title="拉取镜像（需要下载到本地)"></a>拉取镜像（需要下载到本地)</h4><p>  $docker pull [options] name [:tag]<br>   -a,–all-tags=false<br>  ubuntu@ubuntu:~$ docker pull ubuntu:14.04</p>
+<p>   14.04: Pulling from ubuntu<br>  e7176b79954f: Pull complete<br>  e359a53f3a8b: Pull complete<br>  4655efdd3550: Already exists<br>  4d0b81bdf94e: Already exists<br>  82b16b694f1b: Already exists<br>  879409173f70: Already exists<br>  Digest: sha256:bae6d9e8c91f31a11d324495efb3859fce873de1e9db990a62d16e4f263f5a2e<br>  Status: Downloaded newer image for ubuntu:14.04</p>
+</li>
+</ul>
+<h4 id="拉取镜像-加速访问）"><a href="#拉取镜像-加速访问）" class="headerlink" title="拉取镜像(加速访问）"></a>拉取镜像(加速访问）</h4><pre><code>使用--registry-mirror 选项
+ 1.修改 ： /etc/default/docker
+ 2.添加：DOCKER_OPTS = &quot;--registry-mirror=http://MIRROR-ADDR&quot;
+</code></pre><h4 id="推送镜像"><a href="#推送镜像" class="headerlink" title="推送镜像"></a>推送镜像</h4><pre><code>$docker push NAME:[:TAG]
+</code></pre><h3 id="构建docker镜像"><a href="#构建docker镜像" class="headerlink" title="构建docker镜像"></a>构建docker镜像</h3><ul>
+<li>1.保存对容器的修改，并再次使用；</li>
+<li>2.自定义镜像的能力;</li>
+<li><p>3.以软件的形式打包并分发服务及其运行环境</p>
+<h4 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h4><p>  $docker commit  通过容器构建<br>  $docker commit [OPTION] CONTAINEG [REPOSITORY[:TAG]]</p>
+<pre><code>-a,--author=&quot;&quot;  作者
+-m,--message=&quot;&quot; Commit message  构建信息
+-p,--pause=true Pause container during commit  指示不暂停正在运行的容器
+</code></pre><p>  ubuntu@ubuntu:~$ docker commit -a “jdrops520” -m ‘nginx’ web jdrops520/commit_web1</p>
+<p>  bc4ef9f3e881bd1034dc2dbca62f053044f5ac77696d3bc67e69e749fa1331e7<br>  ubuntu@ubuntu:~$<br>  ubuntu@ubuntu:~$ docker images<br>  REPOSITORY              TAG                 IMAGE ID            CREATED              VIRTUAL SIZE<br>  jdrops520/commit_web1   latest              bc4ef9f3e881        37 seconds ago       275.8 MB<br>  <none>                  <none>              7a32cf0408fa        3 weeks ago          160.5 MB<br>  ubuntu                  latest              56465e1e45d2        4 weeks ago          127.2 MB<br>  ubuntu                  14.04               e359a53f3a8b        4 weeks ago          187.9 MB<br>  <none>                  <none>              04b555fcaf13        9 weeks ago          341.8 MB<br>  <none>                  <none>              07a3e6032afb        3 months ago         188 MB<br>  hello-world             latest              f0cb9bdcaa69        4 months ago         1.848 kB<br>  ubuntu                  12.10               c5881f11ded9        2.406760 years ago   172.1 MB<br>  ubuntu@ubuntu:~$ docker run -d –name nginx_web1 jdrops520/commit_web1 nginx -g “daemon off;”<br>  35423f6554dc8cddc95dd88f924e9ab091ae330094e9aa7ba159c1d11e68019a<br>  ubuntu@ubuntu:~$ docker ps<br>  CONTAINER ID        IMAGE                          COMMAND                CREATED             STATUS              PORTS                   NAMES<br>  35423f6554dc        jdrops520/commit_web1:latest   “nginx -g ‘daemon of   17 seconds ago      Up 16 seconds       80/tcp                  nginx_web1<br>  3fdfe785153a        ubuntu:latest                  “/bin/bash”            3 hours ago         Up 2 hours          0.0.0.0:32769-&gt;80/tcp   web<br>  ubuntu@ubuntu:~$ curl <a href="http://127.0.0.1:32769" target="_blank" rel="external">http://127.0.0.1:32769</a><br>  <html><br>  <head></head></html></none></none></none></none></none></none></p>
+<pre><code>&lt;title&gt;Nginx in Docker&lt;/title&gt;
+</code></pre><p>  <br>  <body></body></p>
+<pre><code>&lt;h1&gt;Hello,I&apos;m website in Docker!&lt;/h1&gt;
+</code></pre><p>  <br>  <br>使用Dockerfile创建镜像<br>创建第一个Dockerfile       </p>
+<p>  $docker build   通过Dockerfile文件构建<br>  $docker build [OPTIONS]PATH |URL|-</p>
+<pre><code>--force-rm=false
+--no-cache=false
+--pull=false
+-q,--quiet=false
+--rm=ture
+-t,--tag=&quot;&quot; 指定构建出的镜像的名字
+</code></pre></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/10/docker学习/" data-id="cj06r8hxy0005u8ufbc83fuze" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/15/渗透绕WAF的方法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          渗透绕WAF的方法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/29/全局防护Bypass之宽字节注入/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">全局防护Bypass之宽字节注入</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WAF/">WAF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-web开发/">python web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3-数据库/">python3 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python运维/">python运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计  PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计 PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结感想/">总结感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透技巧/">渗透技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试/">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试-CTF/">渗透测试 CTF</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/WAF/" style="font-size: 10px;">WAF</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/python-web开发/" style="font-size: 10px;">python web开发</a> <a href="/tags/python3/" style="font-size: 20px;">python3</a> <a href="/tags/python3-数据库/" style="font-size: 10px;">python3 数据库</a> <a href="/tags/python运维/" style="font-size: 10px;">python运维</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计  PHP</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计 PHP</a> <a href="/tags/总结感想/" style="font-size: 10px;">总结感想</a> <a href="/tags/渗透技巧/" style="font-size: 10px;">渗透技巧</a> <a href="/tags/渗透测试/" style="font-size: 10px;">渗透测试</a> <a href="/tags/渗透测试-CTF/" style="font-size: 10px;">渗透测试 CTF</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/02/攻破MrRobot-黑客技能训练/">攻破MrRobot-黑客技能训练</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/30/模拟渗透测试get到的技巧/">模拟渗透测试get到的技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/17/Linux常用命令使用总结/">Linux常用命令使用总结</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/15/渗透绕WAF的方法/">渗透绕WAF的方法</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/10/docker学习/">docker学习</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

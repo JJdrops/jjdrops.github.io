@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>python类的学习 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="0 前言   正如”类”的名称一样，它描述的概念和我们现实生活中的类的概念很相似。生物有不同的种类，食物有不同的种类，人类社会有种种商品也有不同的种类。单反可被称之为一类的物体，他们都有着相似的特征和行为方式。
+也就是说：
+类是有一些系列有共同特征和行为事物的抽象概念的综合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python类的学习">
+<meta property="og:url" content="http://yoursite.com/2016/10/05/python类的学习/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="0 前言   正如”类”的名称一样，它描述的概念和我们现实生活中的类的概念很相似。生物有不同的种类，食物有不同的种类，人类社会有种种商品也有不同的种类。单反可被称之为一类的物体，他们都有着相似的特征和行为方式。
+也就是说：
+类是有一些系列有共同特征和行为事物的抽象概念的综合">
+<meta property="og:image" content="http://p1.bpimg.com/567571/370befa1102c08bc.png">
+<meta property="og:image" content="http://p1.bpimg.com/567571/768b9fe9a95a0f6a.png">
+<meta property="og:updated_time" content="2016-10-05T05:09:09.927Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python类的学习">
+<meta name="twitter:description" content="0 前言   正如”类”的名称一样，它描述的概念和我们现实生活中的类的概念很相似。生物有不同的种类，食物有不同的种类，人类社会有种种商品也有不同的种类。单反可被称之为一类的物体，他们都有着相似的特征和行为方式。
+也就是说：
+类是有一些系列有共同特征和行为事物的抽象概念的综合">
+<meta name="twitter:image" content="http://p1.bpimg.com/567571/370befa1102c08bc.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-python类的学习" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/05/python类的学习/" class="article-date">
+  <time datetime="2016-10-05T04:39:15.000Z" itemprop="datePublished">2016-10-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python类的学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://p1.bpimg.com/567571/370befa1102c08bc.png" alt=""></p>
+<h2 id="0-前言"><a href="#0-前言" class="headerlink" title="0 前言"></a>0 前言</h2><p>   正如”类”的名称一样，它描述的概念和我们现实生活中的类的概念很相似。生物有不同的种类，食物有不同的种类，人类社会有种种商品也有不同的种类。单反可被称之为一类的物体，他们都有着相似的特征和行为方式。</p>
+<p>也就是说：</p>
+<pre><code>类是有一些系列有共同特征和行为事物的抽象概念的综合
+</code></pre><a id="more"></a>
+<h2 id="1-类的属性，实例属性，方法，引用"><a href="#1-类的属性，实例属性，方法，引用" class="headerlink" title="1 类的属性，实例属性，方法，引用"></a>1 类的属性，实例属性，方法，引用</h2><pre><code>class CocaCola:
+    #在类里面赋值的变量就是类的变量，类的变量有一个专业术语，称之为类的属性
+    formula = [&quot;caffeine&quot;,&quot;sugar&quot;,&quot;water&quot;,&quot;soda&quot;]
+    #方法就是函数，但我们把这个函数称之为方法。方法是供实例使用的，因此我们还可以称之为实例方法
+    #被实例化的对象会被编辑器默默地传入后面的方法括号中，作为第一个参数
+    &quot;&quot;&quot;
+    #除了必写的self参数之外，__init__()同样可以有自己的参数，同时不需要这样obj.__init__()方法来调用（因为是自动执行）
+    #在实例化的时候往类后面括号中放入参数，相应的所有参数都会传递到这个特殊的__init__()方法中，和函数的参数用法完全相同
+    def __init__(self,logo_name):
+        #左边的变量作为类的属性，右边是传入的这个参数作为变量，也就是说这个变量的赋值所储存的结果取决于初始化的时候所传进来的参数logo_name,传进来什么那么它就将是什么
+        self.local_logo = logo_name
+    def drink(self):
+        print (&quot;Energy&quot;)
+coke = CocaCola(&quot;可口可乐&quot;)
+#coke.drink()
+coke.local_logo
+&quot;&quot;&quot;
+    #和函数一样，类的方法也能有属于自己的函数，我们先试着在.drink()方法上做些改动
+    def drink(self,how_much):
+        if how_much == &quot;a sip&quot;:
+            print(&quot;Cool~&quot;)
+        elif how_much == &quot;whole bottle&quot;:
+            print (&quot;Headache!&quot;)
+ice_coke = CocaCola()
+ice_coke.drink(&quot;a sip&quot;)
+
+#类的实例化  按着我们定义好的配方来生产可乐，当然，按照这个配方无论生产多少瓶可乐它们的味道都是一样的
+#在左边创建一个变量，右边写上类的名称，看起来很像是赋值的行为，我们称之为类的实例化，而被实例化的对象称之为实例。
+coke_for_me = CocaCola()
+coke_for_you = CocaCola()
+
+coke_for_China = CocaCola()
+#在创建了类之后，通过object.new_attr的形式进行创建一个赋值，于是我们就可以得到一个新的实例的变量，实例的变量称之为实例属性
+coke_for_China.local_logo = &quot;可口可乐0&quot; #创建实例属性
+print (coke_for_China.local_logo )  #打印实例属性引用结果
+#在类的名字后面输入.,IDE就会自动联想出我们之前在定义类的时候写在里面的属性，而这就是类属性的引用
+#类的属性会被所有的类的实例共享
+print(CocaCola.formula)
+print(coke_for_me.formula)
+print(coke_for_you.formula)
+for element in coke_for_me.formula:
+    print(element)
+
+
+
+&quot;&quot;&quot;
+__init__()是initialize(初始化)的缩写，这也就意味着即使我们在创建实例的时候不去引用init_()方法，其中的命令也会先被自动的执行
+
+&quot;&quot;&quot;
+</code></pre><h2 id="2-令人困惑的类属性与实例属性"><a href="#2-令人困惑的类属性与实例属性" class="headerlink" title="2 令人困惑的类属性与实例属性"></a>2 令人困惑的类属性与实例属性</h2><p><img src="http://p1.bpimg.com/567571/768b9fe9a95a0f6a.png" alt=""></p>
+<pre><code>&quot;&quot;&quot;
+python中属性的引用机制是自外而内的，当创建一个实例之后，准备开始引用属性，这时编辑器会先搜索该实例是否用拥有该属性，有则引用
+如果没有，将搜索这个实例所属的类是否有这个尚需经，如果有，则引用，没有就只能报错
+&quot;&quot;&quot;
+
+#类属性若被重新赋值，会影响到类属性的引用
+class TestA:
+    attr = 1
+obj_a = TestA()
+
+TestA.attr = 42
+print(obj_a.attr)
+#实例属性若被重新赋值，不会影响到类属性的引用
+class TestB:
+    attr =1
+obj_a = TestA()
+obj_b = TestB()
+
+obj_a.attr = 42  #实例属性
+print(obj_b.attr)
+#类属性实例属性具有相同的名称，那么.后面引用将会发生什么?
+class TestC:
+    attr = 1
+    def __init__(self):
+        self.attr = 42
+print(obj_b.attr)
+print(TestC.__dict__)
+print(obj_a.__dict__)
+</code></pre><p>运行结果：</p>
+<pre><code>C:\python35\python3.exe G:/untitled/LeiShuxing.py
+42
+1
+1
+{&apos;attr&apos;: 1, &apos;__dict__&apos;: &lt;attribute &apos;__dict__&apos; of &apos;TestC&apos; objects&gt;, &apos;__init__&apos;: &lt;function TestC.__init__ at 0x000001CBBA8DBAE8&gt;, &apos;__module__&apos;: &apos;__main__&apos;, &apos;__doc__&apos;: None, &apos;__weakref__&apos;: &lt;attribute &apos;__weakref__&apos; of &apos;TestC&apos; objects&gt;}
+{&apos;attr&apos;: 42}
+</code></pre><h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h4><p>也许运行完上面三段代码，会有一些初步结论，但为更直接的解释，全部隐藏在类的特殊属性<strong>dict</strong>中。<strong>dict</strong>是一个类的特殊属性，它是一个字典，用于储存类或者实例的属性。即使你不去定义它，他也会存在每一个类中，是默认隐藏的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/05/python类的学习/" data-id="cj06r8hy6000du8ufo6yrj8ag" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3/">python3</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/07/在python3中操作MongoDB数据库/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          在python3中操作MongoDB数据库
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/25/pool线程池的使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">pool线程池的使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WAF/">WAF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-web开发/">python web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3-数据库/">python3 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python运维/">python运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计  PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计 PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结感想/">总结感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透技巧/">渗透技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试/">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试-CTF/">渗透测试 CTF</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/WAF/" style="font-size: 10px;">WAF</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/python-web开发/" style="font-size: 10px;">python web开发</a> <a href="/tags/python3/" style="font-size: 20px;">python3</a> <a href="/tags/python3-数据库/" style="font-size: 10px;">python3 数据库</a> <a href="/tags/python运维/" style="font-size: 10px;">python运维</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计  PHP</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计 PHP</a> <a href="/tags/总结感想/" style="font-size: 10px;">总结感想</a> <a href="/tags/渗透技巧/" style="font-size: 10px;">渗透技巧</a> <a href="/tags/渗透测试/" style="font-size: 10px;">渗透测试</a> <a href="/tags/渗透测试-CTF/" style="font-size: 10px;">渗透测试 CTF</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/02/攻破MrRobot-黑客技能训练/">攻破MrRobot-黑客技能训练</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/30/模拟渗透测试get到的技巧/">模拟渗透测试get到的技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/17/Linux常用命令使用总结/">Linux常用命令使用总结</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/15/渗透绕WAF的方法/">渗透绕WAF的方法</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/10/docker学习/">docker学习</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

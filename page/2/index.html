@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-PHP序列化以及反序列化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/18/PHP序列化以及反序列化/" class="article-date">
+  <time datetime="2016-10-18T08:42:28.000Z" itemprop="datePublished">2016-10-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/18/PHP序列化以及反序列化/">PPHP序列化以及反序列化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="什么是序列化以及反序列化"><a href="#什么是序列化以及反序列化" class="headerlink" title="什么是序列化以及反序列化"></a>什么是序列化以及反序列化</h3><p>序列化是将PHP中的值（zval）转换成一段包含字节流的字符串。序列化一个对象会保存为对象中的所有变量的值，但不会保存对象的方法，以及只会保存类的名字。其本质就是将程序以相应的格式保存下来</p>
+<p>反序列化：对单一的一序列化的变量进行操作，将其转换回PHP的值。</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/10/18/PHP序列化以及反序列化/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/18/PHP序列化以及反序列化/" data-id="cj06r8hxs0004u8ufk0kp1ccf" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python3-检测URL重定向到的地址" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/16/python3-检测URL重定向到的地址/" class="article-date">
+  <time datetime="2016-10-16T06:25:20.000Z" itemprop="datePublished">2016-10-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/16/python3-检测URL重定向到的地址/">python3 检测URL重定向到的地址</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://p1.bqimg.com/567571/61cd6892adab71ed.jpg" alt=""></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p> 最近一直考虑，如何持续的保持我对python学习的热度，思考是否能够尝试任务自动化，简言之，就是有些繁琐的事情利用脚本来实现。今天我讨论学习的任务是如何检测URL重定向到的地址，遗憾的是对https：//检测没有实现。实现的原理倒是也简单，就是判断站点返回来的status_code判断是否为3xx，若是，则就简单粗暴地人为是重定向，比如一些突发情况，如访问超时，域名解析错误，网络错误等，则利用try…except…来避免，需要检测的大量的url放入到一个文件中，若站点的格式不统一的话，就做一个简单判断<br>
+        
+          <p class="article-more-link">
+            <a href="/2016/10/16/python3-检测URL重定向到的地址/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/16/python3-检测URL重定向到的地址/" data-id="cj06r8hy10008u8ufuhiu6r8d" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python运维/">python运维</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-HTML-20-80关键知识" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/15/HTML-20-80关键知识/" class="article-date">
+  <time datetime="2016-10-15T14:55:53.000Z" itemprop="datePublished">2016-10-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/15/HTML-20-80关键知识/">HTML 20/80关键知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="HTML-20-80关键知识"><a href="#HTML-20-80关键知识" class="headerlink" title="HTML 20/80关键知识"></a>HTML 20/80关键知识</h1><h3 id="1-网页结构"><a href="#1-网页结构" class="headerlink" title="1 网页结构"></a>1 网页结构</h3><ul>
+<li>HTML：专注于网页的结构</li>
+<li>CSS ：用于修饰网页的样式</li>
+<li>Javascript:赋予网页的各种功能（数据存储，通讯，反数据爬取等）<h3 id="2-静态网页的概念"><a href="#2-静态网页的概念" class="headerlink" title="2 静态网页的概念"></a>2 静态网页的概念</h3>拥有HTML和CSS（网页的结构和样式），但没有JavaScript（没有任何数据的传输，比如注册网站或登录后台要传送数据给数据库等）
+        
+          <p class="article-more-link">
+            <a href="/2016/10/15/HTML-20-80关键知识/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/15/HTML-20-80关键知识/" data-id="cj06r8hxf0000u8ufferx6h5i" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-web开发/">python web开发</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-在python3中操作MongoDB数据库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/07/在python3中操作MongoDB数据库/" class="article-date">
+  <time datetime="2016-10-07T04:21:28.000Z" itemprop="datePublished">2016-10-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/07/在python3中操作MongoDB数据库/">在python3中操作MongoDB数据库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://i1.piimg.com/567571/066efee756c1d9e4.jpg" alt=""></p>
+<p>首先了解一下MongoDB中存储数据的一些概念<br><img src="http://i1.piimg.com/567571/959fb373e2913f71.png" alt=""><br>
+        
+          <p class="article-more-link">
+            <a href="/2016/10/07/在python3中操作MongoDB数据库/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/07/在python3中操作MongoDB数据库/" data-id="cj06r8hym000pu8uf8yukez3q" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3-数据库/">python3 数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python类的学习" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/05/python类的学习/" class="article-date">
+  <time datetime="2016-10-05T04:39:15.000Z" itemprop="datePublished">2016-10-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/05/python类的学习/">python类的学习</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://p1.bpimg.com/567571/370befa1102c08bc.png" alt=""></p>
+<h2 id="0-前言"><a href="#0-前言" class="headerlink" title="0 前言"></a>0 前言</h2><p>   正如”类”的名称一样，它描述的概念和我们现实生活中的类的概念很相似。生物有不同的种类，食物有不同的种类，人类社会有种种商品也有不同的种类。单反可被称之为一类的物体，他们都有着相似的特征和行为方式。</p>
+<p>也就是说：</p>
+<pre><code>类是有一些系列有共同特征和行为事物的抽象概念的综合
+</code></pre>
+        
+          <p class="article-more-link">
+            <a href="/2016/10/05/python类的学习/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/05/python类的学习/" data-id="cj06r8hy6000du8ufo6yrj8ag" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3/">python3</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-pool线程池的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/25/pool线程池的使用/" class="article-date">
+  <time datetime="2016-09-25T04:53:38.000Z" itemprop="datePublished">2016-09-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/25/pool线程池的使用/">pool线程池的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-线程池的原理和使用"><a href="#1-线程池的原理和使用" class="headerlink" title="1 线程池的原理和使用"></a>1 线程池的原理和使用</h3><p>问题的提出：</p>
+<blockquote>
+<p>在使用多线程的时候面对着一个问题，如果使用断点下载，把每个range设置为指定值，文件大或者range小都会面对一个任务数爆炸的状态。使用一个线程来完成一个任务会造成线程数过多，线程数过多不仅影响效率，也会影响程序的健壮性<br>
+        
+          <p class="article-more-link">
+            <a href="/2016/09/25/pool线程池的使用/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/09/25/pool线程池的使用/" data-id="cj06r8hy30009u8ufcn0e4ubp" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3/">python3</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python3安装lxml技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/24/python3安装lxml技巧/" class="article-date">
+  <time datetime="2016-09-24T12:46:29.000Z" itemprop="datePublished">2016-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/24/python3安装lxml技巧/">python3安装lxml技巧</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="抛出问题"><a href="#抛出问题" class="headerlink" title="抛出问题"></a>抛出问题</h3><p>python3 安装第三方库报错 Unable to find vcvarsall.bat</p>
+<p>出现如下错误：<br><img src="http://p1.bqimg.com/567571/e4744ccca8298538.jpg" alt=""><br>python的部分库在安装时要临时编译，找不到编辑器就会报错，类似的库还有numpy等。根据提示装了Visual C++ 10.0仍然报错。微软网站只找到Python2.7用的VC编辑器（我用的Python3.5)，经过一番挣扎搜索终于解决。<br>
+        
+          <p class="article-more-link">
+            <a href="/2016/09/24/python3安装lxml技巧/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/09/24/python3安装lxml技巧/" data-id="cj06r8hy6000bu8uf3c30v4d4" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3/">python3</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-关于python引入模块问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/24/关于python引入模块问题/" class="article-date">
+  <time datetime="2016-09-24T09:45:52.000Z" itemprop="datePublished">2016-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/24/关于python引入模块问题/">关于python引入模块问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-问题由来"><a href="#1-问题由来" class="headerlink" title="1. 问题由来"></a>1. 问题由来</h3><p>关于import和from import使用一直存在疑惑，这几天写爬虫，调用其他的文件，才知道接口可以利用from import实现，具体问题是这样的:<br>
+        
+          <p class="article-more-link">
+            <a href="/2016/09/24/关于python引入模块问题/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/09/24/关于python引入模块问题/" data-id="cj06r8hym000nu8ufzexhrhxy" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3/">python3</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-暑假总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/03/暑假总结/" class="article-date">
+  <time datetime="2016-09-03T15:15:33.000Z" itemprop="datePublished">2016-09-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/03/暑假总结/">暑假总结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>时光匆匆，匆匆时光，转眼间两个月的暑假就结束了， 回忆暑假有太多需要留念的，又要开始崭新的一学期，崭新的的大三生活，有收获同时也有遗憾，有不足，拼搏是唯一的选择，希望在即将逝去的时光中，一个个小目标都可以实现，进而自己的能力提升。</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/09/03/暑假总结/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/09/03/暑假总结/" data-id="cj06r8hym000tu8ufydy0nexx" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/总结感想/">总结感想</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WAF/">WAF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-web开发/">python web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3-数据库/">python3 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python运维/">python运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计  PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计 PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结感想/">总结感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透技巧/">渗透技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试/">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试-CTF/">渗透测试 CTF</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/WAF/" style="font-size: 10px;">WAF</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/python-web开发/" style="font-size: 10px;">python web开发</a> <a href="/tags/python3/" style="font-size: 20px;">python3</a> <a href="/tags/python3-数据库/" style="font-size: 10px;">python3 数据库</a> <a href="/tags/python运维/" style="font-size: 10px;">python运维</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计  PHP</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计 PHP</a> <a href="/tags/总结感想/" style="font-size: 10px;">总结感想</a> <a href="/tags/渗透技巧/" style="font-size: 10px;">渗透技巧</a> <a href="/tags/渗透测试/" style="font-size: 10px;">渗透测试</a> <a href="/tags/渗透测试-CTF/" style="font-size: 10px;">渗透测试 CTF</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/02/攻破MrRobot-黑客技能训练/">攻破MrRobot-黑客技能训练</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/30/模拟渗透测试get到的技巧/">模拟渗透测试get到的技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/17/Linux常用命令使用总结/">Linux常用命令使用总结</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/15/渗透绕WAF的方法/">渗透绕WAF的方法</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/10/docker学习/">docker学习</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

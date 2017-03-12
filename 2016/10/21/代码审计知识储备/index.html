@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>代码审计知识储备 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一．    漏洞挖掘1.1危险的来源数据显示输入：所有提交的变量都被php保存在了一些数组里，PHP中可由用户用户输入的变量列表如下：
+
+$_SERVER –服务器和执行环境（是一个包含了诸如头信息，路径，以及脚本位置等等信息的数组
+$_FIES-HTTP文件上传变量
+$_ENV-环境变量（通过环境方式传递给当前脚本的变量数组）getenv-获取一个环境变量  string getenv(stri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码审计知识储备">
+<meta property="og:url" content="http://yoursite.com/2016/10/21/代码审计知识储备/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一．    漏洞挖掘1.1危险的来源数据显示输入：所有提交的变量都被php保存在了一些数组里，PHP中可由用户用户输入的变量列表如下：
+
+$_SERVER –服务器和执行环境（是一个包含了诸如头信息，路径，以及脚本位置等等信息的数组
+$_FIES-HTTP文件上传变量
+$_ENV-环境变量（通过环境方式传递给当前脚本的变量数组）getenv-获取一个环境变量  string getenv(stri">
+<meta property="og:updated_time" content="2016-10-29T12:58:33.392Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="代码审计知识储备">
+<meta name="twitter:description" content="一．    漏洞挖掘1.1危险的来源数据显示输入：所有提交的变量都被php保存在了一些数组里，PHP中可由用户用户输入的变量列表如下：
+
+$_SERVER –服务器和执行环境（是一个包含了诸如头信息，路径，以及脚本位置等等信息的数组
+$_FIES-HTTP文件上传变量
+$_ENV-环境变量（通过环境方式传递给当前脚本的变量数组）getenv-获取一个环境变量  string getenv(stri">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-代码审计知识储备" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/21/代码审计知识储备/" class="article-date">
+  <time datetime="2016-10-21T04:37:16.000Z" itemprop="datePublished">2016-10-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      代码审计知识储备
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一．-漏洞挖掘"><a href="#一．-漏洞挖掘" class="headerlink" title="一．    漏洞挖掘"></a>一．    漏洞挖掘</h3><p>1.1危险的来源数据<br>显示输入：所有提交的变量都被php保存在了一些数组里，PHP中可由用户用户输入的变量列表如下：</p>
+<ul>
+<li>$_SERVER –服务器和执行环境（是一个包含了诸如头信息，路径，以及脚本位置等等信息的数组</li>
+<li>$_FIES-HTTP文件上传变量</li>
+<li>$_ENV-环境变量（通过环境方式传递给当前脚本的变量数组）<br>getenv-获取一个环境变量  string getenv(string $varname)<br>在 php 的设置里有这么个选项register_globals,当这个选项为 on 的时候,上面出现的那些变量都会成为$GLOBALS 中的一员,在脚本中都不需要再取得就可以直接使用,并且以variables_order的顺序覆盖。</li>
+<li>$GLOBALS-引用全局作用域中可用的全部变量（一个包含了全部变量的全局组合数组。变量的名字就是数组的键。</li>
+<li><a id="more"></a>
+</li>
+</ul>
+<p>很多程序考虑到了register_globals=off的情况，于是在程序化的时候使用如下代码：</p>
+<pre><code>@extract(daddslashes($_POST));
+@extract(daddslashes($_GET));
+</code></pre><ul>
+<li>extract-从数组中将变量导入到当前的符号表中</li>
+</ul>
+<p>注释：把数组内容导入到符合表，比如$_COOLIE[“123”],那么经过他的非法字符过滤后，extract函数后变为$a=”123 ”这样子的模式。<br>daddslashes()-是addslashes()函数的加强版，可以对数组里面的每一个元素添加反斜杠</p>
+<p>这些代码起到了register_globals的作用，作用是将post和GET的内容释放出去做全局变量，但是危险可能更大。</p>
+<h4 id="二．隐式输入"><a href="#二．隐式输入" class="headerlink" title="二．隐式输入"></a>二．隐式输入</h4><ul>
+<li>用户传递的数据-&gt;数据库-&gt;程序代码处理-&gt;程序代码</li>
+</ul>
+<p>这个模式的意思就是用户输入的可能先进入了数据库，然后程序从数据库再取得这个输入送入某些危险的函数执行。</p>
+<p>与存储在数据库中类似的情况是，一些程序把用户的输入放入文件夹中，如缓冲文件，然后在必要的时候从里面取得，如果太过于相信这些地方的变量，这样还是导致问题的。</p>
+<h3 id="三．-变量覆盖"><a href="#三．-变量覆盖" class="headerlink" title="三．    变量覆盖"></a>三．    变量覆盖</h3><p>####常见的变量覆盖</p>
+<ul>
+<li><p>1.extract()-从数组中将变量导入到当前的符号表中</p>
+<p>  Int    extract(array    &amp;$var_array[,int$extract_type= EXTR_OVERWRITE [, string $prefix = NULL]] )</p>
+</li>
+</ul>
+<p>本函数用来将变量从数组中导入到当前的符号表中。检查每一个键名看是否可以作为一个合法的变量名，同时检查和符号表中已有的变量名的冲突。<br>$var_array一个关联数组。此函数将键名当作变量名，值作为变量的值<br>$extract_type:对待非法/数字和冲突的键名的方法将根据extract_type的参数决定</p>
+<ul>
+<li>2.parse_str()-将字符串解析成多个变量<br>void parse_str ( string $str [, array &amp;$arr ] )<br>如果str是URL传递的查询字符串（query string），则将它解析为变量并设置到当前作用域。  参数：str 输入的字符串  arr：若设置了第二个变量arr，变量将会以数组元素的形式存入到这个数组，作为代替</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/21/代码审计知识储备/" data-id="cj06r8hy6000ju8ufybm6ca6l" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代码审计-PHP/">代码审计  PHP</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/22/代码审计基础/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          代码审计基础
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/18/PHP序列化以及反序列化/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">PPHP序列化以及反序列化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WAF/">WAF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-web开发/">python web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3-数据库/">python3 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python运维/">python运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计  PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计 PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结感想/">总结感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透技巧/">渗透技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试/">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试-CTF/">渗透测试 CTF</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/WAF/" style="font-size: 10px;">WAF</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/python-web开发/" style="font-size: 10px;">python web开发</a> <a href="/tags/python3/" style="font-size: 20px;">python3</a> <a href="/tags/python3-数据库/" style="font-size: 10px;">python3 数据库</a> <a href="/tags/python运维/" style="font-size: 10px;">python运维</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计  PHP</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计 PHP</a> <a href="/tags/总结感想/" style="font-size: 10px;">总结感想</a> <a href="/tags/渗透技巧/" style="font-size: 10px;">渗透技巧</a> <a href="/tags/渗透测试/" style="font-size: 10px;">渗透测试</a> <a href="/tags/渗透测试-CTF/" style="font-size: 10px;">渗透测试 CTF</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/02/攻破MrRobot-黑客技能训练/">攻破MrRobot-黑客技能训练</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/30/模拟渗透测试get到的技巧/">模拟渗透测试get到的技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/17/Linux常用命令使用总结/">Linux常用命令使用总结</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/15/渗透绕WAF的方法/">渗透绕WAF的方法</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/10/docker学习/">docker学习</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

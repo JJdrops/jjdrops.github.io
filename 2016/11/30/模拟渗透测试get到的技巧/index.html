@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>模拟渗透测试get到的技巧 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一 nmap使用技巧当针对入口点IP地址进行端口扫描，将其所开放的端口号（仅扫描小于1000的端口），由于在CMD测试，禁止ping，则需要使用到-Pn参数
+-vv参数表示输出详细报告结果，-p指定端口扫描，-Pn为扫描前不进行ping操作，如果网站禁止了ping，扫描时不加Pn扫不出开放端口
+二 Rsync漏洞Rsync,remote synchroniz顾名思义就知道它是一款实现远程同步功能的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模拟渗透测试get到的技巧">
+<meta property="og:url" content="http://yoursite.com/2016/11/30/模拟渗透测试get到的技巧/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一 nmap使用技巧当针对入口点IP地址进行端口扫描，将其所开放的端口号（仅扫描小于1000的端口），由于在CMD测试，禁止ping，则需要使用到-Pn参数
+-vv参数表示输出详细报告结果，-p指定端口扫描，-Pn为扫描前不进行ping操作，如果网站禁止了ping，扫描时不加Pn扫不出开放端口
+二 Rsync漏洞Rsync,remote synchroniz顾名思义就知道它是一款实现远程同步功能的">
+<meta property="og:image" content="http://i1.piimg.com/567571/e0a7c3b304ab996b.png">
+<meta property="og:image" content="http://i1.piimg.com/567571/f07696c2386a3cf1.png">
+<meta property="og:image" content="http://p1.bpimg.com/567571/4ec62df6e6d25924.png">
+<meta property="og:updated_time" content="2016-12-04T14:48:24.169Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="模拟渗透测试get到的技巧">
+<meta name="twitter:description" content="一 nmap使用技巧当针对入口点IP地址进行端口扫描，将其所开放的端口号（仅扫描小于1000的端口），由于在CMD测试，禁止ping，则需要使用到-Pn参数
+-vv参数表示输出详细报告结果，-p指定端口扫描，-Pn为扫描前不进行ping操作，如果网站禁止了ping，扫描时不加Pn扫不出开放端口
+二 Rsync漏洞Rsync,remote synchroniz顾名思义就知道它是一款实现远程同步功能的">
+<meta name="twitter:image" content="http://i1.piimg.com/567571/e0a7c3b304ab996b.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-模拟渗透测试get到的技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/30/模拟渗透测试get到的技巧/" class="article-date">
+  <time datetime="2016-11-30T03:39:54.000Z" itemprop="datePublished">2016-11-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      模拟渗透测试get到的技巧
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一-nmap使用技巧"><a href="#一-nmap使用技巧" class="headerlink" title="一 nmap使用技巧"></a>一 nmap使用技巧</h3><p>当针对入口点IP地址进行端口扫描，将其所开放的端口号（仅扫描小于1000的端口），由于在CMD测试，禁止ping，则需要使用到-Pn参数</p>
+<p><img src="http://i1.piimg.com/567571/e0a7c3b304ab996b.png" alt=""><br>-vv参数表示输出详细报告结果，-p指定端口扫描，-Pn为扫描前不进行ping操作，如果网站禁止了ping，扫描时不加Pn扫不出开放端口</p>
+<h3 id="二-Rsync漏洞"><a href="#二-Rsync漏洞" class="headerlink" title="二 Rsync漏洞"></a>二 Rsync漏洞</h3><p>Rsync,remote synchroniz顾名思义就知道它是一款实现远程同步功能的软件，它在同步文件的同时可以保持原来文件的权限，时间，软硬链接等附加信息。它是用 “rsync 算法”提供了一个客户机和远程文件服务器的文件同步的快速方法，并可以通过ssh方式来传输文件，这样其保密性也非常好，另外还是免费软件。<br><a id="more"></a></p>
+<p>Rsync默认的端口是873，可以使用nmap扫描哪些ip开放了873端口</p>
+<pre><code>nmap -n --open -p 873 x.x.x.x/24
+</code></pre><p>找到开放的873端口后，连接能否查看模块名</p>
+<pre><code>rsync x.x.x.x::
+</code></pre><p>若可以，就尝试上传，下载文件试一下</p>
+<p>rsync中有时候存在未授权访问<br><img src="http://i1.piimg.com/567571/f07696c2386a3cf1.png" alt=""><br>rsync 172.16.1.110::  <code>rsync链接</code></p>
+<p>rsync 172.16.1.110::www/ <code>列出这个目录下的文件</code></p>
+<p>rsync 172.16.1.110::www/flag02 <code>把flag02下载保存到本地root目录</code></p>
+<h3 id="三-利用kali-fcrackzip对zip密码压缩文件暴力破解"><a href="#三-利用kali-fcrackzip对zip密码压缩文件暴力破解" class="headerlink" title="三 利用kali fcrackzip对zip密码压缩文件暴力破解"></a>三 利用kali fcrackzip对zip密码压缩文件暴力破解</h3><p>若在ctf比赛中没有现成的zip爆破工具，则可以利用kali中的fcrackzip工具<br><img src="http://p1.bpimg.com/567571/4ec62df6e6d25924.png" alt=""></p>
+<pre><code>fcrackzip -b -v -u -c a -l 1-6 1.zip 
+ -b参数：指定暴力枚举
+ -v参数:显示破解信息
+ -u参数：进行解压测试以排除错误密码
+ -c参数：指定字符集
+ -c a指定的字符集为纯小写字母
+ -l参数：指定密码长度
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/30/模拟渗透测试get到的技巧/" data-id="cj06r8hym000uu8ufvpalopft" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/渗透测试/">渗透测试</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/02/攻破MrRobot-黑客技能训练/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          攻破MrRobot-黑客技能训练
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/17/Linux常用命令使用总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">Linux常用命令使用总结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WAF/">WAF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-web开发/">python web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3-数据库/">python3 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python运维/">python运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计  PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计 PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结感想/">总结感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透技巧/">渗透技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试/">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试-CTF/">渗透测试 CTF</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/WAF/" style="font-size: 10px;">WAF</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/python-web开发/" style="font-size: 10px;">python web开发</a> <a href="/tags/python3/" style="font-size: 20px;">python3</a> <a href="/tags/python3-数据库/" style="font-size: 10px;">python3 数据库</a> <a href="/tags/python运维/" style="font-size: 10px;">python运维</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计  PHP</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计 PHP</a> <a href="/tags/总结感想/" style="font-size: 10px;">总结感想</a> <a href="/tags/渗透技巧/" style="font-size: 10px;">渗透技巧</a> <a href="/tags/渗透测试/" style="font-size: 10px;">渗透测试</a> <a href="/tags/渗透测试-CTF/" style="font-size: 10px;">渗透测试 CTF</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/02/攻破MrRobot-黑客技能训练/">攻破MrRobot-黑客技能训练</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/30/模拟渗透测试get到的技巧/">模拟渗透测试get到的技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/17/Linux常用命令使用总结/">Linux常用命令使用总结</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/15/渗透绕WAF的方法/">渗透绕WAF的方法</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/10/docker学习/">docker学习</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

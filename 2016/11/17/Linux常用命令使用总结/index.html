@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux常用命令使用总结 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1 strings命令strings命令在对象文件或二进制文件中查找可打印的字符串。字符串是4个或更多可打印的任意序列，以换行符或空字符结束。strings命令对识别随机对象文件很有用。
+语法：
+
+strings [-a] [-] [-o] [-t Format] [-n Number] [file…]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令使用总结">
+<meta property="og:url" content="http://yoursite.com/2016/11/17/Linux常用命令使用总结/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1 strings命令strings命令在对象文件或二进制文件中查找可打印的字符串。字符串是4个或更多可打印的任意序列，以换行符或空字符结束。strings命令对识别随机对象文件很有用。
+语法：
+
+strings [-a] [-] [-o] [-t Format] [-n Number] [file…]">
+<meta property="og:image" content="http://ofrdce5qv.bkt.clouddn.com/QQ%E5%9B%BE%E7%89%8720161206113349.png">
+<meta property="og:updated_time" content="2016-12-06T05:36:56.938Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux常用命令使用总结">
+<meta name="twitter:description" content="1 strings命令strings命令在对象文件或二进制文件中查找可打印的字符串。字符串是4个或更多可打印的任意序列，以换行符或空字符结束。strings命令对识别随机对象文件很有用。
+语法：
+
+strings [-a] [-] [-o] [-t Format] [-n Number] [file…]">
+<meta name="twitter:image" content="http://ofrdce5qv.bkt.clouddn.com/QQ%E5%9B%BE%E7%89%8720161206113349.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Linux常用命令使用总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/17/Linux常用命令使用总结/" class="article-date">
+  <time datetime="2016-11-17T05:56:23.000Z" itemprop="datePublished">2016-11-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux常用命令使用总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-strings命令"><a href="#1-strings命令" class="headerlink" title="1 strings命令"></a>1 strings命令</h3><p>strings命令在对象文件或二进制文件中查找可打印的字符串。字符串是4个或更多可打印的任意序列，以换行符或空字符结束。strings命令对识别随机对象文件很有用。</p>
+<p>语法：</p>
+<ul>
+<li><p>strings [-a] [-] [-o] [-t Format] [-n Number] [file…]</p>
+<a id="more"></a>
+<p>   -a –all:扫描整个文件而不是只扫描目标文件初始化和装载段<br>   -：设置显示的最少的字符数，默认是4个字符<br>   -t –radix={o,d,x}:输出字符的位置，基于八进制，十进制还是十六进制<br>   -o:类似–radix=0</p>
+<p>  列出ls中所有的ASCII文本：<br>  strings /bin/ls<br>  列出ls中所有的ASCII文本：<br>   cat /bin/ls strings<br>  查找ls中包含libc的字符串，不区分大小写：<br>   strings /bin/ls | grep -i libc</p>
+</li>
+</ul>
+<h3 id="2-grep命令"><a href="#2-grep命令" class="headerlink" title="2 grep命令"></a>2 grep命令</h3><p>grep命令是一个强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来</p>
+<p>常用的参数：</p>
+<pre><code>-i：忽略大小写的差别
+-c：计算符合样式的列数
+-n：在显示符合样式的那一行之前，标识出该行的列数编号
+-f：指定规则的文本
+</code></pre><h3 id="3-mv命令"><a href="#3-mv命令" class="headerlink" title="3 mv命令"></a>3 mv命令</h3><p>mv命令用来对文件或目录重新命名，或者将文件从一个文件移到另一个目录。source表示源文件或目录，target表示目标文件或目录。如果将一个文件移动到另一个已经存在的文件中，则目标文件的内容将会被覆盖。</p>
+<p>注意：</p>
+<ul>
+<li>mv与cp的结果不同，mv好像文件的”搬家”，文件个数并未增加。而cp对文件进行复制，文件个数增加了。</li>
+</ul>
+<h3 id="4-foremost命令"><a href="#4-foremost命令" class="headerlink" title="4 foremost命令"></a>4 foremost命令</h3><p>foremost是一个根据文件头和内部数据恢复文件的一个工具，在ctf比赛中也比较有用</p>
+<ul>
+<li>foremost是一个基于文件头和尾部信息以及文件的内建数据恢复文件的命令行工具</li>
+</ul>
+<p>安装foremost后你可以使用foremost -help查看使用帮助，这里最简单分离文件的命令为：</p>
+<pre><code>foremost carter.jpg
+</code></pre><h3 id="5-convert命令"><a href="#5-convert命令" class="headerlink" title="5 convert命令"></a>5 convert命令</h3><p>convert是linux下的图片处理工具，在一些ctf比赛的隐写中较常用</p>
+<pre><code>convert +append a.gif b.png
+b.png是拼接好的图片，意思是将gif图片转换为png
+ +append代表是横向拼接
+ -append代表是纵向拼接
+</code></pre><h3 id="6-unzip命令"><a href="#6-unzip命令" class="headerlink" title="6 unzip命令"></a>6 unzip命令</h3><p>unzip命令用于解压缩由zip命令压缩的<code>.zip</code>压缩包<br>常用的参数：</p>
+<ul>
+<li><p>-d&lt;目录&gt;：指定文件解压缩后所要存储的目录 </p>
+<h3 id="7-tcpdump命令"><a href="#7-tcpdump命令" class="headerlink" title="7 tcpdump命令"></a>7 tcpdump命令</h3><p>tcpdump是一个用于解读网络分组，并输出分组内容的工具。tcpdump凭强大的功能和灵活的截取策略，使其成为<br>类UNXI系统下用于网络分析和问题排查的首选工具</p>
+<p>   -w，如果你要将监听所得的数据包数据储存下来，用这个参数就对了。后面接文件名<br>   -O 不运行分组分组匹配（packet-matching）代码优化程序<br>   -s 从每个分组中读取最开始的snaplen个字节，而不是默认的68个字节。 </p>
+<h3 id="8-tcpick"><a href="#8-tcpick" class="headerlink" title="8 tcpick"></a>8 tcpick</h3><p>tcpick是一款基于文本的嗅探器，能追踪，重组和重排tcp流</p>
+<h3 id="9-WPSCAN"><a href="#9-WPSCAN" class="headerlink" title="9 WPSCAN"></a>9 WPSCAN</h3><p>wpscan是一款针对wordpress的安全扫描软件，可以扫描出wordpress的版本，主题，插件，后台用户以及爆破后台密码等。</p>
+<h3 id="10-wc命令"><a href="#10-wc命令" class="headerlink" title="10 wc命令"></a>10 wc命令</h3><p>wc命令的功能为统计指定文件中的字节数，字数，行数，并将统计结果显示输出</p>
+</li>
+</ul>
+<p>常用到的参数：</p>
+<pre><code> -c参数：统计字节数
+ -l参数：统计行数
+ -w参数：统计字数
+wc -w flag.dic
+</code></pre><h3 id="11-arp-scan命令"><a href="#11-arp-scan命令" class="headerlink" title="11 arp-scan命令"></a>11 arp-scan命令</h3><p>扫描局域网IP地址</p>
+<ul>
+<li><p>arp-scan -l：查看网段所有的主机</p>
+<h3 id="12-sort命令"><a href="#12-sort命令" class="headerlink" title="12 sort命令"></a>12 sort命令</h3><p>sort是一个很有用的命令，它可以帮助我们排序，而且可以根据不同的数据类型进行排序</p>
+<p>   -f  ：忽略大小写的差异，例如 A 与 a 视为编码相同；<br>   -b  ：忽略最前面的空格符部分；<br>   -n  ：使用『纯数字』进行排序(默认是以文字型态来排序的)；<br>   -r  ：反向排序；<br>   -u  ：就是 uniq ，相同的数据中，仅出现一行代表；<br>   -t  ：分隔符，默认是用 [tab] 键来分隔；<br>   -k  ：以那个区间 (field) 来进行排序的意思<br>  使用：sort -u fsocity.dic &gt; sorted.txt</p>
+<h3 id="13-id命令"><a href="#13-id命令" class="headerlink" title="13 id命令"></a>13 id命令</h3><p>id命令可以显示真实有效的用户ID（UID）和用户ID（GID）。UID是对一个用户的单一身份表示。组ID则对应多个UID。id命令已经默认预装在大多数的Linux系统中。要使用它，只需要你在控制台输入id。</p>
+</li>
+</ul>
+<p>当我们想知道某个用户的UID和GID时，id命令是非常有用的。一些程序可能需要UID/GID来运行。id使我们更容易地找出用户UID以及GID而不必再/etc/group文件中查找</p>
+<p><img src="http://ofrdce5qv.bkt.clouddn.com/QQ%E5%9B%BE%E7%89%8720161206113349.png" alt=""><br>解释：<br>``用户ubuntu的UID号码=1000，GID号码=1000<br>语法：</p>
+<p><code>id [-gGnru][--help][--version][用户名称]</code><br>选项：</p>
+<pre><code>-g或--group 　 显示用户所属群组的ID。 
+-G或--groups 显示用户所属附加群组的ID。 
+-n或--name 　 显示用户，所属群组或附加群组的名称。 
+-r或--real 　 显示实际ID。 
+-u或--user 　 显示用户ID。
+</code></pre><h3 id="13-find命令"><a href="#13-find命令" class="headerlink" title="13 find命令"></a>13 find命令</h3><p>find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将视为欲查找的的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。</p>
+<p>以下列举平时常用到的：</p>
+<p><code>find / -type 类型参数</code></p>
+<ul>
+<li>f：普通文件</li>
+<li>l：符号连接</li>
+<li>d：目录</li>
+</ul>
+<p>根据文件权限/所有权进行匹配<br>当前目录下搜索出权限为777的文件<code>find . -type f -perm 777</code></p>
+<p>找出当前目录用户tom拥有的所有文件<code>find . -type f -user tome</code></p>
+<h3 id="14-在Linux文件中权限的问题"><a href="#14-在Linux文件中权限的问题" class="headerlink" title="14 在Linux文件中权限的问题"></a>14 在Linux文件中权限的问题</h3><p><code>r(Read，读取)：对文件而言，具有读取文件内容的权限；对目录来说，具有浏览目 录的权限。</code><br><code>w(Write,写入)：对文件而言，具有新增、修改文件内容的权限；对目录来说，具有删除、移动目录内文件的权限。</code><br><code>x(eXecute，执行)：对文件而言，具有执行文件的权限；对目录了来说该用户具有进入目录的权限。</code><br><code>s或S（SUID）：可执行的稳健搭配这个权限，便能得到特权，任意存取改文件的所有者能使用全部系统资源</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/17/Linux常用命令使用总结/" data-id="cj06r8hxf0001u8ufm6ry0ere" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/30/模拟渗透测试get到的技巧/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          模拟渗透测试get到的技巧
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/15/渗透绕WAF的方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">渗透绕WAF的方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WAF/">WAF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-web开发/">python web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3-数据库/">python3 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python运维/">python运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计  PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计 PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结感想/">总结感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透技巧/">渗透技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试/">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试-CTF/">渗透测试 CTF</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/WAF/" style="font-size: 10px;">WAF</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/python-web开发/" style="font-size: 10px;">python web开发</a> <a href="/tags/python3/" style="font-size: 20px;">python3</a> <a href="/tags/python3-数据库/" style="font-size: 10px;">python3 数据库</a> <a href="/tags/python运维/" style="font-size: 10px;">python运维</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计  PHP</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计 PHP</a> <a href="/tags/总结感想/" style="font-size: 10px;">总结感想</a> <a href="/tags/渗透技巧/" style="font-size: 10px;">渗透技巧</a> <a href="/tags/渗透测试/" style="font-size: 10px;">渗透测试</a> <a href="/tags/渗透测试-CTF/" style="font-size: 10px;">渗透测试 CTF</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/02/攻破MrRobot-黑客技能训练/">攻破MrRobot-黑客技能训练</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/30/模拟渗透测试get到的技巧/">模拟渗透测试get到的技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/17/Linux常用命令使用总结/">Linux常用命令使用总结</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/15/渗透绕WAF的方法/">渗透绕WAF的方法</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/10/docker学习/">docker学习</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

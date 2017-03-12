@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>pool线程池的使用 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1 线程池的原理和使用问题的提出：
+
+在使用多线程的时候面对着一个问题，如果使用断点下载，把每个range设置为指定值，文件大或者range小都会面对一个任务数爆炸的状态。使用一个线程来完成一个任务会造成线程数过多，线程数过多不仅影响效率，也会影响程序的健壮性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pool线程池的使用">
+<meta property="og:url" content="http://yoursite.com/2016/09/25/pool线程池的使用/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1 线程池的原理和使用问题的提出：
+
+在使用多线程的时候面对着一个问题，如果使用断点下载，把每个range设置为指定值，文件大或者range小都会面对一个任务数爆炸的状态。使用一个线程来完成一个任务会造成线程数过多，线程数过多不仅影响效率，也会影响程序的健壮性">
+<meta property="og:image" content="http://p1.bpimg.com/567571/eacff7552370ad72.png">
+<meta property="og:updated_time" content="2016-10-04T16:37:30.605Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pool线程池的使用">
+<meta name="twitter:description" content="1 线程池的原理和使用问题的提出：
+
+在使用多线程的时候面对着一个问题，如果使用断点下载，把每个range设置为指定值，文件大或者range小都会面对一个任务数爆炸的状态。使用一个线程来完成一个任务会造成线程数过多，线程数过多不仅影响效率，也会影响程序的健壮性">
+<meta name="twitter:image" content="http://p1.bpimg.com/567571/eacff7552370ad72.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-pool线程池的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/25/pool线程池的使用/" class="article-date">
+  <time datetime="2016-09-25T04:53:38.000Z" itemprop="datePublished">2016-09-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      pool线程池的使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-线程池的原理和使用"><a href="#1-线程池的原理和使用" class="headerlink" title="1 线程池的原理和使用"></a>1 线程池的原理和使用</h3><p>问题的提出：</p>
+<blockquote>
+<p>在使用多线程的时候面对着一个问题，如果使用断点下载，把每个range设置为指定值，文件大或者range小都会面对一个任务数爆炸的状态。使用一个线程来完成一个任务会造成线程数过多，线程数过多不仅影响效率，也会影响程序的健壮性<br><a id="more"></a></p>
+<h3 id="2-线程池的原理"><a href="#2-线程池的原理" class="headerlink" title="2 线程池的原理"></a>2 线程池的原理</h3><pre><code>1.线程池首先会维护一个任务队列
+2.生成工作使用的线程(可以是自定义个数，也可以是系统默认)
+3.线程分别从队列中取出任务，并执行，一个任务执行完成需要告诉主线程完成一个任务
+4.再从任务队列中取出任务，直到所有任务为空，退出线程
+</code></pre><h3 id="3-具体使用"><a href="#3-具体使用" class="headerlink" title="3 具体使用"></a>3 具体使用</h3><h5 id="A-新建单一进程"><a href="#A-新建单一进程" class="headerlink" title="A 新建单一进程"></a>A 新建单一进程</h5><pre><code>import multiprocessing
+import time
+</code></pre></blockquote>
+<pre><code>def func(msg):
+    print(msg)
+    time.sleep(1)
+
+if __name__ == &quot;__main__&quot;:
+     #将函数作为第一个参数传入Process中，注意函数不能是类里面的函数，只能是独立定义的
+       #把args参数作为第二个参数传入Process中，注意下面例子中的args=(&quot;hello &quot;, )是打包成了元组类型，可迭代，但是里面只有一个元素
+    #func(&quot;Josn&quot;)
+    p = multiprocessing.Process(target = func,args = (&quot;hello &quot;,))
+    p.start()
+    p.join()
+    print(&quot;Done!&quot;)
+</code></pre><h4 id="B-使用进程池"><a href="#B-使用进程池" class="headerlink" title="B 使用进程池"></a>B 使用进程池</h4><pre><code>import multiprocessing
+import time
+
+def func(msg):
+    print(msg)
+    time.sleep(1)
+if __name__ == &quot;__main__&quot;:
+    pool = multiprocessing.Pool()
+    for item in range(3):
+        msg = &quot;hello &quot; + str(item)
+        pool.apply_async(func, (msg,))
+    pool.close()
+    pool.join()#用来等待进程池中的worker进程完毕，防止主进程在worker进程结束前结束，但pool.join()必须在pool.close()之后
+    print(&quot;Done!&quot;)
+</code></pre><p>使用  pool.apply_async（）的道理和pool.map()一样，注意的是第二个参数一定是可以迭代的，即函数一个个传进去对应着前面的函数，利用pool.map()创建工程如下</p>
+<h4 id="C-利用map函数修改"><a href="#C-利用map函数修改" class="headerlink" title="C 利用map函数修改"></a>C 利用map函数修改</h4><pre><code>import multiprocessing
+import time
+
+def func(msg)
+    print(msg)
+    time.sleep(2)
+if __name__ == &quot;__main__&quot;:
+    pool = multiprocessing.Pool()
+    msg_list = []
+    for item in range(4):
+        msg_list.append(&quot;hello &quot; + str(item))
+    pool.close()
+    pool.join()
+    print(&quot;Done!&quot;)
+</code></pre><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>学会利用pycharm的debug功能下断点，充分领会代码的运行机制<br><img src="http://p1.bpimg.com/567571/eacff7552370ad72.png" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/09/25/pool线程池的使用/" data-id="cj06r8hy30009u8ufcn0e4ubp" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python3/">python3</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/05/python类的学习/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          python类的学习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/24/python3安装lxml技巧/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">python3安装lxml技巧</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WAF/">WAF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-web开发/">python web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3-数据库/">python3 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python运维/">python运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计  PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计 PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结感想/">总结感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透技巧/">渗透技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试/">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试-CTF/">渗透测试 CTF</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/WAF/" style="font-size: 10px;">WAF</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/python-web开发/" style="font-size: 10px;">python web开发</a> <a href="/tags/python3/" style="font-size: 20px;">python3</a> <a href="/tags/python3-数据库/" style="font-size: 10px;">python3 数据库</a> <a href="/tags/python运维/" style="font-size: 10px;">python运维</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计  PHP</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计 PHP</a> <a href="/tags/总结感想/" style="font-size: 10px;">总结感想</a> <a href="/tags/渗透技巧/" style="font-size: 10px;">渗透技巧</a> <a href="/tags/渗透测试/" style="font-size: 10px;">渗透测试</a> <a href="/tags/渗透测试-CTF/" style="font-size: 10px;">渗透测试 CTF</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/02/攻破MrRobot-黑客技能训练/">攻破MrRobot-黑客技能训练</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/30/模拟渗透测试get到的技巧/">模拟渗透测试get到的技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/17/Linux常用命令使用总结/">Linux常用命令使用总结</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/15/渗透绕WAF的方法/">渗透绕WAF的方法</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/10/docker学习/">docker学习</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

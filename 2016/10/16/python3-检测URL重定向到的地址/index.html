@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>python3 检测URL重定向到的地址 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言 最近一直考虑，如何持续的保持我对python学习的热度，思考是否能够尝试任务自动化，简言之，就是有些繁琐的事情利用脚本来实现。今天我讨论学习的任务是如何检测URL重定向到的地址，遗憾的是对https：//检测没有实现。实现的原理倒是也简单，就是判断站点返回来的status_code判断是否为3xx，若是，则就简单粗暴地人为是重定向，比如一些突发情况，如访问超时，域名解析错误，网络错误等，则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python3 检测URL重定向到的地址">
+<meta property="og:url" content="http://yoursite.com/2016/10/16/python3-检测URL重定向到的地址/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言 最近一直考虑，如何持续的保持我对python学习的热度，思考是否能够尝试任务自动化，简言之，就是有些繁琐的事情利用脚本来实现。今天我讨论学习的任务是如何检测URL重定向到的地址，遗憾的是对https：//检测没有实现。实现的原理倒是也简单，就是判断站点返回来的status_code判断是否为3xx，若是，则就简单粗暴地人为是重定向，比如一些突发情况，如访问超时，域名解析错误，网络错误等，则">
+<meta property="og:image" content="http://p1.bqimg.com/567571/61cd6892adab71ed.jpg">
+<meta property="og:updated_time" content="2016-10-16T14:07:37.247Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python3 检测URL重定向到的地址">
+<meta name="twitter:description" content="前言 最近一直考虑，如何持续的保持我对python学习的热度，思考是否能够尝试任务自动化，简言之，就是有些繁琐的事情利用脚本来实现。今天我讨论学习的任务是如何检测URL重定向到的地址，遗憾的是对https：//检测没有实现。实现的原理倒是也简单，就是判断站点返回来的status_code判断是否为3xx，若是，则就简单粗暴地人为是重定向，比如一些突发情况，如访问超时，域名解析错误，网络错误等，则">
+<meta name="twitter:image" content="http://p1.bqimg.com/567571/61cd6892adab71ed.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-python3-检测URL重定向到的地址" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/16/python3-检测URL重定向到的地址/" class="article-date">
+  <time datetime="2016-10-16T06:25:20.000Z" itemprop="datePublished">2016-10-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python3 检测URL重定向到的地址
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://p1.bqimg.com/567571/61cd6892adab71ed.jpg" alt=""></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p> 最近一直考虑，如何持续的保持我对python学习的热度，思考是否能够尝试任务自动化，简言之，就是有些繁琐的事情利用脚本来实现。今天我讨论学习的任务是如何检测URL重定向到的地址，遗憾的是对https：//检测没有实现。实现的原理倒是也简单，就是判断站点返回来的status_code判断是否为3xx，若是，则就简单粗暴地人为是重定向，比如一些突发情况，如访问超时，域名解析错误，网络错误等，则利用try…except…来避免，需要检测的大量的url放入到一个文件中，若站点的格式不统一的话，就做一个简单判断<br><a id="more"></a></p>
+<h3 id="知识点简单补充"><a href="#知识点简单补充" class="headerlink" title="知识点简单补充"></a>知识点简单补充</h3><ul>
+<li>startswith()方法用于检测字符串是否是以指定子字符串开头</li>
+<li>strip()方法用于移除字符串头尾指定的字符（默认为空格）。</li>
+<li><p>使用列表推导式 </p>
+<ol>
+<li>x**2 for x in num if x &gt; 0</li>
+<li>[one_ture] if [expression] else [on_false]</li>
+<li>map(lambda x:x**2,filter(lamber x :x&gt;0,num))</li>
+<li><p>i.strip() for i in open(xxx).readlines()</p>
+<h3 id="脚本代码"><a href="#脚本代码" class="headerlink" title="脚本代码"></a>脚本代码</h3><p>import sys<br>import requests<br>def check_for_redirects(url):<br> #利用allow_redirects=False<br> r = requests.get(url,allow_redirects = False ,timeout = 0.5)<br> try:</p>
+<pre><code>if 300 &lt;= r.status_code &lt;= 400:
+    return r.headers[&quot;response&quot;]
+else:
+    return &quot;[no redirects]&quot;
+</code></pre><p> except requests.exceptions.Timeout:</p>
+<pre><code>return &quot;[Timeout]&quot;
+</code></pre><p> except requests.exceptions.ConnectTimeout:</p>
+<pre><code>return &quot;[ConnectTimeout]&quot;
+</code></pre><p> except requests.exceptions.SSLError:</p>
+<pre><code>return &quot;[SSLError]&quot;
+</code></pre><p>def check_domains(urls):<br> for url in urls:</p>
+<pre><code>check_url = url if url.startswith(&quot;http&quot;) else &quot;http://{}&quot;.format(url)
+redirects_url  = check_for_redirects(check_url)
+print(&quot;{}=&gt;{}&quot;.format(check_url,redirects_url))
+</code></pre><p>if <strong>name</strong> == “<strong>main</strong>“:<br> all_url = “urls.txt”<br> try:</p>
+<pre><code>all_url = sys.argv[1]
+</code></pre><p> except IndexError:</p>
+<pre><code>pass
+</code></pre><p> urls = (i.strip() for i in open(all_url).readlines())<br> check_domains(urls)</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>最后在多说两句，脚本就定义了两个简单函数，一个是负责结果的返回，一个是文件读取url，有参考别人的地方，具体过程原理一定搞清楚，不然是无从下手去写的，模仿，自己动手，然后才是自己的风格。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/16/python3-检测URL重定向到的地址/" data-id="cj06r8hy10008u8ufuhiu6r8d" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python运维/">python运维</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/18/PHP序列化以及反序列化/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          PPHP序列化以及反序列化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/15/HTML-20-80关键知识/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">HTML 20/80关键知识</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WAF/">WAF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-web开发/">python web开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3-数据库/">python3 数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python运维/">python运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计  PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计-PHP/">代码审计 PHP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/总结感想/">总结感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透技巧/">渗透技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试/">渗透测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/渗透测试-CTF/">渗透测试 CTF</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PHP/" style="font-size: 15px;">PHP</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/WAF/" style="font-size: 10px;">WAF</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/python-web开发/" style="font-size: 10px;">python web开发</a> <a href="/tags/python3/" style="font-size: 20px;">python3</a> <a href="/tags/python3-数据库/" style="font-size: 10px;">python3 数据库</a> <a href="/tags/python运维/" style="font-size: 10px;">python运维</a> <a href="/tags/代码审计/" style="font-size: 10px;">代码审计</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计  PHP</a> <a href="/tags/代码审计-PHP/" style="font-size: 10px;">代码审计 PHP</a> <a href="/tags/总结感想/" style="font-size: 10px;">总结感想</a> <a href="/tags/渗透技巧/" style="font-size: 10px;">渗透技巧</a> <a href="/tags/渗透测试/" style="font-size: 10px;">渗透测试</a> <a href="/tags/渗透测试-CTF/" style="font-size: 10px;">渗透测试 CTF</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/02/攻破MrRobot-黑客技能训练/">攻破MrRobot-黑客技能训练</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/30/模拟渗透测试get到的技巧/">模拟渗透测试get到的技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/17/Linux常用命令使用总结/">Linux常用命令使用总结</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/15/渗透绕WAF的方法/">渗透绕WAF的方法</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/10/docker学习/">docker学习</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
