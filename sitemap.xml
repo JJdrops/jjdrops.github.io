@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/04/05/ZCTF%E7%BA%BF%E4%B8%8B%E8%B5%9Bphp%E5%BC%B1%E7%B1%BB%E5%9E%8B/</loc>
+    
+    <lastmod>2017-04-05T15:32:51.324Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/04/05/CTF-Tricks/</loc>
+    
+    <lastmod>2017-04-05T15:32:11.557Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/about/index.html</loc>
     
     <lastmod>2017-03-30T09:45:24.128Z</lastmod>

