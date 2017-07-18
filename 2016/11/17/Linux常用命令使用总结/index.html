@@ -100,7 +100,7 @@ strings [-a] [-] [-o] [-t Format] [-n Number] [file…]">
 
 strings [-a] [-] [-o] [-t Format] [-n Number] [file…]">
 <meta property="og:image" content="http://ofrdce5qv.bkt.clouddn.com/QQ%E5%9B%BE%E7%89%8720161206113349.png">
-<meta property="og:updated_time" content="2016-12-06T05:36:56.938Z">
+<meta property="og:updated_time" content="2017-05-12T08:05:29.057Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux常用命令使用总结">
 <meta name="twitter:description" content="1 strings命令strings命令在对象文件或二进制文件中查找可打印的字符串。字符串是4个或更多可打印的任意序列，以换行符或空字符结束。strings命令对识别随机对象文件很有用。
@@ -459,6 +459,14 @@ wc -w flag.dic
 <p>根据文件权限/所有权进行匹配<br>当前目录下搜索出权限为777的文件<code>find . -type f -perm 777</code></p>
 <p>找出当前目录用户tom拥有的所有文件<code>find . -type f -user tome</code></p>
 <h3 id="14-在Linux文件中权限的问题"><a href="#14-在Linux文件中权限的问题" class="headerlink" title="14 在Linux文件中权限的问题"></a>14 在Linux文件中权限的问题</h3><p><code>r(Read，读取)：对文件而言，具有读取文件内容的权限；对目录来说，具有浏览目 录的权限。</code><br><code>w(Write,写入)：对文件而言，具有新增、修改文件内容的权限；对目录来说，具有删除、移动目录内文件的权限。</code><br><code>x(eXecute，执行)：对文件而言，具有执行文件的权限；对目录了来说该用户具有进入目录的权限。</code><br><code>s或S（SUID）：可执行的稳健搭配这个权限，便能得到特权，任意存取改文件的所有者能使用全部系统资源</code></p>
+<h3 id="15-wget命令"><a href="#15-wget命令" class="headerlink" title="15 wget命令"></a>15 wget命令</h3><p><code>wget -r -p -np -k http://xxx.com/xxx</code></p>
+<ul>
+<li>r, –recursive（递归）specify recursive download.（指定递归下载）</li>
+<li>p, –page-requisites（页面必需元素） get all images, etc. needed to display HTML page.（下载所有的图片等页面显示所需的内容）</li>
+<li>np, –no-parent（不追溯至父级） don’t ascend to the parent directory.</li>
+<li>k, –convert-links（转换链接） make links in downloaded HTML point to local files.（将下载的HTML页面中的链接转换为相对链接即本地链接）</li>
+</ul>
+<p>例：<code>wget -r -p -np -k http://jdrops.dropsec.xyz/</code></p>
 
       
     </div>
@@ -593,7 +601,7 @@ wc -w flag.dic
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -606,7 +614,7 @@ wc -w flag.dic
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -694,7 +702,7 @@ wc -w flag.dic
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-strings命令"><span class="nav-number">1.</span> <span class="nav-text">1 strings命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-grep命令"><span class="nav-number">2.</span> <span class="nav-text">2 grep命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-mv命令"><span class="nav-number">3.</span> <span class="nav-text">3 mv命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-foremost命令"><span class="nav-number">4.</span> <span class="nav-text">4 foremost命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-convert命令"><span class="nav-number">5.</span> <span class="nav-text">5 convert命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-unzip命令"><span class="nav-number">6.</span> <span class="nav-text">6 unzip命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-tcpdump命令"><span class="nav-number">7.</span> <span class="nav-text">7 tcpdump命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-tcpick"><span class="nav-number">8.</span> <span class="nav-text">8 tcpick</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-WPSCAN"><span class="nav-number">9.</span> <span class="nav-text">9 WPSCAN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-wc命令"><span class="nav-number">10.</span> <span class="nav-text">10 wc命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-arp-scan命令"><span class="nav-number">11.</span> <span class="nav-text">11 arp-scan命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-sort命令"><span class="nav-number">12.</span> <span class="nav-text">12 sort命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-id命令"><span class="nav-number">13.</span> <span class="nav-text">13 id命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-find命令"><span class="nav-number">14.</span> <span class="nav-text">13 find命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-在Linux文件中权限的问题"><span class="nav-number">15.</span> <span class="nav-text">14 在Linux文件中权限的问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-strings命令"><span class="nav-number">1.</span> <span class="nav-text">1 strings命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-grep命令"><span class="nav-number">2.</span> <span class="nav-text">2 grep命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-mv命令"><span class="nav-number">3.</span> <span class="nav-text">3 mv命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-foremost命令"><span class="nav-number">4.</span> <span class="nav-text">4 foremost命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-convert命令"><span class="nav-number">5.</span> <span class="nav-text">5 convert命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-unzip命令"><span class="nav-number">6.</span> <span class="nav-text">6 unzip命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-tcpdump命令"><span class="nav-number">7.</span> <span class="nav-text">7 tcpdump命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-tcpick"><span class="nav-number">8.</span> <span class="nav-text">8 tcpick</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-WPSCAN"><span class="nav-number">9.</span> <span class="nav-text">9 WPSCAN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-wc命令"><span class="nav-number">10.</span> <span class="nav-text">10 wc命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-arp-scan命令"><span class="nav-number">11.</span> <span class="nav-text">11 arp-scan命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-sort命令"><span class="nav-number">12.</span> <span class="nav-text">12 sort命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-id命令"><span class="nav-number">13.</span> <span class="nav-text">13 id命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-find命令"><span class="nav-number">14.</span> <span class="nav-text">13 find命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-在Linux文件中权限的问题"><span class="nav-number">15.</span> <span class="nav-text">14 在Linux文件中权限的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-wget命令"><span class="nav-number">16.</span> <span class="nav-text">15 wget命令</span></a></li></ol></div>
             
 
           </div>
