@@ -380,9 +380,8 @@
 
       
         
-          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><pre><code>文件上传漏洞可以说是日常渗透测试中用得最多的一个漏洞，用它获得服务器权限最快最直接。在Web程序中，经常需要用到文件上传的功能。如用户或者管理员上传图片，或者其它文件。如果没有限制上传类型或者限制不严格被绕过，就有可能造成文件上传漏洞。如果上传了可执行文件或者网页脚本，就会导致网站被控制甚至服务器沦陷。，复杂一点的情况是配合 Web Server的解析漏洞来获取控制权或结合文件包含漏洞。此篇文章主要分三部分：总结一些常见的上传文件校验方式，以及绕过校验的各种姿势，最后对此漏洞提几点防护建议。
-</code></pre><h2 id="2-上传检测流程"><a href="#2-上传检测流程" class="headerlink" title="2. 上传检测流程"></a>2. 上传检测流程</h2><pre><code>通常一个文件以HTTP协议进行上传时，将以POST请求发送至Web服务器，Web服务器接收到请求并同意后，用户与Web服务器将建立连接，并传输数据。一般文件上传过程中将会经过如下几个检测步骤：
-</code></pre><p><img src="http://ofrdce5qv.bkt.clouddn.com/1.png" alt=""></p>
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>   文件上传漏洞可以说是日常渗透测试中用得最多的一个漏洞，用它获得服务器权限最快最直接。在Web程序中，经常需要用到文件上传的功能。如用户或者管理员上传图片，或者其它文件。如果没有限制上传类型或者限制不严格被绕过，就有可能造成文件上传漏洞。如果上传了可执行文件或者网页脚本，就会导致网站被控制甚至服务器沦陷。，复杂一点的情况是配合 Web Server的解析漏洞来获取控制权或结合文件包含漏洞。此篇文章主要分三部分：总结一些常见的上传文件校验方式，以及绕过校验的各种姿势，最后对此漏洞提几点防护建议。</p>
+<h2 id="2-上传检测流程"><a href="#2-上传检测流程" class="headerlink" title="2. 上传检测流程"></a>2. 上传检测流程</h2><p>  通常一个文件以HTTP协议进行上传时，将以POST请求发送至Web服务器，Web服务器接收到请求并同意后，用户与Web服务器将建立连接，并传输数据。一般文件上传过程中将会经过如下几个检测步骤：<br><img src="http://ofrdce5qv.bkt.clouddn.com/1.png" alt=""></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/07/17/文件上传漏洞总结/#more" rel="contents">
@@ -1649,7 +1648,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

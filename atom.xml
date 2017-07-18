@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-18T06:45:15.768Z</updated>
+  <updated>2017-07-18T07:05:01.776Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,11 +20,10 @@
     <link href="http://yoursite.com/2017/07/17/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2017/07/17/文件上传漏洞总结/</id>
     <published>2017-07-17T08:25:16.000Z</published>
-    <updated>2017-07-18T06:45:15.768Z</updated>
+    <updated>2017-07-18T07:05:01.776Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><pre><code>文件上传漏洞可以说是日常渗透测试中用得最多的一个漏洞，用它获得服务器权限最快最直接。在Web程序中，经常需要用到文件上传的功能。如用户或者管理员上传图片，或者其它文件。如果没有限制上传类型或者限制不严格被绕过，就有可能造成文件上传漏洞。如果上传了可执行文件或者网页脚本，就会导致网站被控制甚至服务器沦陷。，复杂一点的情况是配合 Web Server的解析漏洞来获取控制权或结合文件包含漏洞。此篇文章主要分三部分：总结一些常见的上传文件校验方式，以及绕过校验的各种姿势，最后对此漏洞提几点防护建议。
-</code></pre><h2 id="2-上传检测流程"><a href="#2-上传检测流程" class="headerlink" title="2. 上传检测流程"></a>2. 上传检测流程</h2><pre><code>通常一个文件以HTTP协议进行上传时，将以POST请求发送至Web服务器，Web服务器接收到请求并同意后，用户与Web服务器将建立连接，并传输数据。一般文件上传过程中将会经过如下几个检测步骤：
-</code></pre><p><img src="http://ofrdce5qv.bkt.clouddn.com/1.png" alt=""></p>
+    <content type="html"><![CDATA[<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>   文件上传漏洞可以说是日常渗透测试中用得最多的一个漏洞，用它获得服务器权限最快最直接。在Web程序中，经常需要用到文件上传的功能。如用户或者管理员上传图片，或者其它文件。如果没有限制上传类型或者限制不严格被绕过，就有可能造成文件上传漏洞。如果上传了可执行文件或者网页脚本，就会导致网站被控制甚至服务器沦陷。，复杂一点的情况是配合 Web Server的解析漏洞来获取控制权或结合文件包含漏洞。此篇文章主要分三部分：总结一些常见的上传文件校验方式，以及绕过校验的各种姿势，最后对此漏洞提几点防护建议。</p>
+<h2 id="2-上传检测流程"><a href="#2-上传检测流程" class="headerlink" title="2. 上传检测流程"></a>2. 上传检测流程</h2><p>  通常一个文件以HTTP协议进行上传时，将以POST请求发送至Web服务器，Web服务器接收到请求并同意后，用户与Web服务器将建立连接，并传输数据。一般文件上传过程中将会经过如下几个检测步骤：<br><img src="http://ofrdce5qv.bkt.clouddn.com/1.png" alt=""></p>
 <a id="more"></a>
 <ul>
 <li>客户端javascript校验（一般只校验文件的扩展名）</li>
@@ -42,8 +41,8 @@
 </li>
 <li>WAF设备校验（根据不同的WAF产品而定）</li>
 </ul>
-<h2 id="3-客户端校验"><a href="#3-客户端校验" class="headerlink" title="3. 客户端校验"></a>3. 客户端校验</h2><pre><code>这类检测通常在上传页面里含有专门检测文件上传的 javascript 代码 最常见的就是检测扩展名是否合法，有白名单形式也有黑名单形式。
-</code></pre><ul>
+<h2 id="3-客户端校验"><a href="#3-客户端校验" class="headerlink" title="3. 客户端校验"></a>3. 客户端校验</h2><p>  这类检测通常在上传页面里含有专门检测文件上传的 javascript 代码 最常见的就是检测扩展名是否合法，有白名单形式也有黑名单形式。</p>
+<ul>
 <li>这类检测，通常是在上传页面里含有专门检测文件上传的JavaScript代码，最常见的就是检测扩展名是否合法，示例代码如下：</li>
 </ul>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">function CheckFileType()</div><div class="line">&#123;</div><div class="line">    var objButton=document.getElementById("Button1");//上传按钮</div><div class="line">    var objFileUpload=document.getElementById("FileUpload1");</div><div class="line">    var objMSG=document.getElementById("msg");//显示提示信息用DIV</div><div class="line">    var FileName=new String(objFileUpload.value);//文件名</div><div class="line">    var extension=new String(FileName.substring(FileName.lastIndexOf(".")+1,FileName.length));//文件扩展名</div><div class="line"></div><div class="line">    if(extension=="jpg"||extension=="JPG")//可以另行添加扩展名</div><div class="line">    &#123;</div><div class="line">        objButton.disabled=false;//启用上传按钮</div><div class="line">        objMSG.innerHTML="文件检测通过";</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">    &#123;</div><div class="line">        objButton.disabled=true;//禁用上传按钮</div><div class="line">        objMSG.innerHTML="请选择正确的文件上传";</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -141,14 +140,13 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;1-概述&quot;&gt;&lt;a href=&quot;#1-概述&quot; class=&quot;headerlink&quot; title=&quot;1. 概述&quot;&gt;&lt;/a&gt;1. 概述&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;文件上传漏洞可以说是日常渗透测试中用得最多的一个漏洞，用它获得服务器权限最快最直接。在Web程序中，经常需要用到文件上传的功能。如用户或者管理员上传图片，或者其它文件。如果没有限制上传类型或者限制不严格被绕过，就有可能造成文件上传漏洞。如果上传了可执行文件或者网页脚本，就会导致网站被控制甚至服务器沦陷。，复杂一点的情况是配合 Web Server的解析漏洞来获取控制权或结合文件包含漏洞。此篇文章主要分三部分：总结一些常见的上传文件校验方式，以及绕过校验的各种姿势，最后对此漏洞提几点防护建议。
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;2-上传检测流程&quot;&gt;&lt;a href=&quot;#2-上传检测流程&quot; class=&quot;headerlink&quot; title=&quot;2. 上传检测流程&quot;&gt;&lt;/a&gt;2. 上传检测流程&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;通常一个文件以HTTP协议进行上传时，将以POST请求发送至Web服务器，Web服务器接收到请求并同意后，用户与Web服务器将建立连接，并传输数据。一般文件上传过程中将会经过如下几个检测步骤：
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;http://ofrdce5qv.bkt.clouddn.com/1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;h2 id=&quot;1-概述&quot;&gt;&lt;a href=&quot;#1-概述&quot; class=&quot;headerlink&quot; title=&quot;1. 概述&quot;&gt;&lt;/a&gt;1. 概述&lt;/h2&gt;&lt;p&gt;   文件上传漏洞可以说是日常渗透测试中用得最多的一个漏洞，用它获得服务器权限最快最直接。在Web程序中，经常需要用到文件上传的功能。如用户或者管理员上传图片，或者其它文件。如果没有限制上传类型或者限制不严格被绕过，就有可能造成文件上传漏洞。如果上传了可执行文件或者网页脚本，就会导致网站被控制甚至服务器沦陷。，复杂一点的情况是配合 Web Server的解析漏洞来获取控制权或结合文件包含漏洞。此篇文章主要分三部分：总结一些常见的上传文件校验方式，以及绕过校验的各种姿势，最后对此漏洞提几点防护建议。&lt;/p&gt;
+&lt;h2 id=&quot;2-上传检测流程&quot;&gt;&lt;a href=&quot;#2-上传检测流程&quot; class=&quot;headerlink&quot; title=&quot;2. 上传检测流程&quot;&gt;&lt;/a&gt;2. 上传检测流程&lt;/h2&gt;&lt;p&gt;  通常一个文件以HTTP协议进行上传时，将以POST请求发送至Web服务器，Web服务器接收到请求并同意后，用户与Web服务器将建立连接，并传输数据。一般文件上传过程中将会经过如下几个检测步骤：&lt;br&gt;&lt;img src=&quot;http://ofrdce5qv.bkt.clouddn.com/1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     
     
-      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+      <category term="php 漏洞  代码审计" scheme="http://yoursite.com/tags/php-%E6%BC%8F%E6%B4%9E-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
