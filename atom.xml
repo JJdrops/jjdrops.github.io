@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-18T07:05:01.776Z</updated>
+  <updated>2017-08-02T16:57:50.832Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,55 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>域渗透神器Empire安装和简单使用</title>
+    <link href="http://yoursite.com/2017/08/02/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%A5%9E%E5%99%A8Empire%E5%AE%89%E8%A3%85%E5%92%8C%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/"/>
+    <id>http://yoursite.com/2017/08/02/域渗透神器Empire安装和简单使用/</id>
+    <published>2017-08-02T14:31:28.000Z</published>
+    <updated>2017-08-02T16:57:50.832Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Empire简介"><a href="#Empire简介" class="headerlink" title="Empire简介"></a>Empire简介</h2><p>官网介绍如下：</p>
+<p>Empire is a pure PowerShell post-exploitation agent built on cryptologically-secure communications and a flexible architecture. Empire implements the ability to run PowerShell agents without needing powershell.exe, rapidly deployable post-exploitation modules ranging from key loggers to Mimikatz, and adaptable communications to evade network detection, all wrapped up in a usability-focused framework</p>
+<p>关于内网渗透，我们平时基本第一时间想到Metasploit，集信息收集，预渗透，渗透，后渗透，木马，社会工程学于一体的平台，但是Empire就是针对内网的渗透，针对powershell，在内网渗透能用到的powershell脚本，全部集成在Empire框架中，其更是域渗透神器。网上关于其介绍的文章寥寥无几，尤其2.0版本，操作和之前的1.6版本等不管是命令啥的都有很大的区别，在网上查了很多外文文献，摸索了半天，在这里做一个笔记，和大家共同进步</p>
+<h2 id="Empire安装"><a href="#Empire安装" class="headerlink" title="Empire安装"></a>Empire安装</h2><p>官网直接转到github下载<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/EmpireProject/Empire.git</div><div class="line"><span class="keyword">cd</span> Empire/</div><div class="line"><span class="keyword">cd</span> setup/</div><div class="line">sudo ./install.<span class="keyword">sh</span></div><div class="line"></div><div class="line">补充：（清除缓存）</div><div class="line"><span class="keyword">cd</span> Empire/</div><div class="line"><span class="keyword">cd</span> setup/</div><div class="line">./reset.<span class="keyword">sh</span></div></pre></td></tr></table></figure></p>
+<p>运行后的页面如下：<br><img src="http://ofrdce5qv.bkt.clouddn.com/821.png" alt=""><br>我们可以清楚看到有267个模块，0个监听和0个代理</p>
+<h2 id="简单的操作演示"><a href="#简单的操作演示" class="headerlink" title="简单的操作演示"></a>简单的操作演示</h2><p>Empire的listeners就是MSF的监听。就是创建一个监听载荷。Agents相当于MSF的会话sessions。理清这两个基本概念就容易继续搞事情了。</p>
+<p>我们的flag是让Rpi打开监听，协议遵循http。然后生成一个dll载荷，生成一个powershell命令。诱骗目标执行。</p>
+<ul>
+<li>在命令行里输入listeners进入监听<br><img src="http://ofrdce5qv.bkt.clouddn.com/822.png" alt=""></li>
+<li>info 查看需要设置的选项<br><img src="http://ofrdce5qv.bkt.clouddn.com/823.png" alt=""><br>由于篇幅原因，info下的具体信息就不在此罗列，里面的信息还是非常关键的</li>
+<li>设置当前监听的名字,并用execute执行<br><img src="http://ofrdce5qv.bkt.clouddn.com/824.png" alt=""></li>
+<li>生成载荷 main命令回到主菜单<br><img src="http://ofrdce5qv.bkt.clouddn.com/825.png" alt=""></li>
+<li>设置listener，然后执行execute生成dll木马,存在/tmp/launcher.dll中<br><img src="http://ofrdce5qv.bkt.clouddn.com/826.png" alt=""><br><img src="http://ofrdce5qv.bkt.clouddn.com/827.png" alt=""><br>然后将刚刚生成的这么一串字符串放入目标(192.168.1.3)cmd运行。(此时我的HIPS弹出一个拦截，说powershell要联网)就返回一个agent。而那个cmd一闪而过。这就相当于得到一个MSF会话了<br><img src="http://ofrdce5qv.bkt.clouddn.com/828.png" alt=""></li>
+<li>选择Jdrops进入会话,进入终端输入help查看可以使用的命令<br><img src="http://ofrdce5qv.bkt.clouddn.com/829.png" alt=""></li>
+</ul>
+<h2 id="目标简单探索"><a href="#目标简单探索" class="headerlink" title="目标简单探索"></a>目标简单探索</h2><p>在这里输入的命令如果不是这里面的命令的话，我们的命令会被解析为windows命令执行，并给回显。但是这里要注意了，每次写完一道命令敲下回车以后，不要感觉是没有回显，要稍等一下才会回显出来</p>
+<p>agents 和 back 这两个命令在我们现在的情况来看是差不多的；back 是返回上级，而我们的上级是agents，当写agents的时候，也会回到agents文件</p>
+<p>Bypassuac 是提权神级命令，敲完命令就提权，但是由于目标原因可以直接提权成功，我之前在win10测试不能成功<br><img src="http://ofrdce5qv.bkt.clouddn.com/8210.png" alt=""></p>
+<ul>
+<li>利用mimikatz读取成功hash，Empire有个很方便的地方，就是，我们不需要在mimikatz的回显中去寻找密码，它已经帮我们列举好了，我们只需要执行creds命令，密码就出来了<br><img src="http://ofrdce5qv.bkt.clouddn.com/82111.png" alt=""></li>
+<li>sc命令 目标截图一张<br><img src="http://ofrdce5qv.bkt.clouddn.com/8212.png" alt=""></li>
+<li>download目标主机文件<br><img src="http://ofrdce5qv.bkt.clouddn.com/8213.png" alt=""></li>
+<li>利用upload命令往目标主机上传文件<br><img src="http://ofrdce5qv.bkt.clouddn.com/8215.png" alt=""></li>
+<li>usemoudle命令，在目标靶机上弹窗</li>
+</ul>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">usemodule trollsploit/<span class="keyword">message</span></div></pre></td></tr></table></figure>
+<p><img src="http://ofrdce5qv.bkt.clouddn.com/8216.png" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>此时，已经0:50，简单总结学习的收获，Empire跟Metasploit一样，有强大的接口，可以方便于我们自己写payload，同时它就是针对powershell的内网渗透工具，虽然没有Metasploit那么强大的各种平台都能应对，但是单单针对windows（这次靶机是我随便开的一台windows7系统），以及域渗透的强大之处估计Metasploit不能比的。关于其具体实战域渗透，在近期会搭建学习，同时为下周培训做准备，就到这吧。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Empire简介&quot;&gt;&lt;a href=&quot;#Empire简介&quot; class=&quot;headerlink&quot; title=&quot;Empire简介&quot;&gt;&lt;/a&gt;Empire简介&lt;/h2&gt;&lt;p&gt;官网介绍如下：&lt;/p&gt;
+&lt;p&gt;Empire is a pure PowerShell pos
+    
+    </summary>
+    
+    
+      <category term="渗透测试" scheme="http://yoursite.com/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
   
   <entry>
     <title>文件上传漏洞总结</title>
@@ -1904,63 +1953,6 @@ $test_unser = unserialize($test);
     
     
       <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python3 检测URL重定向到的地址</title>
-    <link href="http://yoursite.com/2016/10/16/python3-%E6%A3%80%E6%B5%8BURL%E9%87%8D%E5%AE%9A%E5%90%91%E5%88%B0%E7%9A%84%E5%9C%B0%E5%9D%80/"/>
-    <id>http://yoursite.com/2016/10/16/python3-检测URL重定向到的地址/</id>
-    <published>2016-10-16T06:25:20.000Z</published>
-    <updated>2016-10-16T14:07:37.247Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://p1.bqimg.com/567571/61cd6892adab71ed.jpg" alt=""></p>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p> 最近一直考虑，如何持续的保持我对python学习的热度，思考是否能够尝试任务自动化，简言之，就是有些繁琐的事情利用脚本来实现。今天我讨论学习的任务是如何检测URL重定向到的地址，遗憾的是对https：//检测没有实现。实现的原理倒是也简单，就是判断站点返回来的status_code判断是否为3xx，若是，则就简单粗暴地人为是重定向，比如一些突发情况，如访问超时，域名解析错误，网络错误等，则利用try…except…来避免，需要检测的大量的url放入到一个文件中，若站点的格式不统一的话，就做一个简单判断<br><a id="more"></a></p>
-<h3 id="知识点简单补充"><a href="#知识点简单补充" class="headerlink" title="知识点简单补充"></a>知识点简单补充</h3><ul>
-<li>startswith()方法用于检测字符串是否是以指定子字符串开头</li>
-<li>strip()方法用于移除字符串头尾指定的字符（默认为空格）。</li>
-<li><p>使用列表推导式 </p>
-<ol>
-<li>x**2 for x in num if x &gt; 0</li>
-<li>[one_ture] if [expression] else [on_false]</li>
-<li>map(lambda x:x**2,filter(lamber x :x&gt;0,num))</li>
-<li><p>i.strip() for i in open(xxx).readlines()</p>
-<h3 id="脚本代码"><a href="#脚本代码" class="headerlink" title="脚本代码"></a>脚本代码</h3><p>import sys<br>import requests<br>def check_for_redirects(url):<br> #利用allow_redirects=False<br> r = requests.get(url,allow_redirects = False ,timeout = 0.5)<br> try:</p>
-<pre><code>if 300 &lt;= r.status_code &lt;= 400:
-    return r.headers[&quot;response&quot;]
-else:
-    return &quot;[no redirects]&quot;
-</code></pre><p> except requests.exceptions.Timeout:</p>
-<pre><code>return &quot;[Timeout]&quot;
-</code></pre><p> except requests.exceptions.ConnectTimeout:</p>
-<pre><code>return &quot;[ConnectTimeout]&quot;
-</code></pre><p> except requests.exceptions.SSLError:</p>
-<pre><code>return &quot;[SSLError]&quot;
-</code></pre><p>def check_domains(urls):<br> for url in urls:</p>
-<pre><code>check_url = url if url.startswith(&quot;http&quot;) else &quot;http://{}&quot;.format(url)
-redirects_url  = check_for_redirects(check_url)
-print(&quot;{}=&gt;{}&quot;.format(check_url,redirects_url))
-</code></pre><p>if <strong>name</strong> == “<strong>main</strong>“:<br> all_url = “urls.txt”<br> try:</p>
-<pre><code>all_url = sys.argv[1]
-</code></pre><p> except IndexError:</p>
-<pre><code>pass
-</code></pre><p> urls = (i.strip() for i in open(all_url).readlines())<br> check_domains(urls)</p>
-</li>
-</ol>
-</li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>最后在多说两句，脚本就定义了两个简单函数，一个是负责结果的返回，一个是文件读取url，有参考别人的地方，具体过程原理一定搞清楚，不然是无从下手去写的，模仿，自己动手，然后才是自己的风格。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://p1.bqimg.com/567571/61cd6892adab71ed.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt; 最近一直考虑，如何持续的保持我对python学习的热度，思考是否能够尝试任务自动化，简言之，就是有些繁琐的事情利用脚本来实现。今天我讨论学习的任务是如何检测URL重定向到的地址，遗憾的是对https：//检测没有实现。实现的原理倒是也简单，就是判断站点返回来的status_code判断是否为3xx，若是，则就简单粗暴地人为是重定向，比如一些突发情况，如访问超时，域名解析错误，网络错误等，则利用try…except…来避免，需要检测的大量的url放入到一个文件中，若站点的格式不统一的话，就做一个简单判断&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="python运维" scheme="http://yoursite.com/tags/python%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   

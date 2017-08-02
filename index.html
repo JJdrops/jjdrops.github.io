@@ -304,6 +304,157 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/02/域渗透神器Empire安装和简单使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jdrops">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://i4.buimg.com/567571/7a862ab5af458319.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="J_drops">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/02/域渗透神器Empire安装和简单使用/" itemprop="url">
+                  域渗透神器Empire安装和简单使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-02T22:31:28+08:00">
+                2017-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Empire简介"><a href="#Empire简介" class="headerlink" title="Empire简介"></a>Empire简介</h2><p>官网介绍如下：</p>
+<p>Empire is a pure PowerShell post-exploitation agent built on cryptologically-secure communications and a flexible architecture. Empire implements the ability to run PowerShell agents without needing powershell.exe, rapidly deployable post-exploitation modules ranging from key loggers to Mimikatz, and adaptable communications to evade network detection, all wrapped up in a usability-focused framework</p>
+<p>关于内网渗透，我们平时基本第一时间想到Metasploit，集信息收集，预渗透，渗透，后渗透，木马，社会工程学于一体的平台，但是Empire就是针对内网的渗透，针对powershell，在内网渗透能用到的powershell脚本，全部集成在Empire框架中，其更是域渗透神器。网上关于其介绍的文章寥寥无几，尤其2.0版本，操作和之前的1.6版本等不管是命令啥的都有很大的区别，在网上查了很多外文文献，摸索了半天，在这里做一个笔记，和大家共同进步</p>
+<h2 id="Empire安装"><a href="#Empire安装" class="headerlink" title="Empire安装"></a>Empire安装</h2><p>官网直接转到github下载<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/EmpireProject/Empire.git</div><div class="line"><span class="keyword">cd</span> Empire/</div><div class="line"><span class="keyword">cd</span> setup/</div><div class="line">sudo ./install.<span class="keyword">sh</span></div><div class="line"></div><div class="line">补充：（清除缓存）</div><div class="line"><span class="keyword">cd</span> Empire/</div><div class="line"><span class="keyword">cd</span> setup/</div><div class="line">./reset.<span class="keyword">sh</span></div></pre></td></tr></table></figure></p>
+<p>运行后的页面如下：<br><img src="http://ofrdce5qv.bkt.clouddn.com/821.png" alt=""><br>我们可以清楚看到有267个模块，0个监听和0个代理</p>
+<h2 id="简单的操作演示"><a href="#简单的操作演示" class="headerlink" title="简单的操作演示"></a>简单的操作演示</h2><p>Empire的listeners就是MSF的监听。就是创建一个监听载荷。Agents相当于MSF的会话sessions。理清这两个基本概念就容易继续搞事情了。</p>
+<p>我们的flag是让Rpi打开监听，协议遵循http。然后生成一个dll载荷，生成一个powershell命令。诱骗目标执行。</p>
+<ul>
+<li>在命令行里输入listeners进入监听<br><img src="http://ofrdce5qv.bkt.clouddn.com/822.png" alt=""></li>
+<li>info 查看需要设置的选项<br><img src="http://ofrdce5qv.bkt.clouddn.com/823.png" alt=""><br>由于篇幅原因，info下的具体信息就不在此罗列，里面的信息还是非常关键的</li>
+<li>设置当前监听的名字,并用execute执行<br><img src="http://ofrdce5qv.bkt.clouddn.com/824.png" alt=""></li>
+<li>生成载荷 main命令回到主菜单<br><img src="http://ofrdce5qv.bkt.clouddn.com/825.png" alt=""></li>
+<li>设置listener，然后执行execute生成dll木马,存在/tmp/launcher.dll中<br><img src="http://ofrdce5qv.bkt.clouddn.com/826.png" alt=""><br><img src="http://ofrdce5qv.bkt.clouddn.com/827.png" alt=""><br>然后将刚刚生成的这么一串字符串放入目标(192.168.1.3)cmd运行。(此时我的HIPS弹出一个拦截，说powershell要联网)就返回一个agent。而那个cmd一闪而过。这就相当于得到一个MSF会话了<br><img src="http://ofrdce5qv.bkt.clouddn.com/828.png" alt=""></li>
+<li>选择Jdrops进入会话,进入终端输入help查看可以使用的命令<br><img src="http://ofrdce5qv.bkt.clouddn.com/829.png" alt=""></li>
+</ul>
+<h2 id="目标简单探索"><a href="#目标简单探索" class="headerlink" title="目标简单探索"></a>目标简单探索</h2><p>在这里输入的命令如果不是这里面的命令的话，我们的命令会被解析为windows命令执行，并给回显。但是这里要注意了，每次写完一道命令敲下回车以后，不要感觉是没有回显，要稍等一下才会回显出来</p>
+<p>agents 和 back 这两个命令在我们现在的情况来看是差不多的；back 是返回上级，而我们的上级是agents，当写agents的时候，也会回到agents文件</p>
+<p>Bypassuac 是提权神级命令，敲完命令就提权，但是由于目标原因可以直接提权成功，我之前在win10测试不能成功<br><img src="http://ofrdce5qv.bkt.clouddn.com/8210.png" alt=""></p>
+<ul>
+<li>利用mimikatz读取成功hash，Empire有个很方便的地方，就是，我们不需要在mimikatz的回显中去寻找密码，它已经帮我们列举好了，我们只需要执行creds命令，密码就出来了<br><img src="http://ofrdce5qv.bkt.clouddn.com/82111.png" alt=""></li>
+<li>sc命令 目标截图一张<br><img src="http://ofrdce5qv.bkt.clouddn.com/8212.png" alt=""></li>
+<li>download目标主机文件<br><img src="http://ofrdce5qv.bkt.clouddn.com/8213.png" alt=""></li>
+<li>利用upload命令往目标主机上传文件<br><img src="http://ofrdce5qv.bkt.clouddn.com/8215.png" alt=""></li>
+<li>usemoudle命令，在目标靶机上弹窗</li>
+</ul>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">usemodule trollsploit/<span class="keyword">message</span></div></pre></td></tr></table></figure>
+<p><img src="http://ofrdce5qv.bkt.clouddn.com/8216.png" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>此时，已经0:50，简单总结学习的收获，Empire跟Metasploit一样，有强大的接口，可以方便于我们自己写payload，同时它就是针对powershell的内网渗透工具，虽然没有Metasploit那么强大的各种平台都能应对，但是单单针对windows（这次靶机是我随便开的一台windows7系统），以及域渗透的强大之处估计Metasploit不能比的。关于其具体实战域渗透，在近期会搭建学习，同时为下周培训做准备，就到这吧。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/17/文件上传漏洞总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1456,136 +1607,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/30/模拟渗透测试get到的技巧/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jdrops">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://i4.buimg.com/567571/7a862ab5af458319.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="J_drops">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/30/模拟渗透测试get到的技巧/" itemprop="url">
-                  模拟渗透测试get到的技巧
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-30T11:39:54+08:00">
-                2016-11-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="一-nmap使用技巧"><a href="#一-nmap使用技巧" class="headerlink" title="一 nmap使用技巧"></a>一 nmap使用技巧</h3><p>当针对入口点IP地址进行端口扫描，将其所开放的端口号（仅扫描小于1000的端口），由于在CMD测试，禁止ping，则需要使用到-Pn参数</p>
-<p><img src="http://i1.piimg.com/567571/e0a7c3b304ab996b.png" alt=""><br>-vv参数表示输出详细报告结果，-p指定端口扫描，-Pn为扫描前不进行ping操作，如果网站禁止了ping，扫描时不加Pn扫不出开放端口</p>
-<h3 id="二-Rsync漏洞"><a href="#二-Rsync漏洞" class="headerlink" title="二 Rsync漏洞"></a>二 Rsync漏洞</h3><p>Rsync,remote synchroniz顾名思义就知道它是一款实现远程同步功能的软件，它在同步文件的同时可以保持原来文件的权限，时间，软硬链接等附加信息。它是用 “rsync 算法”提供了一个客户机和远程文件服务器的文件同步的快速方法，并可以通过ssh方式来传输文件，这样其保密性也非常好，另外还是免费软件。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/11/30/模拟渗透测试get到的技巧/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1635,7 +1656,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
