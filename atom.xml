@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-02T16:57:50.832Z</updated>
+  <updated>2017-08-02T17:01:37.984Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,14 +20,15 @@
     <link href="http://yoursite.com/2017/08/02/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%A5%9E%E5%99%A8Empire%E5%AE%89%E8%A3%85%E5%92%8C%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/"/>
     <id>http://yoursite.com/2017/08/02/域渗透神器Empire安装和简单使用/</id>
     <published>2017-08-02T14:31:28.000Z</published>
-    <updated>2017-08-02T16:57:50.832Z</updated>
+    <updated>2017-08-02T17:01:37.984Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="Empire简介"><a href="#Empire简介" class="headerlink" title="Empire简介"></a>Empire简介</h2><p>官网介绍如下：</p>
-<p>Empire is a pure PowerShell post-exploitation agent built on cryptologically-secure communications and a flexible architecture. Empire implements the ability to run PowerShell agents without needing powershell.exe, rapidly deployable post-exploitation modules ranging from key loggers to Mimikatz, and adaptable communications to evade network detection, all wrapped up in a usability-focused framework</p>
+    <content type="html"><![CDATA[<h2 id="1-Empire简介"><a href="#1-Empire简介" class="headerlink" title="1. Empire简介"></a>1. Empire简介</h2><p>官网介绍如下：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Empire <span class="keyword">is</span> a pure PowerShell post-exploitation agent built <span class="keyword">on</span> cryptologically-secure communications <span class="keyword">and</span> a flexible architecture. Empire implements <span class="keyword">the</span> ability <span class="keyword">to</span> <span class="built_in">run</span> PowerShell agents <span class="keyword">without</span> needing powershell.exe, rapidly deployable post-exploitation modules ranging <span class="keyword">from</span> key loggers <span class="keyword">to</span> Mimikatz, <span class="keyword">and</span> adaptable communications <span class="keyword">to</span> evade network detection, all wrapped up <span class="keyword">in</span> a usability-focused framework</div></pre></td></tr></table></figure>
 <p>关于内网渗透，我们平时基本第一时间想到Metasploit，集信息收集，预渗透，渗透，后渗透，木马，社会工程学于一体的平台，但是Empire就是针对内网的渗透，针对powershell，在内网渗透能用到的powershell脚本，全部集成在Empire框架中，其更是域渗透神器。网上关于其介绍的文章寥寥无几，尤其2.0版本，操作和之前的1.6版本等不管是命令啥的都有很大的区别，在网上查了很多外文文献，摸索了半天，在这里做一个笔记，和大家共同进步</p>
 <h2 id="Empire安装"><a href="#Empire安装" class="headerlink" title="Empire安装"></a>Empire安装</h2><p>官网直接转到github下载<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/EmpireProject/Empire.git</div><div class="line"><span class="keyword">cd</span> Empire/</div><div class="line"><span class="keyword">cd</span> setup/</div><div class="line">sudo ./install.<span class="keyword">sh</span></div><div class="line"></div><div class="line">补充：（清除缓存）</div><div class="line"><span class="keyword">cd</span> Empire/</div><div class="line"><span class="keyword">cd</span> setup/</div><div class="line">./reset.<span class="keyword">sh</span></div></pre></td></tr></table></figure></p>
 <p>运行后的页面如下：<br><img src="http://ofrdce5qv.bkt.clouddn.com/821.png" alt=""><br>我们可以清楚看到有267个模块，0个监听和0个代理</p>
-<h2 id="简单的操作演示"><a href="#简单的操作演示" class="headerlink" title="简单的操作演示"></a>简单的操作演示</h2><p>Empire的listeners就是MSF的监听。就是创建一个监听载荷。Agents相当于MSF的会话sessions。理清这两个基本概念就容易继续搞事情了。</p>
+<a id="more"></a>
+<h2 id="2-简单的操作演示"><a href="#2-简单的操作演示" class="headerlink" title="2. 简单的操作演示"></a>2. 简单的操作演示</h2><p>Empire的listeners就是MSF的监听。就是创建一个监听载荷。Agents相当于MSF的会话sessions。理清这两个基本概念就容易继续搞事情了。</p>
 <p>我们的flag是让Rpi打开监听，协议遵循http。然后生成一个dll载荷，生成一个powershell命令。诱骗目标执行。</p>
 <ul>
 <li>在命令行里输入listeners进入监听<br><img src="http://ofrdce5qv.bkt.clouddn.com/822.png" alt=""></li>
@@ -37,7 +38,7 @@
 <li>设置listener，然后执行execute生成dll木马,存在/tmp/launcher.dll中<br><img src="http://ofrdce5qv.bkt.clouddn.com/826.png" alt=""><br><img src="http://ofrdce5qv.bkt.clouddn.com/827.png" alt=""><br>然后将刚刚生成的这么一串字符串放入目标(192.168.1.3)cmd运行。(此时我的HIPS弹出一个拦截，说powershell要联网)就返回一个agent。而那个cmd一闪而过。这就相当于得到一个MSF会话了<br><img src="http://ofrdce5qv.bkt.clouddn.com/828.png" alt=""></li>
 <li>选择Jdrops进入会话,进入终端输入help查看可以使用的命令<br><img src="http://ofrdce5qv.bkt.clouddn.com/829.png" alt=""></li>
 </ul>
-<h2 id="目标简单探索"><a href="#目标简单探索" class="headerlink" title="目标简单探索"></a>目标简单探索</h2><p>在这里输入的命令如果不是这里面的命令的话，我们的命令会被解析为windows命令执行，并给回显。但是这里要注意了，每次写完一道命令敲下回车以后，不要感觉是没有回显，要稍等一下才会回显出来</p>
+<h2 id="3-目标简单探索"><a href="#3-目标简单探索" class="headerlink" title="3. 目标简单探索"></a>3. 目标简单探索</h2><p>在这里输入的命令如果不是这里面的命令的话，我们的命令会被解析为windows命令执行，并给回显。但是这里要注意了，每次写完一道命令敲下回车以后，不要感觉是没有回显，要稍等一下才会回显出来</p>
 <p>agents 和 back 这两个命令在我们现在的情况来看是差不多的；back 是返回上级，而我们的上级是agents，当写agents的时候，也会回到agents文件</p>
 <p>Bypassuac 是提权神级命令，敲完命令就提权，但是由于目标原因可以直接提权成功，我之前在win10测试不能成功<br><img src="http://ofrdce5qv.bkt.clouddn.com/8210.png" alt=""></p>
 <ul>
@@ -49,13 +50,16 @@
 </ul>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">usemodule trollsploit/<span class="keyword">message</span></div></pre></td></tr></table></figure>
 <p><img src="http://ofrdce5qv.bkt.clouddn.com/8216.png" alt=""></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>此时，已经0:50，简单总结学习的收获，Empire跟Metasploit一样，有强大的接口，可以方便于我们自己写payload，同时它就是针对powershell的内网渗透工具，虽然没有Metasploit那么强大的各种平台都能应对，但是单单针对windows（这次靶机是我随便开的一台windows7系统），以及域渗透的强大之处估计Metasploit不能比的。关于其具体实战域渗透，在近期会搭建学习，同时为下周培训做准备，就到这吧。</p>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h2><p>此时，已经0:50，简单总结学习的收获，Empire跟Metasploit一样，有强大的接口，可以方便于我们自己写payload，同时它就是针对powershell的内网渗透工具，虽然没有Metasploit那么强大的各种平台都能应对，但是单单针对windows（这次靶机是我随便开的一台windows7系统），以及域渗透的强大之处估计Metasploit不能比的。关于其具体实战域渗透，在近期会搭建学习，同时为下周培训做准备，就到这吧。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;Empire简介&quot;&gt;&lt;a href=&quot;#Empire简介&quot; class=&quot;headerlink&quot; title=&quot;Empire简介&quot;&gt;&lt;/a&gt;Empire简介&lt;/h2&gt;&lt;p&gt;官网介绍如下：&lt;/p&gt;
-&lt;p&gt;Empire is a pure PowerShell pos
+      &lt;h2 id=&quot;1-Empire简介&quot;&gt;&lt;a href=&quot;#1-Empire简介&quot; class=&quot;headerlink&quot; title=&quot;1. Empire简介&quot;&gt;&lt;/a&gt;1. Empire简介&lt;/h2&gt;&lt;p&gt;官网介绍如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight applescript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;Empire &lt;span class=&quot;keyword&quot;&gt;is&lt;/span&gt; a pure PowerShell post-exploitation agent built &lt;span class=&quot;keyword&quot;&gt;on&lt;/span&gt; cryptologically-secure communications &lt;span class=&quot;keyword&quot;&gt;and&lt;/span&gt; a flexible architecture. Empire implements &lt;span class=&quot;keyword&quot;&gt;the&lt;/span&gt; ability &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;run&lt;/span&gt; PowerShell agents &lt;span class=&quot;keyword&quot;&gt;without&lt;/span&gt; needing powershell.exe, rapidly deployable post-exploitation modules ranging &lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; key loggers &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; Mimikatz, &lt;span class=&quot;keyword&quot;&gt;and&lt;/span&gt; adaptable communications &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; evade network detection, all wrapped up &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; a usability-focused framework&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;关于内网渗透，我们平时基本第一时间想到Metasploit，集信息收集，预渗透，渗透，后渗透，木马，社会工程学于一体的平台，但是Empire就是针对内网的渗透，针对powershell，在内网渗透能用到的powershell脚本，全部集成在Empire框架中，其更是域渗透神器。网上关于其介绍的文章寥寥无几，尤其2.0版本，操作和之前的1.6版本等不管是命令啥的都有很大的区别，在网上查了很多外文文献，摸索了半天，在这里做一个笔记，和大家共同进步&lt;/p&gt;
+&lt;h2 id=&quot;Empire安装&quot;&gt;&lt;a href=&quot;#Empire安装&quot; class=&quot;headerlink&quot; title=&quot;Empire安装&quot;&gt;&lt;/a&gt;Empire安装&lt;/h2&gt;&lt;p&gt;官网直接转到github下载&lt;br&gt;&lt;figure class=&quot;highlight vim&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;git clone http&lt;span class=&quot;variable&quot;&gt;s:&lt;/span&gt;//github.&lt;span class=&quot;keyword&quot;&gt;com&lt;/span&gt;/EmpireProject/Empire.git&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;cd&lt;/span&gt; Empire/&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;cd&lt;/span&gt; setup/&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;sudo ./install.&lt;span class=&quot;keyword&quot;&gt;sh&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;补充：（清除缓存）&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;cd&lt;/span&gt; Empire/&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;cd&lt;/span&gt; setup/&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;./reset.&lt;span class=&quot;keyword&quot;&gt;sh&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;运行后的页面如下：&lt;br&gt;&lt;img src=&quot;http://ofrdce5qv.bkt.clouddn.com/821.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;我们可以清楚看到有267个模块，0个监听和0个代理&lt;/p&gt;
     
     </summary>
     
